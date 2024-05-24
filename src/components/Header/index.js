@@ -24,8 +24,9 @@ const Header = () => {
   }
   return (
     <>
-      <nav className=" border-blue-200 bg-gray-600">
-        <div className="max-w-screen-xl  flex flex:wrap items-center justify-between mx-auto p-2">
+      <nav className=" border-blue-200 bg-gray-600 ">
+        {/* style={{backgroundColor: '#131A22'}} */}
+        <div className="max-w-screen-xl  flex flex:wrap items-center justify-between mx-auto p-2" >
           <a href="" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
             {/* <span className="self-center text-2xl font-semibold whitespace-nowrap blue:text-white"></span> */}
@@ -186,49 +187,49 @@ const Header = () => {
                 </div>
 
               </div>
-              <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
+              <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 " aria-controls="navbar-user" aria-expanded="false">
                 <span className="sr-only">Open main menu</span>
-                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <svg className="w-5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M1 1h15M1 7h15M1 13h15" />
                 </svg>
               </button>
 
             </div>
             <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-              <ul className="flex flex-col font-medium  rounded-lg md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+              <ul className="flex flex-col font-medium  md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white " aria-current="page">Home</a>
                 </li>
                 <li
-                onMouseEnter={() => setShowBestSeller(!showBestSeller)}
-                onMouseLeave={() => setShowBestSeller(!showBestSeller)}
-                 className='rounded border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-0.5 px-2 text-white flex items-end">Best sellers <FaAngleDown /></a>
+                  // onMouseEnter={() => setShowBestSeller(!showBestSeller)}
+                  // onMouseLeave={() => setShowBestSeller(!showBestSeller)}
+                  className=' border border-gray-500 hover:border hover:border-white'>
+                  <a href="#" className="block py-1  px-2 text-white flex items-end">Best sellers <FaAngleDown /></a>
                 </li>
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white ">About</a>
                 </li>
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white ">Services</a>
                 </li>
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white ">Pricing</a>
                 </li>
 
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white flex items-end">New releases <FaAngleDown /></a>
                 </li>
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white ">Contact</a>
                 </li>
 
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white flex items-end">Our choices <FaAngleDown /></a>
                 </li>
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white ">Services</a>
                 </li>
-                <li className='rounded border border-gray-500 hover:border hover:border-white'>
+                <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white flex items-end">Fashion<FaAngleDown /></a>
                 </li>
               </ul>
@@ -238,30 +239,27 @@ const Header = () => {
 
       </nav>
 
-      <div onMouseEnter={() => setShowBestSeller(showBestSeller)}
-            onMouseLeave={() => setShowBestSeller(!showBestSeller)}
-            className={`z-50 transition-all duration-1000 w-64 my-4 ${showBestSeller ? 'block' : 'hidden'}  bg-white text-black absolute top-22 left-20 text-base list-none divide-y rounded-lg shadow`} id="user-dropdown">
-            <div className="px-4 py-3 flex justify-center items-center flex-col">
-              <button className='mb-1 w-48 bg-yellow-400 text-xs font-semibold border hover:underline p-2 rounded-lg  '> Sign In</button>
-              <p className='text-xs'> New user? <span className='text-xs text-blue-500 hover:underline hover:text-red-500'><a href="">Sign Up</a></span></p>
-            </div>
+      <div
+        // onMouseEnter={() => setShowBestSeller(showBestSeller)}
+        //       onMouseLeave={() => setShowBestSeller(!showBestSeller)}
+        className={`z-50 transition-all duration-1000 md:w-36 my-4 ${showBestSeller ? 'block' : 'hidden'}  bg-white text-black absolute top-20 left-40 text-base list-none divide-y  shadow`} id="user-dropdown">
 
-            <ul className="py-2" aria-labelledby="user-menu-button">
-              <li>
-                <p className="block px-4 py-1 text-m font-semibold">Your Account</p>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Orders</a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</a>
-              </li>
-              <li>
-                <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</a>
-              </li>
-            </ul>
+        <ul className="py-2" aria-labelledby="user-menu-button">
+          <li>
+            <p className="block px-4 py-1 text-m font-semibold">Best Sellers</p>
+          </li>
+          <li>
+            <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Orders</a>
+          </li>
+          <li>
+            <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</a>
+          </li>
+          <li>
+            <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</a>
+          </li>
+        </ul>
 
-          </div>
+      </div>
 
     </>
   )

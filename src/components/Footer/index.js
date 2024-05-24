@@ -4,7 +4,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <>
-      <footer className=" bg-gray-500">
+      <footer className=" bg-gray-500" style={{backgroundColor: '#232F3E'}}>
         {/* <div className='h-8 md:16 w-full bg-purple-500 text-center text-white font-semibold hover:bg-purple-600 text-sm flex hover:cursor-pointer justify-center items-center'>
           <a href="#">Back to top</a>
         </div> */}
@@ -81,7 +81,7 @@ const Footer = () => {
           </div>
           
           {/* <hr className='h-0.5 mx-auto  bg-white max-w-screen-xl'></hr> */}
-          <div className="px-4 py-6 bg-gray-600 md:flex md:items-center md:justify-between">
+          <div className="px-4 py-6 bg-gray-600 md:flex md:items-center md:justify-between" style={{backgroundColor: '#131A22'}}>
             <span className="text-sm text-gray-200 sm:text-center">© 2024 <a href="#">Ecommerce.in</a>, Inc. or its affiliates
             </span>
             <div className="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
