@@ -1,83 +1,104 @@
 import React, { useState } from 'react'
 
 const Navbar = () => {
-  const [True, setTrue] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const [showToggleMenu, setShowToggleMenu] = useState(false);
 
+  const handleToggleLanguage = (showLanguageMenu) => {
+    setShowLanguageMenu(!showLanguageMenu)
+  };
+  const handleToggleManu = (showToggleMenu) => {
+    setShowToggleMenu(!showToggleMenu)
+  }
   return (
-    <nav className="bg-white border-gray-500 dark:bg-gray-900">
+    <>
+      <nav className=" border-blue-200 bg-purple-500">
+        <div className="max-w-screen-xl flex flex:wrap items-center justify-between mx-auto p-4">
+          <a href="" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap blue:text-white"></span>
+          </a>
 
-      <div className=" flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-        </a>
+          <div className="flex items-center md:order-2 space-x-1 md:space-x-0 rtl:space-x-reverse">
+            <button type="button" onClick={() => handleToggleLanguage(showLanguageMenu)} data-dropdown-toggle="language-dropdown-menu" className="inline-flex items-center font-medium justify-center px-2 mb:px-4 py-1 md:py-2 text-sm text-white rounded-lg cursor-pointer hover:text-purple-700 hover:bg-gray-100">
+              <svg className="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 3900 3900"><path fill="#b22234" d="M0 0h7410v3900H0z" /><path d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0" stroke="#fff" strokeWidth={300} /><path fill="#3c3b6e" d="M0 0h2964v2100H0z" /><g fill="#fff"><g id="d"><g id="c"><g id="e"><g id="b"><path id="a" d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z" /><use xlinkHref="#a" y={420} /><use xlinkHref="#a" y={840} /><use xlinkHref="#a" y={1260} /></g><use xlinkHref="#a" y={1680} /></g><use xlinkHref="#b" x={247} y={210} /></g><use xlinkHref="#c" x={494} /></g><use xlinkHref="#d" x={988} /><use xlinkHref="#c" x={1976} /><use xlinkHref="#e" x={2470} /></g></svg>
+              English (US)
+            </button>
 
-        <div>
-      <input type="search" className='text-white'>Text</input>
-        </div>
+            <div className={`z-50 ${showLanguageMenu ? 'block' : 'hidden'} absolute top-16 md:top-14 sm:top-20  my-4 text-base list-none divide-y divide-blue-100 rounded-lg shadow `} id="language-dropdown-menu">
+              <ul className="py-2 bg-gray-100 text-purple-700 font-medium" role="none">
+                <li>
+                  <a href="#" className="block px-4 py-2 hover:bg-purple-700 hover:text-white text-sm text-blue-700 hover:bg-blue-100 blue:text-blue-400 blue:hover:bg-blue-600 blue:hover:text-white" role="menuitem">
+                    <div className="inline-flex items-center ">
+                      <svg aria-hidden="true" className="h-3.5 w-3.5 rounded-full me-2" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-us" viewBox="0 0 512 512"><g fillRule="evenodd"><g strokeWidth="1pt"><path fill="#bd3d44" d="M0 0h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z" transform="scale(3.9385)" /><path fill="#fff" d="M0 10h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z" transform="scale(3.9385)" /></g><path fill="#192f5d" d="M0 0h98.8v70H0z" transform="scale(3.9385)" /><path fill="#fff" d="M8.2 3l1 2.8H12L9.7 7.5l.9 2.7-2.4-1.7L6 10.2l.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7L74 8.5l-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 7.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 24.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 21.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 38.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 35.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 52.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 49.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 66.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 63.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9z" transform="scale(3.9385)" /></g></svg>
+                      English (US)
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="block px-4 py-2  hover:bg-purple-700 hover:text-white text-sm text-blue-700 hover:bg-blue-100 blue:text-blue-400 blue:hover:bg-blue-600 blue:hover:text-white" role="menuitem">
+                    <div className="inline-flex items-center ">
+                      <svg className="h-3.5 w-3.5 rounded-full me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-de" viewBox="0 0 512 512"><path fill="#ffce00" d="M0 341.3h512V512H0z" /><path d="M0 0h512v170.7H0z" /><path fill="#d00" d="M0 170.7h512v170.6H0z" /></svg>
+                      Deutsch
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="block px-4 py-2  hover:bg-purple-700 hover:text-white text-sm text-blue-700 hover:bg-blue-100 blue:text-blue-400 blue:hover:bg-blue-600 blue:hover:text-white" role="menuitem">
+                    <div className="inline-flex items-center ">
+                      <svg className="h-3.5 w-3.5 rounded-full me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-it" viewBox="0 0 512 512"><g fillRule="evenodd" strokeWidth="1pt"><path fill="#fff" d="M0 0h512v512H0z" /><path fill="#009246" d="M0 0h170.7v512H0z" /><path fill="#ce2b37" d="M341.3 0H512v512H341.3z" /></g></svg>
+                      Italiano
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="block px-4 py-2  hover:bg-purple-700 hover:text-white text-sm text-blue-700 hover:bg-blue-100 blue:text-blue-400 blue:hover:bg-blue-600 blue:hover:text-white" role="menuitem">
+                    <div className="inline-flex items-center ">
+                      <svg className="h-3.5 w-3.5 rounded-full me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" id="flag-icon-css-cn" viewBox="0 0 512 512"><defs><path id="a" fill="#ffde00" d="M1-.3L-.7.8 0-1 .6.8-1-.3z" /></defs><path fill="#de2910" d="M0 0h512v512H0z" /><use width={30} height={20} transform="matrix(76.8 0 0 76.8 128 128)" xlinkHref="#a" /><use width={30} height={20} transform="rotate(-121 142.6 -47) scale(25.5827)" xlinkHref="#a" /><use width={30} height={20} transform="rotate(-98.1 198 -82) scale(25.6)" xlinkHref="#a" /><use width={30} height={20} transform="rotate(-74 272.4 -114) scale(25.6137)" xlinkHref="#a" /><use width={30} height={20} transform="matrix(16 -19.968 19.968 16 256 230.4)" xlinkHref="#a" /></svg>
+                      中文 (繁體)
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-        <div className="flex items-start md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button type="button" onClick={() => setTrue(true)} className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-            <span className="sr-only">Open user menu</span>
-            <img className="w-8 h-8 rounded-full" src="data:image/jpeg;base64,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" alt="user photo" />
-          </button>
 
-          <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-            {
-              True && (
-                <>
-                  <div className="px-4 py-3">
-                    <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                    <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
-                  </div>
-                  <ul className="py-2" aria-labelledby="user-menu-button">
-                    <li>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                    </li>
-                  </ul>
-                </>
-              )
-            }
+            <button data-collapse-toggle="navbar-language" type="button" onClick={() => handleToggleManu(showToggleMenu)} className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-blue-500 rounded-lg md:hidden hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-200 blue:text-blue-400 blue:hover:bg-blue-700 blue:focus:ring-blue-600" aria-controls="navbar-language" aria-expanded="false">
+              <span className="sr-only">Open main menu</span>
+              <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M1 1h15M1 7h15M1 13h15" />
+              </svg>
+            </button>
+
+
           </div>
-          <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
-            <span className="sr-only">Open main menu</span>
-            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M1 1h15M1 7h15M1 13h15" />
-            </svg>
-          </button>
+          {/* <div className={`items-center hidden justify-between w-full md:flex md:w-auto md:order-1`} >
+            <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-blue-100 rounded-lg bg-blue-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white blue:bg-blue-800 md:blue:bg-blue-900 blue:border-blue-700">
+              <li>
+                <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:blue:text-blue-500" aria-current="page">Home</a>
+              </li>
+              <li>
+                <a href="#" className="block py-2 px-3 md:p-0 text-blue-900 rounded hover:bg-blue-100 md:hover:bg-transparent md:hover:text-blue-700 blue:text-white md:blue:hover:text-blue-500 blue:hover:bg-blue-700 blue:hover:text-white md:blue:hover:bg-transparent blue:border-blue-700">About</a>
+              </li>
+              <li>
+                <a href="#" className="block py-2 px-3 md:p-0 text-blue-900 rounded hover:bg-blue-100 md:hover:bg-transparent md:hover:text-blue-700 blue:text-white md:blue:hover:text-blue-500 blue:hover:bg-blue-700 blue:hover:text-white md:blue:hover:bg-transparent blue:border-blue-700">Services</a>
+              </li>
+              <li>
+                <a href="#" className="block py-2 px-3 md:p-0 text-blue-900 rounded hover:bg-blue-100 md:hover:bg-transparent md:hover:text-blue-700 blue:text-white md:blue:hover:text-blue-500 blue:hover:bg-blue-700 blue:hover:text-white md:blue:hover:bg-transparent blue:border-blue-700">Pricing</a>
+              </li>
+              <li>
+                <a href="#" className="block py-2 px-3 md:p-0 text-blue-900 rounded hover:bg-blue-100 md:hover:bg-transparent md:hover:text-blue-700 blue:text-white md:blue:hover:text-blue-500 blue:hover:bg-blue-700 blue:hover:text-white md:blue:hover:bg-transparent blue:border-blue-700">Contact</a>
+              </li>
+            </ul>
+          </div> */}
         </div>
-        <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-    </nav>
+      </nav>
+
+
+
+    </>
   )
 }
 
 export default Navbar
+
