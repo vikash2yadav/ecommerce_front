@@ -26,7 +26,7 @@ const Header = () => {
     <>
       <nav className=" border-blue-200 bg-gray-600 ">
         {/* style={{backgroundColor: '#131A22'}} */}
-        <div className="max-w-screen-xl  flex flex:wrap items-center justify-between mx-auto p-2" >
+        <div className="max-w-screen-xl  flex flex:wrap items-center justify-between mx-auto p-2 " >
           <a href="" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
             {/* <span className="self-center text-2xl font-semibold whitespace-nowrap blue:text-white"></span> */}
@@ -204,7 +204,9 @@ const Header = () => {
                   // onMouseEnter={() => setShowBestSeller(!showBestSeller)}
                   // onMouseLeave={() => setShowBestSeller(!showBestSeller)}
                   className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1  px-2 text-white flex items-end">Best sellers <FaAngleDown /></a>
+                  <a href="#" className="block py-1  px-2 text-white flex items-end">Best sellers
+                   {/*  <FaAngleDown /> */}
+                   </a>
                 </li>
                 <li className=' border border-gray-500 hover:border hover:border-white'>
                   <a href="#" className="block py-1 px-2 text-white ">About</a>
