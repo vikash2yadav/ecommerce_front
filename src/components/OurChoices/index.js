@@ -1,10 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const OurChoices = () => {
+const OurChoices = (props) => {
   return (
     <>
     <div className=' p-4 mb-5 md:w-96' style={{border:'25px solid rgb(229 231 235 )'}} >
-   <p className='text-2xl mb-5 font-semibold'>Our choices <span className='text-sm text-roboto hover:underline itms-center text-blue-500'>see more</span></p> 
+   <p className='text-2xl mb-5 font-semibold'>{props.title} <span className='text-sm text-roboto hover:underline itms-center text-blue-500'><Link to={props.more}>see more</Link></span></p> 
    
    <div className='flex justify-center flex-wrap items-center h-64 overflow-x-auto'>
 

@@ -24,20 +24,20 @@ const Home = () => {
       <div style={{ minHeight: '70vh' }}>
         <Hero images={images} />
         {/* <Boxes/> */}
-        <ProductListBox />
+        <ProductListBox title="Inspired by your browsing history" more="/by_history"/>
 
         <div className='flex justify-between flex-wrap'>
           <div>
-          <Trendings />
+            <Trendings title="Trendings" more="/trending" />
           </div>
           <div>
-          <NewReleases />
+            <NewReleases title="New Releases" more="/new_release"/>
+          </div>
+          <div>
+            <OurChoices title="Our Choices" more="/our_choice"/>
+          </div>
         </div>
-        <div>
-          <OurChoices />
-        </div>
-        </div>
-        <BestSellers/>
+        <BestSellers title="Our Best Seller" more="/best_seller" />
 
         <ExtraSignIn />
       </div>

@@ -5,10 +5,10 @@ const Footer = () => {
   return (
     <>
       <footer className=" bg-gray-500" style={{backgroundColor: '#232F3E'}}>
-        {/* <div className='h-8 md:16 w-full bg-purple-500 text-center text-white font-semibold hover:bg-purple-600 text-sm flex hover:cursor-pointer justify-center items-center'>
-          <a href="#">Back to top</a>
-        </div> */}
-        {/* <div className='h-0.5 mx-auto px-2 bg-white max-w-screen-xl'></div> */}
+      <a href="#"><div className='h-14 md:16 w-full bg-gray-500 text-center text-white font-semibold hover:bg-gray-600 text-sm flex hover:cursor-pointer justify-center items-center'>
+          Back to top
+        </div></a>
+
         <div className="mx-auto w-full max-w-screen-xl">
           <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
             <div>

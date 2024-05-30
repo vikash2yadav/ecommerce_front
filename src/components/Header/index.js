@@ -1,12 +1,12 @@
-import { Select } from 'antd';
-import Search from 'antd/es/transfer/search';
 import React, { useState } from 'react'
 import { IoIosSearch } from "react-icons/io";
 import { FaLocationCrosshairs } from "react-icons/fa6";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [showToggleMenu, setShowToggleMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -76,13 +76,13 @@ const Header = () => {
 
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
-                <p className="block px-4 py-1 text-m font-semibold">Your Account</p>
+                <Link to="/my/account" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Account</Link>
               </li>
               <li>
-                <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Orders</a>
+                <Link to="/my/orders" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Orders</Link>
               </li>
               <li>
-                <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</a>
+                <Link to="/my/wishlist" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</Link>
               </li>
               <li>
                 <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</a>
@@ -92,7 +92,7 @@ const Header = () => {
           </div>
 
 
-          <div className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
+          <div onClick={()=>navigate('/my/cart')} className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
             <div className='text-4xl'><FiShoppingCart /></div>
             <span className='text-ms font-bold pt-4'>Cart</span>
           </div>
@@ -114,16 +114,16 @@ const Header = () => {
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
-                <a href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Your Profile</a>
+                <Link to="/my/profile" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Your Profile</Link>
               </li>
               <li>
-                <a href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Your Orders</a>
+                <Link to="/my/orders" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Your Orders</Link>
               </li>
               <li>
-                <a href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Settings</a>
+                <Link href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Settings</Link>
               </li>
               <li>
-                <a href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Sign out</a>
+                <Link href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Sign out</Link>
               </li>
             </ul>
 
@@ -198,42 +198,42 @@ const Header = () => {
             <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
               <ul className="flex flex-col font-medium  md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                 <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white " aria-current="page">Home</a>
+                  <Link to="/" className="block py-1 px-2 text-white " aria-current="page">Home</Link>
                 </li>
-                <li
+                {/* <li
                   // onMouseEnter={() => setShowBestSeller(!showBestSeller)}
                   // onMouseLeave={() => setShowBestSeller(!showBestSeller)}
                   className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1  px-2 text-white flex items-end">Best sellers
-                   {/*  <FaAngleDown /> */}
-                   </a>
-                </li>
+                  <Link to="/best_seller" className="block py-1  px-2 text-white flex items-end">Best sellers
+                  <FaAngleDown /> 
+                   </Link>
+                </li> */}
                 <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white ">About</a>
+                  <Link to="/about" className="block py-1 px-2 text-white ">About</Link>
                 </li>
+                {/* <li className=' border border-gray-500 hover:border hover:border-white'>
+                  <Link to="/service" className="block py-1 px-2 text-white ">Services</Link>
+                </li> */}
+                {/* <li className=' border border-gray-500 hover:border hover:border-white'>
+                  <Link to="/pricing" className="block py-1 px-2 text-white ">Pricing</Link>
+                </li> */}
+
+                {/* <li className=' border border-gray-500 hover:border hover:border-white'>
+                  <Link to="/new_release" className="block py-1 px-2 text-white flex items-end">New releases</Link>
+                </li> */}
                 <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white ">Services</a>
-                </li>
-                <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white ">Pricing</a>
+                  <Link to="/contact" className="block py-1 px-2 text-white ">Contact</Link>
                 </li>
 
                 <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white flex items-end">New releases <FaAngleDown /></a>
+                  <Link to="/our_choice" className="block py-1 px-2 text-white flex items-end">Our choices</Link>
                 </li>
-                <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white ">Contact</a>
-                </li>
-
-                <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white flex items-end">Our choices <FaAngleDown /></a>
-                </li>
-                <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white ">Services</a>
-                </li>
-                <li className=' border border-gray-500 hover:border hover:border-white'>
-                  <a href="#" className="block py-1 px-2 text-white flex items-end">Fashion<FaAngleDown /></a>
-                </li>
+                {/* <li className=' border border-gray-500 hover:border hover:border-white'>
+                  <Link to="/service" className="block py-1 px-2 text-white ">Services</Link>
+                </li> */}
+                {/* <li className=' border border-gray-500 hover:border hover:border-white'>
+                  <Link to="/fashion" className="block py-1 px-2 text-white flex items-end">Fashion<FaAngleDown /></Link>
+                </li> */}
               </ul>
             </div>
           </div>
