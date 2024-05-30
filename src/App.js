@@ -1,10 +1,10 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import Home from './page/Home'
-import Register from './page/Register';
+import Register from './page/Auth/Register';
 import './App.css'
-import Login from './page/Login';
-import ForgotPassword from './page/ForgotPassword';
+import Login from './page/Auth/Login';
+import ForgotPassword from './page/Auth/ForgotPassword';
 import ResetPassword from './page/ResetPassword';
 import BestSeller from './page/BestSeller';
 import NewRelease from './page/NewRelease';
@@ -32,6 +32,7 @@ const App = () => {
         <Route path="/my/account/address" element={<MyAddress/>} />
         <Route path="/my/account/address/add_new" element={<MyAddressAddNew/>} />
         <Route path="/my/orders" element={<MyOrders/>} />
+        <Route path="/my/profile" element={<MyProfile/>} />
         <Route path="/my/not_shipped" element={<MyOrders/>} />
         <Route path="/my/cancelled" element={<MyOrders/>} />
         <Route path="/my/wishlist" element={<BestSeller/>} />

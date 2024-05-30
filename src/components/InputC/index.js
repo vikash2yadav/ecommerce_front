@@ -1,10 +1,15 @@
 import { Input } from 'antd'
 import React from 'react'
 
-const InputC = () => {
+const InputC = ({type, name, onChange, value}) => {
   return (
     <>
-    <Input/>
+    <Input 
+    type={type}
+    name={name} 
+    onChange={onChange}
+    value={value}
+    />
     </>
   )
 }

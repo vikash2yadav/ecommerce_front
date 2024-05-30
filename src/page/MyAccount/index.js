@@ -33,8 +33,8 @@ const MyAccount = () => {
                     <MyAccountCompo img="https://m.media-amazon.com/images/G/31/x-locale/cs/ya/images/rc_prime._CB485926807_.png" title="Prime" description="view benefits and payment settings" />
                     <MyAccountCompo img="https://m.media-amazon.com/images/G/31/x-locale/cs/ya/images/address-map-pin._CB485934183_.png" title="Your Address" description="Edit address for orders or gifts" to="address" />
                     <MyAccountCompo img="https://m.media-amazon.com/images/G/31/x-locale/cs/ya/images/Payments._CB485926359_.png" title="Payment Options" description="Edit or Add payment method" />
-                    <MyAccountCompo img="https://m.media-amazon.com/images/G/31/x-locale/cs/ya/images/amazon_pay._CB485946857_.png" title="Ecommerce pay balance" description="Add money to your balance" />
-                    <MyAccountCompo img="https://m.media-amazon.com/images/G/31/x-locale/cs/help/images/gateway/self-service/contact_us._CB623781998_.png" title="Contact Us" description="" />
+                    <MyAccountCompo img="https://m.media-amazon.com/images/G/31/x-locale/cs/ya/images/amazon_pay._CB485946857_.png" title="Ecommerce pay balance" description="Add money to your balance" onClick={()=>{alert('we will serve this feature as soon as possible')}} />
+                    <MyAccountCompo img="https://m.media-amazon.com/images/G/31/x-locale/cs/help/images/gateway/self-service/contact_us._CB623781998_.png" title="Contact Us" description="You can send message here" to="/contact"/>
                 </div>
                 <hr className='text-gray-200 mb-10 '/>
                 <div className='mt-5 w-full flex-wrap flex justify-between mb-5'>
