@@ -1,11 +1,12 @@
 import { Select } from 'antd'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
     <>
-      <footer className=" bg-gray-500" style={{backgroundColor: '#232F3E'}}>
-      <a href="#"><div className='h-14 md:16 w-full bg-gray-500 text-center text-white font-semibold hover:bg-gray-600 text-sm flex hover:cursor-pointer justify-center items-center'>
+      <footer className=" bg-gray-500" style={{ backgroundColor: '#232F3E' }}>
+        <a href="#"><div className='h-14 md:16 w-full bg-gray-500 text-center text-white font-semibold hover:bg-gray-600 text-sm flex hover:cursor-pointer justify-center items-center'>
           Back to top
         </div></a>
 
@@ -15,16 +16,16 @@ const Footer = () => {
               <h2 className="mb-6 text-m font-semibold text-white uppercase">Get to Know Us</h2>
               <ul className=" text-gray-200 font-medium">
                 <li className="mb-4">
-                  <a href="#" className=" hover:underline">About Us</a>
+                  <Link to="/about" className=" hover:underline">About Us</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Careers</a>
+                  <Link to="" className="hover:underline">Careers</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Best Sellers</a>
+                  <Link to="" className="hover:underline">Best Sellers</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">New Releases</a>
+                  <Link to="" className="hover:underline">New Releases</Link>
                 </li>
               </ul>
             </div>
@@ -46,13 +47,13 @@ const Footer = () => {
               <h2 className="mb-6 text-m font-semibold text-white uppercase">Legal</h2>
               <ul className="text-gray-200 font-medium">
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Privacy Policy</a>
+                  <Link to="/privacy_policy" className="hover:underline">Privacy Policy</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Licensing</a>
+                  <Link to="" className="hover:underline">Licensing</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Terms &amp; Conditions</a>
+                  <Link to="" className="hover:underline">Terms &amp; Conditions</Link>
                 </li>
               </ul>
             </div>
@@ -61,27 +62,27 @@ const Footer = () => {
                 Let Us Help You</h2>
               <ul className="text-gray-200 font-medium">
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Your Account</a>
+                  <Link to="" className="hover:underline">Your Account</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Return Center</a>
+                  <Link to="" className="hover:underline">Return Center</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">100% Purchase Protection</a>
+                  <Link to="" className="hover:underline">100% Purchase Protection</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">App Download</a>
+                  <Link to="" className="hover:underline">App Download</Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">Help</a>
+                  <Link to="" className="hover:underline">Help</Link>
                 </li>
               </ul>
             </div>
 
           </div>
-          
+
           {/* <hr className='h-0.5 mx-auto  bg-white max-w-screen-xl'></hr> */}
-          <div className="px-4 py-6 bg-gray-600 md:flex md:items-center md:justify-between" style={{backgroundColor: '#131A22'}}>
+          <div className="px-4 py-6 bg-gray-600 md:flex md:items-center md:justify-between" style={{ backgroundColor: '#131A22' }}>
             <span className="text-sm text-gray-200 sm:text-center">© 2024 <a href="#">Ecommerce.in</a>, Inc. or its affiliates
             </span>
             <div className="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">

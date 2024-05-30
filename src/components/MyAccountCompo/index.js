@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const MyAccountCompo = ({img, title, description, to}) => {
+const MyAccountCompo = ({img, title, description, to, onClick}) => {
     return (
         <>
-            <Link className='' to={to}>
+            <Link className='' to={to} onClick={onClick} >
                 <div className='md:w-80 hover:bg-gray-100 p-2 w-full h-28 border-2 flex justify-evenly  border-gray-200 mb-6 rounded-xl'>
                     <img className='h-14 w-18' src={img} alt="" />
 

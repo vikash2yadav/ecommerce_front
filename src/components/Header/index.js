@@ -27,19 +27,21 @@ const Header = () => {
       <nav className=" border-blue-200 bg-gray-600 ">
         {/* style={{backgroundColor: '#131A22'}} */}
         <div className="max-w-screen-xl  flex flex:wrap items-center justify-between mx-auto p-2 " >
-          <a href="" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
             {/* <span className="self-center text-2xl font-semibold whitespace-nowrap blue:text-white"></span> */}
-          </a>
+          </Link>
 
-          <div className='text-white flex justify-center items-center border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
-            <div className='text-xl'><FaLocationCrosshairs /></div>
-            <div className='mx-1'>
-              <p className='text-xs text-gray-200'>deliver to
-                <span className='text-xs font-semibold mx-1'>Ahmedabad, Gujarat-380026</span> </p>
-              <p className='font-bold text-l'>Update location</p>
+          <Link to="/my/account/address">
+            <div className='text-white flex justify-center items-center border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
+              <div className='text-xl'><FaLocationCrosshairs /></div>
+              <div className='mx-1'>
+                <p className='text-xs text-gray-200'>deliver to
+                  <span className='text-xs font-semibold mx-1'>Ahmedabad, Gujarat-380026</span> </p>
+                <p className='font-bold text-l'>Update location</p>
+              </div>
             </div>
-          </div>
+          </Link>
 
           <div className=' flex justify-center items-center'>
             <select name="" defaultValue='All' className='p-1 h-8 md:h-10 text-xs rounded-l bg-purple-100 w-6 md:w-14' id="">
@@ -51,11 +53,13 @@ const Header = () => {
           </div>
 
 
-          <div className='text-white text-sm flex justify-center items-end  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
-            <div className='px-1'><p className='text-xs'>Returns</p>
-              <p className='text-sm font-bold'>& Orders  </p>
+          <Link to="/my/orders">
+            <div className='text-white text-sm flex justify-center items-end  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
+              <div className='px-1'><p className='text-xs'>Returns</p>
+                <p className='text-sm font-bold'>& Orders  </p>
+              </div>
             </div>
-          </div>
+          </Link>
 
           <div onMouseEnter={() => setShowAccountList(!showAccountList)}
             onMouseLeave={() => setShowAccountList(!showAccountList)}
@@ -70,8 +74,8 @@ const Header = () => {
             onMouseLeave={() => setShowAccountList(!showAccountList)}
             className={`z-50 w-64 my-4 ${showAccountList ? 'block' : 'hidden'}  bg-white text-black absolute top-10 right-40 text-base list-none divide-y rounded-lg shadow`} id="user-dropdown">
             <div className="px-4 py-3 flex justify-center items-center flex-col">
-              <button className='mb-1 w-48 bg-yellow-400 text-xs font-semibold border hover:underline p-2 rounded-lg  '> Sign In</button>
-              <p className='text-xs'> New user? <span className='text-xs text-blue-500 hover:underline hover:text-red-500'><a href="">Sign Up</a></span></p>
+              <button className='mb-1 w-48 bg-yellow-400 text-xs font-semibold border hover:underline p-2 rounded-lg' onClick={() => navigate('/login')}> Sign In</button>
+              <p className='text-xs'> New user? <span className='text-xs text-blue-500 hover:underline hover:text-red-500'><Link to="/register">Sign Up</Link></span></p>
             </div>
 
             <ul className="py-2" aria-labelledby="user-menu-button">
@@ -92,7 +96,7 @@ const Header = () => {
           </div>
 
 
-          <div onClick={()=>navigate('/my/cart')} className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
+          <div onClick={() => navigate('/my/cart')} className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
             <div className='text-4xl'><FiShoppingCart /></div>
             <span className='text-ms font-bold pt-4'>Cart</span>
           </div>
@@ -251,13 +255,13 @@ const Header = () => {
             <p className="block px-4 py-1 text-m font-semibold">Best Sellers</p>
           </li>
           <li>
-            <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Orders</a>
+            <Link to="" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Orders</Link>
           </li>
           <li>
-            <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</a>
+            <Link to="" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</Link>
           </li>
           <li>
-            <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</a>
+            <Link to="" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</Link>
           </li>
         </ul>
 
