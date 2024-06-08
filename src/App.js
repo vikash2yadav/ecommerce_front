@@ -19,6 +19,8 @@ import MyAccount from './page/MyAccount';
 import MyAddress from './page/MyAddress'
 import MyOrders from './page/MyOrders'
 import MyAddressAddNew from './page/MyAddressAddNew';
+import Vendordash from './page/Vendor/Dashboard';
+
 
 const App = () => {
   return (
@@ -28,6 +30,7 @@ const App = () => {
         <Route path="/register" element={<Register/>} />
         <Route path="/best_seller" element={<BestSeller/>} />
         <Route path="/my/profile" element={<MyProfile/>} />
+        <Route path="/vendor/dashboard" element={<Vendordash/>} />
         <Route path="/my/account" element={<MyAccount/>} />
         <Route path="/my/account/address" element={<MyAddress/>} />
         <Route path="/my/account/address/add_new" element={<MyAddressAddNew/>} />
