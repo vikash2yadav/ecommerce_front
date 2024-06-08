@@ -7,8 +7,8 @@ const MyAddressAddNewCompo = () => {
         <>
             <div className='flex flex md:w-full justify-center items-center p-4 '>
                 <div className='md:w-2/4 w-full py-4'>
-                    <p className="text-sm mb-3 "><a href="" className="hover:underline hover:text-red-800">Your Account</a> >
-                        <a href="" className="hover:underline hover:text-red-800 mx-1">Your Address</a> >
+                    <p className="text-sm mb-3 "><a href="" className="hover:underline hover:text-red-800">Your Account</a>
+                        <a href="" className="hover:underline hover:text-red-800 mx-1">Your Address</a> 
                         <a href="" className="text-red-700 hover:underline  hover:text-red-800 mx-1">New Address</a> </p>
 
                     <h1 className='text-2xl font-bold mb-3 '>Add a new address</h1>
