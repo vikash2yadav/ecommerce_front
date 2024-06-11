@@ -5,7 +5,7 @@ import Register from './page/Auth/Register';
 import './App.css'
 import Login from './page/Auth/Login';
 import ForgotPassword from './page/Auth/ForgotPassword';
-import ResetPassword from './page/ResetPassword';
+import ResetPassword from './page/Auth/ResetPassword';
 import BestSeller from './page/BestSeller';
 import NewRelease from './page/NewRelease';
 import OurChoice from './page/OurChoice';
@@ -20,6 +20,11 @@ import MyAddress from './page/MyAddress'
 import MyOrders from './page/MyOrders'
 import MyAddressAddNew from './page/MyAddressAddNew';
 import Vendordash from './page/Vendor/Dashboard';
+import ChangePassword from './page/ChangePassword';
+import MyAccountDelete from './page/MyAccountDelete';
+import Coupons from './page/Coupons';
+import Dashboard from './page/Admin/Dashboard';
+import DashboardOrders from './page/DashboardOrders';
 
 
 const App = () => {
@@ -41,9 +46,14 @@ const App = () => {
         <Route path="/my/wishlist" element={<BestSeller/>} />
         <Route path="/my/cart" element={<MyCart/>} />
         <Route path="/about" element={<About/>} />
+        <Route path="/change_password" element={<ChangePassword/>} />
         <Route path="/contact" element={<Contact/>} />
         <Route path='/best_seller/products/:cat' element={<BestSellerByCategoryPage/>} />
         <Route path="/our_choice" element={<OurChoice/>} />
+        <Route path="/my/coupons" element={<Coupons/>} />
+        <Route path="/admin/dashboard" element={<Dashboard/>} />
+        <Route path="/admin/dashboard/orders" element={<DashboardOrders/>} />
+        <Route path="/my/account/delete" element={<MyAccountDelete/>} />
         <Route path="/product" element={<ProductDetailPage/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/forgot_password" element={<ForgotPassword/>} />

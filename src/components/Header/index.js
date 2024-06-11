@@ -6,9 +6,12 @@ import { FaAngleDown } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../context/LangContext';
 import { common } from '../../languages/common';
+import { LoginsContext } from '../../context/LoginContext';
 
 const Header = () => {
-  const { languages } = useContext(LanguageContext)
+  let {isLoggedIn, userData} = useContext(LoginsContext);
+
+  const { languages, getAllLanguages } = useContext(LanguageContext)
   const [currentLang, setCurrentLang] = useState('');
   const navigate = useNavigate();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
@@ -16,14 +19,6 @@ const Header = () => {
   const [showAccountList, setShowAccountList] = useState(false);
   const [showBestSeller, setShowBestSeller] = useState(false);
 
-  const updateLang = (code) => {
-    setCurrentLang(code);
-  }
-
-  useEffect(()=>{
-    let code = localStorage.getItem('lang');
-    setCurrentLang(code);
-  },[])
 
   return (
     <>
@@ -34,7 +29,6 @@ const Header = () => {
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
             {/* <span className="self-center text-2xl font-semibold whitespace-nowrap blue:text-white"></span> */}
           </Link>
-
           <Link to="/my/account/address">
             <div className='text-white flex justify-center items-center border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
               <div className='text-xl'><FaLocationCrosshairs /></div>
@@ -67,8 +61,9 @@ const Header = () => {
           <div onMouseEnter={() => setShowAccountList(!showAccountList)}
             onMouseLeave={() => setShowAccountList(!showAccountList)}
             className='text-white text-sm flex justify-center items-end border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
-            <div className='px-1'><p className='text-xs'>Hello, user</p>
-              <p className='text-sm font-bold'>Account & lists</p>
+            <div className='px-1'><p className='text-xs'>Hello, <span>{isLoggedIn ? userData?.first_name : 'user'}</span></p>
+              {console.log(userData)}
+            <p className='text-sm font-bold'>Account & lists</p>
             </div>
             <div className='text-gray-200'><FaAngleDown /></div>
           </div>
@@ -92,7 +87,7 @@ const Header = () => {
                 <Link to="/my/wishlist" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</Link>
               </li>
               <li>
-                <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</a>
+                <Link to="/" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</Link>
               </li>
             </ul>
 
@@ -163,7 +158,7 @@ const Header = () => {
                         return (<>
                           <li onClick={() => {
                             localStorage.setItem("lang", item.code);
-                            updateLang(item.code);
+                           
                           }}>
                             <Link className="block px-4 py-1 text-xs text-black hover:border hover:underline hover:border-gray-600" role="menuitem">
                               <div className="inline-flex items-center ">

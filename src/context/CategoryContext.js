@@ -9,12 +9,12 @@ export const CatContext = ({ children }) => {
     const getAllCategories = async () => {
         let data = await getCategoryList();
         setCategories(data.data.data.rows);
-        setTotalCategories(data.length);
+        setTotalCategories(data.data.data.count);
     }
 
     useEffect(() => {
         getAllCategories();
-    }, [categories, totalCategories]);
+    }, [setCategories]);
 
     return (
         <CategoryContext.Provider value={{

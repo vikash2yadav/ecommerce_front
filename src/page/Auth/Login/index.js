@@ -1,14 +1,15 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { TfiAlert } from "react-icons/tfi";
 import { Link, useNavigate } from 'react-router-dom';
 import { loginInitialValues, loginSchema } from './Schema';
 import InputC from '../../../components/InputC';
 import { signIn } from '../../../apis/user';
 import CommonFooter from '../CommonFooter';
+import { LoginsContext } from '../../../context/LoginContext';
 
 const Login = () => {
-    const navigate = useNavigate();
+    let {UserLogin} = useContext(LoginsContext);
     const [passwordError, setPasswordError] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -16,10 +17,9 @@ const Login = () => {
         initialValues: loginInitialValues,
         validationSchema: loginSchema,
         onSubmit: async (values) => {
-            console.log(values)
             let data = await signIn(values);
             if (data.status === 200) {
-                navigate('/')
+                UserLogin(data.data.data);
             } else {
                 setPasswordError(true);
                 setErrorMessage(data.data.message)

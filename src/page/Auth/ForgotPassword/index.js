@@ -19,7 +19,7 @@ const ForgotPassword = () => {
         alert(data.data.message)
         setOtpSuccess(true);
       } else {
-        alert("error", data.data.message)
+        alert(data.data.message)
       }
     }
   })

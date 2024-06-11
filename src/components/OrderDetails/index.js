@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const OrderDetails = () => {
     return (
         <>
-            <div className='p-2 flex flex-col md:px-40 px-4 w-full'>
+            <div className='p-2 flex flex-col md:px-40 px-4 w-full mb-20 '>
 
                 <p className="text-sm mb-5"><a href="" className=" hover:underline hover:text-red-800">Your Account</a> >
                     <a href="" className="text-red-700 hover:underline hover:text-red-800 mx-1">Your Orders</a> </p>
@@ -20,10 +20,10 @@ const OrderDetails = () => {
                 </div>
 
                 <div className='flex mb-1 text-sm'>
-                    <Link to="/my/orders" className='mx-4 text-blue-800 hover:underline hover:text-red-800'>Orders</Link>
-                    <Link to="/my/orders/buy_again" className='mx-4 text-blue-800 hover:underline hover:text-red-800'>Buy Again</Link>
+                    <Link to="/my/orders" className='mx-4 text-blue-800 hover:underline hover:text-red-800'>All Orders</Link>
+                    {/* <Link to="/my/orders/buy_again" className='mx-4 text-blue-800 hover:underline hover:text-red-800'>Buy Again</Link>
                     <Link to="/my/orders/not_shipped" className='mx-4 text-blue-800 hover:underline hover:text-red-800'>Not Yet Shipped</Link>
-                    <Link to="/my/orders/cancelled" className='mx-4 text-blue-800 hover:underline hover:text-red-800'>Cancelled Orders</Link>
+                    <Link to="/my/orders/cancelled" className='mx-4 text-blue-800 hover:underline hover:text-red-800'>Cancelled Orders</Link> */}
                 </div>
                 <hr className='text-gray-200 mb-6' />
 
