@@ -1,17 +1,18 @@
 import React from 'react'
 import { useFormik } from 'formik';
 import { resetPassword } from '../../../apis/user';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import InputC from '../../../components/InputC';
 import CommonFooter from '../CommonFooter';
 import { resetPasswordInitialValues, resetPasswordSchema } from './Schema';
 
 const ResetPassword = () => {
+  const {id} = useParams();
   const formik = useFormik({
     initialValues: resetPasswordInitialValues,
     validationSchema: resetPasswordSchema,
     onSubmit: async (values) => {
-      let data = await resetPassword(values);
+      let data = await resetPassword(id, values);
       if (data.status === 200) {
         alert(data.data.message);
       } else {

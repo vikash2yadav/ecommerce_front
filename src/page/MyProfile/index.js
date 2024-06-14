@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import InputC from '../../components/InputC'
 import SelectC from '../../components/SelectC'
+import { LoginsContext } from '../../context/LoginContext';
 
 const MyProfile = () => {
+    let { isLoggedIn, auth } = useContext(LoginsContext);
     return (
         <>
             <Header />
@@ -18,7 +20,7 @@ const MyProfile = () => {
 
                     <div className='flex flex-col w-full'>
 
-                        <p className='text-sm font-semibold mb-1 mt-5'>First Name</p>
+                        <p className='text-sm font-semibold mb-1 mt-5'>{isLoggedIn && auth.first_name}</p>
                         <InputC />
 
                         <p className='text-sm font-semibold mb-1 mt-5'>Last Name</p>

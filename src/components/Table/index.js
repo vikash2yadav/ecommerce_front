@@ -26,12 +26,12 @@ const Table = ({ columns, data }) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
+                    { rows && rows.map((row, i) => {
                         prepareRow(row);
                         return (
                             <tr {...row.getRowProps()} class="bg-white border-b dark:border-gray-700">
                                 {row.cells.map(cell => {
-                                    return <td class="px-6 py-4 font-medium whitespace-nowrap" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                                    return <td class="px-6 py-6 font-medium whitespace-nowrap" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
                             </tr>
                         );

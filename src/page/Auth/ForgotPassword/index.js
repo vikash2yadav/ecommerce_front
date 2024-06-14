@@ -29,8 +29,9 @@ const ForgotPassword = () => {
     validationSchema: otpCheckSchema,
     onSubmit: async (values) => {
       let data = await otpVerification(values);
+      console.log(data)
       if (data.status === 200) {
-        navigate('/reset_password')
+        navigate(`/reset_password/${data}`)
       } else {
         alert(data.data.message)
       }

@@ -7,18 +7,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../context/LangContext';
 import { common } from '../../languages/common';
 import { LoginsContext } from '../../context/LoginContext';
+import { CartsContext } from '../../context/CartContext';
 
 const Header = () => {
-  let {isLoggedIn, userData} = useContext(LoginsContext);
+
+  const navigate = useNavigate();
+  let { isLoggedIn, auth } = useContext(LoginsContext);
+  let { totalCustomerCartProducts } = useContext(CartsContext);
 
   const { languages, getAllLanguages } = useContext(LanguageContext)
   const [currentLang, setCurrentLang] = useState('');
-  const navigate = useNavigate();
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAccountList, setShowAccountList] = useState(false);
-  const [showBestSeller, setShowBestSeller] = useState(false);
-
+  const [showBestSeller, setShowBestSeller] = useState(false)
 
   return (
     <>
@@ -34,7 +36,8 @@ const Header = () => {
               <div className='text-xl'><FaLocationCrosshairs /></div>
               <div className='mx-1'>
                 <p className='text-xs text-gray-200'>{currentLang === '' ? '' : ''}
-                  <span className='text-xs font-semibold mx-1'>Ahmedabad, Gujarat-380026</span> </p>
+                  <span className='text-xs font-semibold mx-1'>{isLoggedIn && auth?.city}, {isLoggedIn && auth?.state} - {isLoggedIn && auth?.pincode}</span>
+                   </p>
                 <p className='font-bold text-l'>Update location</p>
               </div>
             </div>
@@ -61,9 +64,9 @@ const Header = () => {
           <div onMouseEnter={() => setShowAccountList(!showAccountList)}
             onMouseLeave={() => setShowAccountList(!showAccountList)}
             className='text-white text-sm flex justify-center items-end border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
-            <div className='px-1'><p className='text-xs'>Hello, <span>{isLoggedIn ? userData?.first_name : 'user'}</span></p>
-              {console.log(userData)}
-            <p className='text-sm font-bold'>Account & lists</p>
+            <div className='px-1'><p className='text-xs'>Hello, <span>{isLoggedIn ? auth?.last_name : 'user'}</span></p>
+
+              <p className='text-sm font-bold'>Account & lists</p>
             </div>
             <div className='text-gray-200'><FaAngleDown /></div>
           </div>
@@ -71,9 +74,16 @@ const Header = () => {
           <div onMouseEnter={() => setShowAccountList(showAccountList)}
             onMouseLeave={() => setShowAccountList(!showAccountList)}
             className={`z-50 w-64 my-4 ${showAccountList ? 'block' : 'hidden'}  bg-white text-black absolute top-10 right-40 text-base list-none divide-y rounded-lg shadow`} id="user-dropdown">
+
             <div className="px-4 py-3 flex justify-center items-center flex-col">
-              <button className='mb-1 w-48 bg-yellow-400 text-xs font-semibold border hover:underline p-2 rounded-lg' onClick={() => navigate('/login')}> Sign In</button>
-              <p className='text-xs'> New user? <span className='text-xs text-blue-500 hover:underline hover:text-red-500'><Link to="/register">Sign Up</Link></span></p>
+              {
+                !isLoggedIn && (
+                  <>
+                    <button className='mb-1 w-48 bg-yellow-400 text-xs font-semibold border hover:underline p-2 rounded-lg' onClick={() => navigate('/login')}> Sign In</button>
+                    <p className='text-xs'> New user? <span className='text-xs text-blue-500 hover:underline hover:text-red-500'><Link to="/register">Sign Up</Link></span></p>
+                  </>
+                )
+              }
             </div>
 
             <ul className="py-2" aria-labelledby="user-menu-button">
@@ -96,7 +106,7 @@ const Header = () => {
 
           <div onClick={() => navigate('/my/cart')} className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
             <div className='text-4xl'><FiShoppingCart /></div>
-            <span className='text-ms font-bold pt-4'>Cart</span>
+            <span className='text-xl font-bold pt-4'> {totalCustomerCartProducts ? totalCustomerCartProducts : 0}  </span>
           </div>
 
           <button type="button"
@@ -111,8 +121,8 @@ const Header = () => {
             onMouseLeave={() => setShowProfile(!showProfile)}
             className={`z-50 my-4 ${showProfile ? 'block' : 'hidden'} bg-white  absolute top-8 right-1 text-base list-none  divide-y rounded-lg shadow`} id="user-dropdown">
             <div className="px-4 py-3">
-              <span className="block text-sm text-black">Bonnie Green</span>
-              <span className="block text-sm  text-purple-700 truncate">name@flowbite.com</span>
+              <span className="block text-sm text-black">{isLoggedIn ? auth?.full_name : 'user name'}</span>
+              <span className="block text-sm  text-purple-700 truncate">{isLoggedIn ? auth?.email : 'email'}</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
@@ -158,7 +168,7 @@ const Header = () => {
                         return (<>
                           <li onClick={() => {
                             localStorage.setItem("lang", item.code);
-                           
+
                           }}>
                             <Link className="block px-4 py-1 text-xs text-black hover:border hover:underline hover:border-gray-600" role="menuitem">
                               <div className="inline-flex items-center ">
