@@ -9,6 +9,7 @@ import { common } from '../../languages/common';
 import { LoginsContext } from '../../context/LoginContext';
 import { CartsContext } from '../../context/CartContext';
 import { CustomersContext } from '../../context/CustomerContext';
+import { signOut } from '../../apis/customer';
 
 const Header = () => {
 
@@ -23,6 +24,17 @@ const Header = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [showAccountList, setShowAccountList] = useState(false);
   const [showBestSeller, setShowBestSeller] = useState(false)
+
+  let handleSignOut = async () => {
+    let data = await signOut();
+    if(data.status === 200){
+      localStorage.removeItem("authorization");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userData")
+      navigate('/login');
+    }
+
+  }
 
   useEffect(() => {
     getAllLanguages()
@@ -149,7 +161,7 @@ const Header = () => {
                 <Link href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Settings</Link>
               </li>
               <li>
-                <Link href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Sign out</Link>
+                <Link onClick={handleSignOut} className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Sign out</Link>
               </li>
             </ul>
 

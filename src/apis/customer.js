@@ -35,3 +35,12 @@ export async function updateMyAddress (body) {
     return data;
 }
 
+export async function signOut (body) {
+    let data = await callPostApi({url: 'http://localhost:8000/user/sign_out' , body});
+    return data ;
+}
+
+export async function changePassword (body) {
+    let data = await callPutApi({url: 'http://localhost:8000/user/change_password' , body});
+    return data ;
+}
