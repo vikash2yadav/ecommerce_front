@@ -7,7 +7,7 @@ import { AdminsContext } from '../../../../context/AdminContext'
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 
 const Admins = () => {
-    const { admins } = useContext(AdminsContext);
+    const { admins, setAdmins, getAllAdmins } = useContext(AdminsContext);
 
     const columns = [
         {
@@ -93,6 +93,9 @@ const Admins = () => {
         },
     ]
 
+    useEffect(()=> {
+        getAllAdmins();
+    }, [setAdmins]);
 
     return (
         <>

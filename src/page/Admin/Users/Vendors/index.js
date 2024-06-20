@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AdminSidebar from '../../../../components/Admin/AdminSidebar'
 import Table from '../../../../components/Table'
 import { Button } from 'antd';
@@ -7,7 +7,7 @@ import { PartnersContext } from "../../../../context/PartnerContext"
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 
 const Customers = () => {
-    const { vendors } = useContext(PartnersContext);
+    const { vendors, setVendors ,getAllVendors } = useContext(PartnersContext);
 
     const columns = [
         {
@@ -92,6 +92,10 @@ const Customers = () => {
             )
         },
     ];
+
+    useEffect(()=> {
+        getAllVendors();
+    }, [setVendors]);
 
     return (
         <>

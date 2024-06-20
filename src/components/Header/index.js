@@ -8,19 +8,33 @@ import { LanguageContext } from '../../context/LangContext';
 import { common } from '../../languages/common';
 import { LoginsContext } from '../../context/LoginContext';
 import { CartsContext } from '../../context/CartContext';
+import { CustomersContext } from '../../context/CustomerContext';
 
 const Header = () => {
 
   const navigate = useNavigate();
   let { isLoggedIn, auth } = useContext(LoginsContext);
-  let { totalCustomerCartProducts } = useContext(CartsContext);
+  let { totalCustomerCartItems, setTotalCustomerCartItems, getAllCustomerCartItems } = useContext(CartsContext);
+  let { myDefaultAddress, setMyDefaultAddress, getCustomerDefaultAddress } = useContext(CustomersContext);
 
-  const { languages, getAllLanguages } = useContext(LanguageContext)
+  const { languages, setLanguages, getAllLanguages } = useContext(LanguageContext);
   const [currentLang, setCurrentLang] = useState('');
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAccountList, setShowAccountList] = useState(false);
   const [showBestSeller, setShowBestSeller] = useState(false)
+
+  useEffect(() => {
+    getAllLanguages()
+  }, [setLanguages])
+
+  useEffect(() => {
+    getCustomerDefaultAddress()
+  }, [setMyDefaultAddress])
+
+  useEffect(() => {
+    getAllCustomerCartItems()
+  }, [setTotalCustomerCartItems])
 
   return (
     <>
@@ -36,8 +50,8 @@ const Header = () => {
               <div className='text-xl'><FaLocationCrosshairs /></div>
               <div className='mx-1'>
                 <p className='text-xs text-gray-200'>{currentLang === '' ? '' : ''}
-                  <span className='text-xs font-semibold mx-1'>{isLoggedIn && auth?.city}, {isLoggedIn && auth?.state} - {isLoggedIn && auth?.pincode}</span>
-                   </p>
+                  <span className='text-xs font-semibold mx-1'>{isLoggedIn ? myDefaultAddress?.city?.name + ',' : null} {isLoggedIn ? myDefaultAddress?.state?.name + ' - ' : ''}{isLoggedIn && myDefaultAddress?.pin_code}</span>
+                </p>
                 <p className='font-bold text-l'>Update location</p>
               </div>
             </div>
@@ -106,7 +120,7 @@ const Header = () => {
 
           <div onClick={() => navigate('/my/cart')} className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
             <div className='text-4xl'><FiShoppingCart /></div>
-            <span className='text-xl font-bold pt-4'> {totalCustomerCartProducts ? totalCustomerCartProducts : 0}  </span>
+            <span className='text-xl font-bold pt-4'> {totalCustomerCartItems ? totalCustomerCartItems : 0}  </span>
           </div>
 
           <button type="button"

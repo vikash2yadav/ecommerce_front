@@ -12,10 +12,6 @@ export const ProductVariantContext = ({ children }) => {
         setTotalProductVariants(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllProductVariants();
-    }, [setProductVariants]);
-
     return (
         <ProductVariantsContext.Provider value={{
             productVariants, setProductVariants, totalProductVariants, setTotalProductVariants, getAllProductVariants

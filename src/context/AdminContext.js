@@ -12,10 +12,6 @@ export const AdminContext = ({ children }) => {
         setTotalAdmins(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllAdmins();
-    }, [setAdmins]);
-
     return (
         <AdminsContext.Provider value={{
             admins, setAdmins, totalAdmins, setTotalAdmins, getAllAdmins

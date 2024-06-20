@@ -1,4 +1,4 @@
-import {callGetApi, callPostApi} from './index';
+import {callGetApi, callPostApi, callPutApi} from './index';
 
 export async function signUp (body) {
     let data = await callPostApi({url: 'http://localhost:8000/user/sign_up' , body});
@@ -27,5 +27,10 @@ export async function resetPassword (id, body) {
 
 export async function getAddress (body) {
     let data = await callGetApi({url: `http://localhost:8000/user/get/address` , body});
+    return data ;
+}
+
+export async function changeDefaultAddress (id, body) {
+    let data = await callPutApi({url: `http://localhost:8000/user_address/change/default/${id}`, body });
     return data ;
 }

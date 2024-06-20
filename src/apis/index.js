@@ -1,13 +1,16 @@
 import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
 
+let token = localStorage.getItem("authorization");
+axios.defaults.headers.common["Authorization"] = token;
+
 //  PostAPI  //
 export async function callPostApi({ url, body, headers }) {
     try {
         const result = await axios({
             url: url,
             method: "POST",
-            headers: { ...headers, 'ngrok-skip-browser-warning': true },
+            // headers: { token },
             data: body,
             timeout: 120000,
         });
@@ -24,7 +27,7 @@ export async function callPostApi({ url, body, headers }) {
 export async function callGetApi({ url, body, headers }) {
     try {
         const result = await axios({
-            url: API_URL + url,
+            url: url,
             method: "GET",
             headers: { ...headers, 'ngrok-skip-browser-warning': true },
             data: body,
@@ -43,7 +46,7 @@ export async function callGetApi({ url, body, headers }) {
 export async function callPutApi({ url, body, headers }) {
     try {
         const result = await axios({
-            url: API_URL + url,
+            url: url,
             method: "PUT",
             headers: { ...headers, 'ngrok-skip-browser-warning': true },
             data: body,
@@ -62,7 +65,7 @@ export async function callPutApi({ url, body, headers }) {
 export async function callDeleteApi({ url, body, headers }) {
     try {
         const result = await axios({
-            url: API_URL + url,
+            url: url,
             method: "DELETE",
             headers: { ...headers, 'ngrok-skip-browser-warning': true },
             data: body,

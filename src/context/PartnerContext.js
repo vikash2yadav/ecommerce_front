@@ -20,20 +20,11 @@ export const PartnerContext = ({ children }) => {
         setTotalDeliveryPartners(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllVendors();
-    }, [setVendors]);
-
-    useEffect(() => {
-        getAllDeliveryPartners();
-    }, [setDeliveryPartners]);
-
-
     return (
         <PartnersContext.Provider value={{
             vendors, setVendors, totalVendors, setTotalVendors,
             getAllVendors, deliveryPartners, setDeliveryPartners,
-            totalDeliveryPartners, setTotalDeliveryPartners
+            totalDeliveryPartners, setTotalDeliveryPartners, getAllDeliveryPartners
         }}>
             {children}
         </PartnersContext.Provider>

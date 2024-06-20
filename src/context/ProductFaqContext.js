@@ -13,10 +13,6 @@ export const ProductFaqContext = ({ children }) => {
         setTotalfaqs(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllFaqs();
-    }, [setFaqs]);
-
     return (
         <ProductFaqsContext.Provider value={{
             faqs, setFaqs, totalfaqs, setTotalfaqs, getAllFaqs

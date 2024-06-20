@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import AdminSidebar from '../../../components/Admin/AdminSidebar'
 import { CategoryContext } from '../../../context/CategoryContext'
@@ -12,15 +12,61 @@ import { AdminsContext } from '../../../context/AdminContext'
 import { ProductReviewsContext } from '../../../context/ProductReviewContext'
 
 const Dashboard = () => {
-  const { totalOrders, totalOrderItems } = useContext(OrdersContext);
-  const { totalCategories } = useContext(CategoryContext);
-  const { totalProducts } = useContext(ProductsContext);
-  const { totalProductVariants } = useContext(ProductVariantsContext);
-  const { totalfaqs } = useContext(ProductFaqsContext);
-  const { totalCustomers } = useContext(CustomersContext);
-  const { totalVendors, totalDeliveryPartners } = useContext(PartnersContext);
-  const { totalAdmins } = useContext(AdminsContext);
-  const { totalProductReviews } = useContext(ProductReviewsContext);
+  const { totalOrders, setTotalOrders, totalOrderItems, setTotalOrderItems, getAllOrderItems, getAllOrders } = useContext(OrdersContext);
+  const { totalProducts, setTotalProducts, getAllProducts } = useContext(ProductsContext);
+  const { totalCategories, setTotalCategories, getAllCategories } = useContext(CategoryContext);
+  const { totalProductVariants, setTotalProductVariants, getAllProductVariants } = useContext(ProductVariantsContext);
+  const { totalfaqs, setTotalfaqs, getAllFaqs } = useContext(ProductFaqsContext);
+  const { totalCustomers, setTotalCustomers, getAllCustomers } = useContext(CustomersContext);
+  const { totalVendors, setTotalVendors, getAllVendors, totalDeliveryPartners,
+    setTotalDeliveryPartners, getAllDeliveryPartners
+  } = useContext(PartnersContext);
+  const { totalAdmins, setTotalAdmins, getAllAdmins } = useContext(AdminsContext);
+  const { totalProductReviews, setTotalProductReviews, getAllProductReviews } = useContext(ProductReviewsContext);
+
+  useEffect(() => {
+    getAllOrders();
+  }, [setTotalOrders]);
+
+  useEffect(() => {
+    getAllOrderItems();
+  }, [setTotalOrderItems]);
+
+  useEffect(() => {
+    getAllProducts();
+  }, [setTotalProducts])
+
+  useEffect(() => {
+    getAllCategories();
+  }, [setTotalCategories])
+
+  useEffect(() => {
+    getAllProductVariants();
+  }, [setTotalProductVariants])
+
+  useEffect(() => {
+    getAllFaqs();
+  }, [setTotalfaqs])
+
+  useEffect(() => {
+    getAllCustomers();
+  }, [setTotalCustomers])
+
+  useEffect(() => {
+    getAllDeliveryPartners();
+  }, [setTotalDeliveryPartners])
+
+  useEffect(() => {
+    getAllVendors()
+  }, [setTotalVendors])
+
+  useEffect(() => {
+    getAllAdmins()
+  }, [setTotalAdmins])
+
+  useEffect(() => {
+    getAllProductReviews()
+  }, [setTotalProductReviews])
 
   return (
     <>

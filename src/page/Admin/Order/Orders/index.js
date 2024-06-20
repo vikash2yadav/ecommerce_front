@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AdminSidebar from '../../../../components/Admin/AdminSidebar'
 import Table from '../../../../components/Table'
 import { CiEdit } from "react-icons/ci";
@@ -9,7 +9,7 @@ import { OrdersContext } from '../../../../context/OrderContext';
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 
 const Orders = () => {
-    const { orders } = useContext(OrdersContext);
+    const { orders, setOrders, getAllOrders } = useContext(OrdersContext);
 
     const columns = [
         {
@@ -51,6 +51,10 @@ const Orders = () => {
             )
         },
     ];
+
+    useEffect(()=> {
+        getAllOrders();
+    }, [setOrders]);
 
     return (
         <>

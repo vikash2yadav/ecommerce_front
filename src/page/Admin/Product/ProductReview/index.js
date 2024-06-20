@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AdminSidebar from '../../../../components/Admin/AdminSidebar'
 import Table from '../../../../components/Table'
 import { Button } from 'antd';
@@ -7,7 +7,7 @@ import { ProductReviewsContext } from '../../../../context/ProductReviewContext'
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 
 const ProductReview = () => {
-    const { productReviews } = useContext(ProductReviewsContext);
+    const { productReviews, setProductReviews, getAllProductReviews } = useContext(ProductReviewsContext);
 
     const columns = [
         {
@@ -40,6 +40,10 @@ const ProductReview = () => {
             )
         },
     ];
+
+    useEffect(()=>{
+        getAllProductReviews();
+    }, [setProductReviews]);
 
     return (
         <>

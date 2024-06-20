@@ -1,10 +1,17 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getCustomerList } from "../apis/customer.js"
+import { getCustomerList, getCustomerAddressList, getMyDefaultAddress } from "../apis/customer.js"
 export const CustomersContext = createContext();
 
 export const CustomerContext = ({ children }) => {
     const [customers, setCustomers] = useState([]);
     const [totalCustomers, setTotalCustomers] = useState(null);
+    const [myAddressList, setMyAddressList] = useState([]);
+    const [myDefaultAddress, setMyDefaultAddress] = useState([])
+
+    const getCustomerDefaultAddress = async () => {
+        let data = await getMyDefaultAddress();
+        setMyDefaultAddress(data.data.data);
+    }
 
     const getAllCustomers = async () => {
         let data = await getCustomerList();
@@ -12,13 +19,16 @@ export const CustomerContext = ({ children }) => {
         setTotalCustomers(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllCustomers();
-    }, [setCustomers]);
-
+    const getAllMyAddresses = async () => {
+        let data = await getCustomerAddressList();
+        setMyAddressList(data.data.data.rows);
+    }
+    
     return (
         <CustomersContext.Provider value={{
-            customers, setCustomers, totalCustomers, setTotalCustomers, getAllCustomers
+            customers, setCustomers, totalCustomers, setTotalCustomers, getAllCustomers,
+            myAddressList, setMyAddressList, getAllMyAddresses,
+            myDefaultAddress, setMyDefaultAddress, getCustomerDefaultAddress
         }}>
             {children}
         </CustomersContext.Provider>

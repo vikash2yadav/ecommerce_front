@@ -9,6 +9,7 @@ import CommonFooter from '../CommonFooter';
 import { LoginsContext } from '../../../context/LoginContext';
 
 const Login = () => {
+    const navigate = useNavigate();
     
     let {UserLogin} = useContext(LoginsContext);
     const [passwordError, setPasswordError] = useState(false);
@@ -27,6 +28,8 @@ const Login = () => {
             }
         }
     })
+
+    
 
     return (
         <>
@@ -93,7 +96,7 @@ const Login = () => {
             <div className='flex flex-col justify-center items-center'>
 
                 <span className='text-xs mb-3'> New to Ecommerce?</span>
-                <button className='mb-5 w-72 md:w-80 bg-white text-sm font-semibold border hover:bg-yellow-500 border-gray-300 p-1 rounded-lg  '> Create your account</button>
+                <button onClick={()=>navigate('/register')} className='mb-5 w-72 md:w-80 bg-white text-sm font-semibold border hover:bg-yellow-500 border-gray-300 p-1 rounded-lg  '> Create your account</button>
 
             </div>
             <hr className='h-0.5 mx-20 mb-4' />

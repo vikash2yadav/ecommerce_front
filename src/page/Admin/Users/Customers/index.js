@@ -7,7 +7,7 @@ import { CustomersContext } from '../../../../context/CustomerContext'
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 
 const Customers = () => {
-    const { customers } = useContext(CustomersContext);
+    const { customers, setCustomers, getAllCustomers } = useContext(CustomersContext);
 
     const columns = [
         {
@@ -87,6 +87,10 @@ const Customers = () => {
             )
         },
     ];
+
+    useEffect(()=> {
+        getAllCustomers();
+    }, [setCustomers]);
 
     return (
         <>

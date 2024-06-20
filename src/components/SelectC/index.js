@@ -1,12 +1,18 @@
-import { Select } from 'antd'
-import React from 'react'
+import { Select } from 'antd';
+import React from 'react';
 
-const SelectC = ({classname}) => {
+const { Option } = Select;
+
+const SelectC = ({ className, defaultValue, options, value, onChange }) => {
   return (
-    <>
-    <Select className={classname}/>
-    </>
-  )
-}
+    <Select defaultValue={defaultValue} className={className} value={value} onChange={onChange}>
+      {options && options.map((item) => (
+        <Option key={item.id} value={item.id}>
+          {item.name}
+        </Option>
+      ))}
+    </Select>
+  );
+};
 
-export default SelectC
+export default SelectC;

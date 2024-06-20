@@ -12,10 +12,6 @@ export const CatContext = ({ children }) => {
         setTotalCategories(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllCategories();
-    }, [setCategories]);
-
     return (
         <CategoryContext.Provider value={{
             categories, setCategories, totalCategories, setTotalCategories, getAllCategories

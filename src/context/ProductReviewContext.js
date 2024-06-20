@@ -12,10 +12,6 @@ export const ProductReviewContext = ({ children }) => {
         setTotalProductReviews(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllProductReviews();
-    }, [setProductReviews]);
-
     return (
         <ProductReviewsContext.Provider value={{
             productReviews, setProductReviews, totalProductReviews, setTotalProductReviews, getAllProductReviews

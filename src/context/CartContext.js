@@ -1,26 +1,22 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getCustomerCartProductList } from "../apis/cart.js"
+import { getCustomerCartItemsList } from "../apis/cart.js"
 export const CartsContext = createContext();
 
 export const CartContext = ({ children }) => {
-    const [customerCartProducts, setCustomerCartProducts] = useState([]);
-    const [totalCustomerCartProducts, setTotalCustomerCartProducts] = useState(null);
+    const [customerCartItems, setCustomerCartItems] = useState([]);
+    const [totalCustomerCartItems, setTotalCustomerCartItems] = useState(null);
 
-    const getAllCustomerCartProducts = async () => {
-        let data = await getCustomerCartProductList();
-        setCustomerCartProducts(data.data.data.rows);
-        setTotalCustomerCartProducts(data.data.data.count);
+    const getAllCustomerCartItems = async () => {
+        let data = await getCustomerCartItemsList();
+        setCustomerCartItems(data.data.data.rows);
+        setTotalCustomerCartItems(data.data.data.count);
     }
-
-    useEffect(() => {
-        getAllCustomerCartProducts();
-    }, [setCustomerCartProducts]);
 
     return (
         <CartsContext.Provider value={{
-            customerCartProducts, setCustomerCartProducts,
-            totalCustomerCartProducts, setTotalCustomerCartProducts,
-            getAllCustomerCartProducts
+            customerCartItems, setCustomerCartItems,
+            totalCustomerCartItems, setTotalCustomerCartItems,
+            getCustomerCartItemsList, getAllCustomerCartItems
         }}>
             {children}
         </CartsContext.Provider>

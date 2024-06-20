@@ -12,10 +12,6 @@ export const LangContext = ({ children }) => {
         setLanguageTotal(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllLanguages();
-    }, [setLanguages])
-
     return (
         <LanguageContext.Provider value={{
             languages, setLanguages, getAllLanguages, languageTotal, setLanguageTotal

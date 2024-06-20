@@ -7,7 +7,7 @@ import { CategoryContext } from '../../../../context/CategoryContext'
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 
 const Categories = () => {
-    const { categories } = useContext(CategoryContext);
+    const { categories, setCategories, getAllCategories } = useContext(CategoryContext);
 
     const columns = [
         {
@@ -48,6 +48,10 @@ const Categories = () => {
             )
         },
     ];
+
+    useEffect(()=>{
+        getAllCategories();
+    }, [setCategories]);
 
     return (
         <>

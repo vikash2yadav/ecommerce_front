@@ -30,22 +30,9 @@ export const OrderContext = ({ children }) => {
         setTotalVendorOrders(data.data.data.count);
     }
 
-    useEffect(() => {
-        getAllVendorOrders();
-    }, [setVendorOrders]);
-
-
-    useEffect(() => {
-        getAllOrders();
-    }, [setOrders]);
-
-    useEffect(() => {
-        getAllOrderItems();
-    }, [setOrders]);
-
     return (
         <OrdersContext.Provider value={{
-            orders, setOrders, totalOrders, setTotalOrders, getAllOrders,
+            orders, setOrders, totalOrders, setTotalOrders, getAllOrders, getAllOrderItems,
             orderItems, setOrderItems, totalOrderItems, setTotalOrderItems,
             vendorOrders, setVendorOrders, totalVendorOrders, setTotalVendorOrders,
             getAllVendorOrders

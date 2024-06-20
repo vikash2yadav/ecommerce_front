@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AdminSidebar from '../../../../components/Admin/AdminSidebar'
 import Table from '../../../../components/Table'
 import { Button } from 'antd';
@@ -7,8 +7,8 @@ import { ProductVariantsContext } from '../../../../context/ProductVariantContex
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 
 const Products = () => {
-    const { productVariants } = useContext(ProductVariantsContext);
-    console.log(productVariants)
+    const { productVariants, setProductVariants, getAllProductVariants } = useContext(ProductVariantsContext);
+
     const columns = [
         {
             Header: 'Id',
@@ -64,6 +64,10 @@ const Products = () => {
             )
         },
     ];
+
+    useEffect(() => {
+        getAllProductVariants();
+    }, [setProductVariants]);
 
     return (
         <>
