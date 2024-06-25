@@ -44,3 +44,14 @@ export async function changePassword (body) {
     let data = await callPutApi({url: 'http://localhost:8000/user/change_password' , body});
     return data ;
 }
+
+export async function getMyProfile (body) {
+    let data = await callGetApi({url: 'http://localhost:8000/user/get/my_profile' , body});
+    return data ;
+}
+
+export async function deleteMyAccount (body) {
+    let data = await callDeleteApi({url: 'http://localhost:8000/user/delete/account' , body});
+    return data ;
+}
+

@@ -1,50 +1,45 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import { Alert, Snackbar } from '@mui/material';
+import { CommonsContext } from '../../context/CommonContext';
+import React, { useContext, useEffect } from 'react'
 
-export default function SnackBarAlert() {
-  const [open, setOpen] = React.useState(false);
+export const SnackBarAlert = () => {
+    const { snackbarAlertOpen, setSnackbarAlertOpen, snackbarContent } = useContext(CommonsContext);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
+    const handleClose = () => {
+        setSnackbarAlertOpen(false);
+    };
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+    // useEffect(()=> {
+    //     if(snackbarAlertOpen){
+    //         setTimeout(()=>{
+    //             handleClose();
+    //         },  2000)
+    //     }
+    // }, [snackbarAlertOpen])
+    return (
+        <>
+            <Snackbar
+                open={snackbarAlertOpen}
+                autoHideDuration={2000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            >
+                <Alert
+                    onClose={handleClose}
+                    variant='filled'
+                    severity={snackbarContent?.type === 'success' ? 'success' : 'error'}
+                    sx={{ width: '100%' }}
+                >
+                    {snackbarContent?.message}
+                </Alert>
+            </Snackbar>
 
-    setOpen(false);
-  };
-
-  const action = (
-    <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
-  return (
-    <div>
-      <Button onClick={handleClick}>Open Snackbar</Button>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Note archived"
-        action={action}
-      />
-    </div>
-  );
+            {/* <Snackbar open={snackbarAlertOpen} autoHideDuration={2000} onClose={handleClose} >
+                <Alert onClose={handleClose} severity={snackbarContent?.type} sx={{ width: '100%', minHeight: '85px' }}>
+                    <p className={`mb-3.5 ${snackbarContent?.type === 'success' ? 'text-[#428b46]' : 'text-[#db5050]'} font-bold text-[15px]`} > {snackbarContent?.type} </p> 
+                    <p className="font-medium"> {snackbarContent?.message} </p>
+                </Alert>
+            </Snackbar> */}
+        </>
+    )
 }

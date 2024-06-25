@@ -20,8 +20,8 @@ export async function otpVerification (body) {
     return data ;
 }
 
-export async function resetPassword (id, body) {
-    let data = await callPostApi({url: `http://localhost:8000/user/reset_password/${id}` , body});
+export async function resetPassword (body) {
+    let data = await callPostApi({url: `http://localhost:8000/user/reset_password` , body});
     return data ;
 }
 

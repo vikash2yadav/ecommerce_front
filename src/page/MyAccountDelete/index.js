@@ -1,17 +1,36 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import CommonFooter from '../Auth/CommonFooter'
 import { useFormik } from 'formik'
 import InputC from '../../components/InputC'
 import { removeAccountInitialValues, removeAccountSchema } from './Schema'
+import {deleteMyAccount} from '../../apis/customer'
+import { CommonsContext } from '../../context/CommonContext';
 
 const MyAccountDelete = () => {
+
     const navigate = useNavigate();
+    const { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+
     const formik = useFormik({
         initialValues: removeAccountInitialValues,
         validationSchema: removeAccountSchema,
         onSubmit: async (values) => {
-
+            let data = await deleteMyAccount(values);
+            if(data.status === 200){
+                formik.resetForm();
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'success',
+                    message: data?.data?.message
+                });
+            }else{
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'error',
+                    message: data?.data?.message
+                })
+            }
         }
     })
     return (

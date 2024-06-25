@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { CiHashtag } from "react-icons/ci";
 import { useFormik } from 'formik'
 import { registerInitialValues, registerSchema } from './Schema';
@@ -6,9 +6,11 @@ import InputC from '../../../components/InputC';
 import { signUp } from '../../../apis/user';
 import { Link, useNavigate } from 'react-router-dom';
 import CommonFooter from '../CommonFooter';
+import { CommonsContext } from '../../../context/CommonContext';
 
 const Register = () => {
     const navigate = useNavigate();
+    let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
     const formik = useFormik({
         initialValues: registerInitialValues,
@@ -17,20 +19,30 @@ const Register = () => {
             let data = await signUp(values);
             if (data.status === 200) {
                 navigate('/login')
+                setSnackbarAlertOpen(true)
+                setSnackbarContent({
+                    type: 'success',
+                    message: data.data.message
+                })
             } else {
-                alert(data.data.message)
+                setSnackbarAlertOpen(true)
+                setSnackbarContent({
+                    type: 'error',
+                    message: data.data.message
+                })
             }
         }
     })
+
 
     return (
         <>
             <div className='flex flex-col justify-center items-center  mx-auto p-2 mb-4'>
 
-                <a href="#" className="flex items-center">
+                <Link to="/" className="flex items-center">
                     <img src="https://flowbite.com/docs/images/logo.svg" className="h-12" alt="Flowbite Logo" />
                     <span className="self-center text-xl font-semibold whitespace-nowrap blue:text-white"></span>
-                </a>
+                </Link>
 
                 <div className='mt-2 flex flex-col min-w-64 max-w-96 border rounded-lg px-6 py-4 border-solid border-gray-300'>
                     <h1 className='text-2xl mb-3'>Create Account</h1>
@@ -97,7 +109,8 @@ const Register = () => {
                 </div>
             </div>
             <hr className='h-0.5 mx-20 mb-4' />
-            <CommonFooter/>
+        
+            <CommonFooter />
         </>
     )
 }

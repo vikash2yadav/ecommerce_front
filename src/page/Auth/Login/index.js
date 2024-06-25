@@ -7,11 +7,14 @@ import InputC from '../../../components/InputC';
 import { signIn } from '../../../apis/user';
 import CommonFooter from '../CommonFooter';
 import { LoginsContext } from '../../../context/LoginContext';
+import { CommonsContext } from '../../../context/CommonContext';
 
 const Login = () => {
     const navigate = useNavigate();
-    
+
     let {UserLogin} = useContext(LoginsContext);
+    let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+
     const [passwordError, setPasswordError] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -21,15 +24,21 @@ const Login = () => {
         onSubmit: async (values) => {
             let data = await signIn(values);
             if (data.status === 200) {
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'success',
+                    message: data.data.message
+                })
                 UserLogin(data.data.data);
             } else {
-                setPasswordError(true);
-                setErrorMessage(data.data.message)
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'error',
+                    message: data.data.message
+                })
             }
         }
     })
-
-    
 
     return (
         <>

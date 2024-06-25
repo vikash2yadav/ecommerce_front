@@ -5,7 +5,7 @@ const MyAddressCompo = ({ item, handleDefaultAddressChange, handleDeleteAddress,
 
     return (
         <>
-            <Link>
+            <Link >
                 <div className='md:w-80 p-4 w-full h-60 border-2 flex flex-col justify-between border-gray-200 mb-6 rounded-xl'>
                     <div onClick={handleDefaultAddressChange}>
 
@@ -17,13 +17,13 @@ const MyAddressCompo = ({ item, handleDefaultAddressChange, handleDeleteAddress,
                         <p className='text-blue-800 hover:text-red-800 hover:underline text-sm mt-0.5'>
                             <a href="">Add Delivery instruction</a>
                         </p>
-                        {/* <p className='text-xs mb-3'>instruction: {item?.instruction}</p> */}
+                        {/* <p className='text-xs mb-3'>instruction: {ite   m?.instruction}</p> */}
                     </div>
                     <div className='text-sm flex justify-between items-center'>
                         <div>
                             <button onClick={() => handleEditAddress(item)} className='text-blue-800 hover:text-red-800 hover:underline '>Edit</button>
                             <span className='mx-2'>|</span>
-                            <button onClick={() => handleDeleteAddress(item?.id)} className='text-blue-800 hover:text-red-800 hover:underline'>Remove</button>
+                            <button onClick={() => handleDeleteAddress(item)} className='text-blue-800 hover:text-red-800 hover:underline'>Remove</button>
                         </div>
 
                         {

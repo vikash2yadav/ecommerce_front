@@ -71,13 +71,19 @@ const OrderDetails = () => {
                                             <h1 className='text-sm hover:underline hover:text-red-800 mb-1'>{order?.name}</h1>
                                             <p className='text-xs mb-2'>Return window closed on 29 aug, 2023</p>
                                             <div className='flex'>
-                                                <button className='mx-1 rounded-xl w-28 h-8 bg-yellow-400 text-xs'>Buy it again</button>
+                                               {order.status === 2 &&  
+                                                (
+                                                    <button className='mx-1 rounded-xl w-28 h-8 bg-yellow-400 text-xs'>Buy it again</button>
+                                                )
+                                               }
                                                 <button className='mx-1 border border-gray-300 rounded-xl w-28 h-8 bg-white text-xs'>View  your item</button>
                                             </div>
                                         </div>
-
+                                        {order.status === 2 &&  
+                                                (
                                         <button className='border border-2 border-200 rounded-xl shadow-xl w-56 h-8 text-sm'>Write a product review</button>
-                                    </div>
+                                                )}
+                                        </div>
 
                                     <hr className='text-gray-200 ' />
                                     <div className='mb-3 h-16'>

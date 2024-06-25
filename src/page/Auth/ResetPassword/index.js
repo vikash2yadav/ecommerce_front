@@ -1,22 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useFormik } from 'formik';
 import { resetPassword } from '../../../apis/user';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import InputC from '../../../components/InputC';
 import CommonFooter from '../CommonFooter';
 import { resetPasswordInitialValues, resetPasswordSchema } from './Schema';
+import { CommonsContext } from '../../../context/CommonContext';
 
 const ResetPassword = () => {
-  const {id} = useParams();
+  const user_id = localStorage.getItem("user_id");
+  let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+
   const formik = useFormik({
     initialValues: resetPasswordInitialValues,
     validationSchema: resetPasswordSchema,
     onSubmit: async (values) => {
-      let data = await resetPassword(id, values);
+      values.id = user_id;
+      let data = await resetPassword(values);
       if (data.status === 200) {
-        alert(data.data.message);
+        localStorage.removeItem("user_id");
+        setSnackbarAlertOpen(true);
+        setSnackbarContent({
+          type: 'success',
+          message: data?.data?.message
+        });
       } else {
-        alert(data.data.message)
+        setSnackbarAlertOpen(true);
+        setSnackbarContent({
+          type: 'error',
+          message: data?.data?.message
+        });
       }
     }
   })
@@ -37,16 +50,16 @@ const ResetPassword = () => {
           <form action="" onSubmit={formik.handleSubmit}>
             <div className='mb-5'>
               <span className='text-xs font-semibold mb-1'>New Password</span>
-              <InputC type="new_password" name="new_password" id="" onChange={formik.handleChange}
+              <InputC type="password" name="password" id="" onChange={formik.handleChange}
                 value={formik.values.new_password} />
-              {formik.errors.new_password && formik.touched.new_password ? (
-                <div className='text-red-600 text-xs'>{formik.errors.new_password}</div>
+              {formik.errors.password && formik.touched.password ? (
+                <div className='text-red-600 text-xs'>{formik.errors.password}</div>
               ) : null}
             </div>
 
             <div className='mb-5'>
               <span className='text-xs font-semibold mb-1'>Confirm Password</span>
-              <InputC type="confirm_password" name="confirm_password" id="" onChange={formik.handleChange}
+              <InputC type="password" name="confirm_password" id="" onChange={formik.handleChange}
                 value={formik.values.confirm_password} />
               {formik.errors.confirm_password && formik.touched.confirm_password ? (
                 <div className='text-red-600 text-xs'>{formik.errors.confirm_password}</div>

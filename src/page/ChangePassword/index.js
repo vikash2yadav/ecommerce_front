@@ -1,28 +1,48 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import InputC from '../../components/InputC'
 import { useFormik } from 'formik'
+import {useNavigate} from 'react-router-dom';
 import { changePasswordInitialValues, changePasswordSchema } from './Schema'
 import { changePassword } from '../../apis/customer'
+import { CommonsContext } from '../../context/CommonContext';
 
 const ChangePassword = () => {
+    const navigate = useNavigate();
+    const { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+
     const formik = useFormik({
         initialValues: changePasswordInitialValues,
         validationSchema: changePasswordSchema,
         onSubmit: async (values) => {
             let data = await changePassword(values);
             if (data.status === 200) {
-                alert(data.data.message);
+                formik.resetForm();
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                  type: 'success',
+                  message: data?.data?.message
+                });
+                navigate('/login');
+            }else{
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                  type: 'error',
+                  message: data?.data?.message
+                })
             }
         }
     })
     return (
         <>
             <Header />
-            <div className='flex flex md:w-full justify-center items-center p-4 '>
-                <div className='md:w-1/3 w-full py-4'>
 
+            <div className='flex flex md:w-full justify-center items-center p-4 '>
+           
+
+                <div className='md:w-1/3 w-full py-4'>
+     
                     <h1 className='text-2xl font-bold mb-3 '>Change password</h1>
 
                     <form action="" onSubmit={formik.handleSubmit}>

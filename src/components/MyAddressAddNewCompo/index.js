@@ -5,12 +5,17 @@ import { useFormik } from 'formik'
 import { addAddressInitialValues, addAddressSchema } from './Schema'
 import { Link, useNavigate } from 'react-router-dom'
 import { CountryStateCitiesContext } from '../../context/CountryStateCityContext'
+import { CommonsContext } from '../../context/CommonContext'
 import { addMyNewAddress } from '../../apis/customer'
+import { getCityNameById, getStateNameById } from '../../apis/common'
 import TextArea from 'antd/es/input/TextArea'
+import { LoginsContext } from '../../context/LoginContext'
 
 const MyAddressAddNewCompo = () => {
     const navigate = useNavigate();
+    let { setDefaultAdd } = useContext(LoginsContext)
     const [hideInstruction, setHideInstruction] = useState(false);
+    const { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
     const { countries, getCountryList, cities, getCityList, states, getStateList } = useContext(CountryStateCitiesContext);
 
     const formik = useFormik({
@@ -18,8 +23,28 @@ const MyAddressAddNewCompo = () => {
         validationSchema: addAddressSchema,
         onSubmit: async (values) => {
             let data = await addMyNewAddress(values);
-            if (data) {
+            if (data.status === 200) {
+                formik.resetForm();
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'success',
+                    message: data?.data?.message
+                })
+                if(values?.is_default === true){
+                    localStorage.removeItem("defaultAdd");
+                    let cityName = await getCityNameById(values?.city_id);
+                    let stateName = await getStateNameById(values?.state_id);
+                    localStorage.setItem("defaultAdd", JSON.stringify({city: cityName?.data?.data?.name, state: stateName?.data?.data?.name, pincode: values?.pin_code}));
+                    let defaultAddress = JSON.parse(localStorage.getItem("defaultAdd"));
+                    setDefaultAdd(defaultAddress);
+                }
                 navigate('/my/account/address');
+            } else {
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'error',
+                    message: data?.data?.message
+                })
             }
         }
     })
@@ -109,10 +134,10 @@ const MyAddressAddNewCompo = () => {
                             ) : null}
 
                             <div className='flex items-center mt-5 mb-8'>
-                                <input type="checkbox" 
-                                name="is_default"
-                                onChange={formik.handleChange} 
-                                checked={formik.values.is_default} />
+                                <input type="checkbox"
+                                    name="is_default"
+                                    onChange={formik.handleChange}
+                                    checked={formik.values.is_default} />
                                 <p className='mx-1 text-sm font-semibold'>Make this my default address</p>
                             </div>
 
@@ -127,7 +152,7 @@ const MyAddressAddNewCompo = () => {
                                         <TextArea type="text" name="instruction" onChange={formik.handleChange} value={formik.values.instruction} />
                                     </>
                                 )
-                            }   
+                            }
 
                             <button type="submit" className='text-sm bg-yellow-400 shadow-xl md:w-1/4 w-full p-2 mt-5 rounded-xl mb-1.5'>Add address</button>
 

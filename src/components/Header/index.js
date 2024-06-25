@@ -10,42 +10,53 @@ import { LoginsContext } from '../../context/LoginContext';
 import { CartsContext } from '../../context/CartContext';
 import { CustomersContext } from '../../context/CustomerContext';
 import { signOut } from '../../apis/customer';
+import { CommonsContext } from '../../context/CommonContext';
 
 const Header = () => {
 
   const navigate = useNavigate();
-  let { isLoggedIn, auth } = useContext(LoginsContext);
+  let { isLoggedIn, UserLogOut, auth, defaultAdd } = useContext(LoginsContext);
   let { totalCustomerCartItems, setTotalCustomerCartItems, getAllCustomerCartItems } = useContext(CartsContext);
-  let { myDefaultAddress, setMyDefaultAddress, getCustomerDefaultAddress } = useContext(CustomersContext);
+  let { myDefaultAddress, getCustomerDefaultAddress } = useContext(CustomersContext);
+  let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
   const { languages, setLanguages, getAllLanguages } = useContext(LanguageContext);
   const [currentLang, setCurrentLang] = useState('');
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAccountList, setShowAccountList] = useState(false);
-  const [showBestSeller, setShowBestSeller] = useState(false)
+  const [showBestSeller, setShowBestSeller] = useState(false);
 
   let handleSignOut = async () => {
     let data = await signOut();
-    if(data.status === 200){
-      localStorage.removeItem("authorization");
-      localStorage.removeItem("token");
-      localStorage.removeItem("userData")
+    if (data.status === 200) {
+      setSnackbarAlertOpen(true)
+      setSnackbarContent({
+        type: 'success',
+        message: data?.data?.message
+      })
+      UserLogOut();
       navigate('/login');
+    } else {
+      setSnackbarAlertOpen(true)
+      setSnackbarContent({
+        type: 'error',
+        message: data?.data?.message
+      })
     }
 
   }
-
+ 
   useEffect(() => {
     getAllLanguages()
   }, [setLanguages])
 
   useEffect(() => {
     getCustomerDefaultAddress()
-  }, [setMyDefaultAddress])
+  }, [])
 
   useEffect(() => {
-    getAllCustomerCartItems()
+    getAllCustomerCartItems();
   }, [setTotalCustomerCartItems])
 
   return (
@@ -62,7 +73,8 @@ const Header = () => {
               <div className='text-xl'><FaLocationCrosshairs /></div>
               <div className='mx-1'>
                 <p className='text-xs text-gray-200'>{currentLang === '' ? '' : ''}
-                  <span className='text-xs font-semibold mx-1'>{isLoggedIn ? myDefaultAddress?.city?.name + ',' : null} {isLoggedIn ? myDefaultAddress?.state?.name + ' - ' : ''}{isLoggedIn && myDefaultAddress?.pin_code}</span>
+                 
+                  <span className='text-xs font-semibold mx-1'>{isLoggedIn && defaultAdd?.city + ',' } {isLoggedIn && defaultAdd?.state + ' - ' }{isLoggedIn && defaultAdd?.pincode}</span>
                 </p>
                 <p className='font-bold text-l'>Update location</p>
               </div>

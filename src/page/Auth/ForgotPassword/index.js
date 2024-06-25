@@ -1,14 +1,16 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { forgotPasswordInitialValues, forgotPasswordSchema, otpCheckInitialValues, otpCheckSchema } from './Schema';
 import { forgotPassword, otpVerification } from '../../../apis/user';
 import { Link, useNavigate } from 'react-router-dom';
 import InputC from '../../../components/InputC';
 import CommonFooter from '../CommonFooter';
+import { CommonsContext } from '../../../context/CommonContext';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [otpSuccess, setOtpSuccess] = useState(false);
+  let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
   const formik = useFormik({
     initialValues: forgotPasswordInitialValues,
@@ -16,10 +18,18 @@ const ForgotPassword = () => {
     onSubmit: async (values) => {
       let data = await forgotPassword(values);
       if (data.status === 200) {
-        alert(data.data.message)
+        setSnackbarAlertOpen(true);
+        setSnackbarContent({
+          type: 'success',
+          message: data?.data?.message
+        })
         setOtpSuccess(true);
       } else {
-        alert(data.data.message)
+        setSnackbarAlertOpen(true);
+        setSnackbarContent({
+          type: 'error',
+          message: data?.data?.message
+        })
       }
     }
   })
@@ -29,11 +39,20 @@ const ForgotPassword = () => {
     validationSchema: otpCheckSchema,
     onSubmit: async (values) => {
       let data = await otpVerification(values);
-      console.log(data)
       if (data.status === 200) {
-        navigate(`/reset_password/${data}`)
+        localStorage.setItem("user_id", data?.data?.user_id )
+        setSnackbarAlertOpen(true);
+        setSnackbarContent({
+          type: 'success',
+          message: data?.data?.message
+        })
+        navigate(`/reset_password`)
       } else {
-        alert(data.data.message)
+        setSnackbarAlertOpen(true);
+        setSnackbarContent({
+          type: 'error',
+          message: data?.data?.message
+        })
       }
     }
   })
@@ -80,7 +99,7 @@ const ForgotPassword = () => {
                 ) : null}
               </div>
 
-              <button className='mb-5 w-full bg-yellow-400 text-sm font-semibold border hover:bg-yellow-500 p-1 rounded-lg'> check Otp</button>
+              <button className='mb-5 w-full bg-yellow-400 text-sm font-semibold border hover:bg-yellow-500 p-1 rounded-lg'> Check Otp</button>
             </form>
           }
 
