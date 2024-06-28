@@ -22,7 +22,7 @@ const MyAddress = () => {
 
   let { setDefaultAdd } = useContext(LoginsContext)
   let { formIsEdit, setFormIsEdit } = useContext(CommonsContext)
-  let { myAddressList, setMyAddressList, getAllMyAddresses, getCustomerDefaultAddress } = useContext(CustomersContext);
+  let { myAddressList, setMyAddressList, getAllMyAddresses } = useContext(CustomersContext);
   const { countries, getCountryList, cities, getCityList, states, getStateList } = useContext(CountryStateCitiesContext);
   const { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
@@ -78,7 +78,6 @@ const MyAddress = () => {
         type: 'success',
         message: data?.data?.message
       })
-      getCustomerDefaultAddress();
       getAllMyAddresses();
       localStorage.removeItem("defaultAdd");
       localStorage.setItem("defaultAdd", JSON.stringify({ city: item?.city?.name, state: item?.state?.name, pincode: item?.pin_code }));
@@ -101,7 +100,6 @@ const MyAddress = () => {
         type: 'success',
         message: data?.data?.message
       })
-      getCustomerDefaultAddress();
       getAllMyAddresses();
       if (item?.is_default === 1) {
         localStorage.removeItem('defaultAdd');
@@ -119,23 +117,14 @@ const MyAddress = () => {
   let handleEditAddress = async (item) => {
     setFormIsEdit(true);
     setAddressData(item);
+    getCountryList();
+    getCityList();
+    getStateList();
   }
 
   const handleSelectChange = (name) => (value) => {
     formik.setFieldValue(name, value);
   };
-
-  useEffect(() => {
-    getCountryList()
-  }, []);
-
-  useEffect(() => {
-    getCityList()
-  }, []);
-
-  useEffect(() => {
-    getStateList()
-  }, []);
 
   useEffect(() => {
     getAllMyAddresses()

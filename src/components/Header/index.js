@@ -4,29 +4,21 @@ import { FaLocationCrosshairs } from "react-icons/fa6";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import { LanguageContext } from '../../context/LangContext';
-import { common } from '../../languages/common';
 import { LoginsContext } from '../../context/LoginContext';
-import { CartsContext } from '../../context/CartContext';
-import { CustomersContext } from '../../context/CustomerContext';
 import { signOut } from '../../apis/customer';
 import { CommonsContext } from '../../context/CommonContext';
 
 const Header = () => {
 
   const navigate = useNavigate();
-  let { isLoggedIn, UserLogOut, auth, defaultAdd } = useContext(LoginsContext);
-  let { totalCustomerCartItems, setTotalCustomerCartItems, getAllCustomerCartItems } = useContext(CartsContext);
-  let { myDefaultAddress, getCustomerDefaultAddress } = useContext(CustomersContext);
+  let { isLoggedIn, UserLogOut, userData, defaultAdd, cartItemsCount } = useContext(LoginsContext);
   let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
-
-  const { languages, setLanguages, getAllLanguages } = useContext(LanguageContext);
   const [currentLang, setCurrentLang] = useState('');
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAccountList, setShowAccountList] = useState(false);
   const [showBestSeller, setShowBestSeller] = useState(false);
-
+  
   let handleSignOut = async () => {
     let data = await signOut();
     if (data.status === 200) {
@@ -46,18 +38,6 @@ const Header = () => {
     }
 
   }
- 
-  useEffect(() => {
-    getAllLanguages()
-  }, [setLanguages])
-
-  useEffect(() => {
-    getCustomerDefaultAddress()
-  }, [])
-
-  useEffect(() => {
-    getAllCustomerCartItems();
-  }, [setTotalCustomerCartItems])
 
   return (
     <>
@@ -73,8 +53,8 @@ const Header = () => {
               <div className='text-xl'><FaLocationCrosshairs /></div>
               <div className='mx-1'>
                 <p className='text-xs text-gray-200'>{currentLang === '' ? '' : ''}
-                 
-                  <span className='text-xs font-semibold mx-1'>{isLoggedIn && defaultAdd?.city + ',' } {isLoggedIn && defaultAdd?.state + ' - ' }{isLoggedIn && defaultAdd?.pincode}</span>
+
+                  <span className='text-xs font-semibold mx-1'>{ defaultAdd?.city + ',' } {isLoggedIn && defaultAdd?.state + ' - '}{isLoggedIn && defaultAdd?.pincode}</span>
                 </p>
                 <p className='font-bold text-l'>Update location</p>
               </div>
@@ -102,7 +82,7 @@ const Header = () => {
           <div onMouseEnter={() => setShowAccountList(!showAccountList)}
             onMouseLeave={() => setShowAccountList(!showAccountList)}
             className='text-white text-sm flex justify-center items-end border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
-            <div className='px-1'><p className='text-xs'>Hello, <span>{isLoggedIn ? auth?.last_name : 'user'}</span></p>
+            <div className='px-1'><p className='text-xs'>Hello, <span>{isLoggedIn ? userData?.last_name : 'user'}</span></p>
 
               <p className='text-sm font-bold'>Account & lists</p>
             </div>
@@ -144,7 +124,7 @@ const Header = () => {
 
           <div onClick={() => navigate('/my/cart')} className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
             <div className='text-4xl'><FiShoppingCart /></div>
-            <span className='text-xl font-bold pt-4'> {totalCustomerCartItems ? totalCustomerCartItems : 0}  </span>
+            <span className='text-xl font-bold pt-4'> {cartItemsCount} </span>
           </div>
 
           <button type="button"
@@ -159,8 +139,9 @@ const Header = () => {
             onMouseLeave={() => setShowProfile(!showProfile)}
             className={`z-50 my-4 ${showProfile ? 'block' : 'hidden'} bg-white  absolute top-8 right-1 text-base list-none  divide-y rounded-lg shadow`} id="user-dropdown">
             <div className="px-4 py-3">
-              <span className="block text-sm text-black">{isLoggedIn ? auth?.full_name : 'user name'}</span>
-              <span className="block text-sm  text-purple-700 truncate">{isLoggedIn ? auth?.email : 'email'}</span>
+
+              <span className="block text-sm text-black">{isLoggedIn ? userData?.full_name : 'user name'}</span>
+              <span className="block text-sm  text-purple-700 truncate">{isLoggedIn ? userData?.email : 'email'}</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
@@ -196,7 +177,7 @@ const Header = () => {
                   English (US)
                 </button>
 
-                <div
+                {/* <div
                   onMouseEnter={() => setShowLanguageMenu(showLanguageMenu)}
                   onMouseLeave={() => setShowLanguageMenu(!showLanguageMenu)}
                   className={`z-50 ${showLanguageMenu ? 'block' : 'hidden'} rounded-xl absolute top-28 right-1 md:top-24 sm:top-28  my-2 text-base list-none divide-y divide-blue-100 rounded-lg shadow `} id="language-dropdown-menu">
@@ -219,10 +200,11 @@ const Header = () => {
                         </>)
 
                       })
-                    }
+                    } 
                   </ul>
 
-                </div>              </div>
+                </div>  */}
+              </div>
               <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 " aria-controls="navbar-user" aria-expanded="false">
                 <span className="sr-only">Open main menu</span>
                 <svg className="w-5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">

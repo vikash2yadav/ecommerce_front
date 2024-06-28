@@ -10,18 +10,19 @@ import { LanguageContext } from '../../context/LangContext';
 import { CommonsContext } from '../../context/CommonContext';
 import { CustomersContext } from '../../context/CustomerContext'
 import { LoginsContext } from '../../context/LoginContext'
+import DatePickerC from '../../components/DatePickerC'
 
 const MyProfile = () => {
-    let {auth} = useContext(LoginsContext)
+    let {setUserData} = useContext(LoginsContext)
     let { languages, setLanguages, getAllLanguages,  } = useContext(LanguageContext);
-    let { getCustomerProfileInfo, setCustomerProfileInfo, customerProfileInfo } = useContext(CustomersContext)
+    let { getCustomerProfileInfo, customerProfileInfo } = useContext(CustomersContext)
     const { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
     
-    // let genders = [
-    //     { name: 'Men', value: 'men' },
-    //     { name: 'Women', value: 'women' },
-    //     { name: 'Others', value: 'other' }
-    // ];
+    let genders = [
+        {id: 1, name: "Men", value: "men"},
+        {id: 2, name: "Women", value: "women"},
+        {id: 3, name: "Others", value: "others"},
+    ];
 
     const formik = useFormik({
         initialValues: {
@@ -32,7 +33,7 @@ const MyProfile = () => {
             contact_no: customerProfileInfo?.contact_no,
             alternative_country_code: customerProfileInfo?.alternative_country_code,
             alternative_contact_no: customerProfileInfo?.alternative_contact_no,
-            birth_date: customerProfileInfo?.birth_date,
+            birth_date: "2020-09-20",
             gender: customerProfileInfo?.gender,
             language_id: customerProfileInfo?.language_id
         },
@@ -46,6 +47,14 @@ const MyProfile = () => {
                     type: 'success',
                     message: data?.data?.message
                 })
+                let oldData = JSON.parse(localStorage.getItem('userData'));
+                oldData.first_name = data?.data?.data?.first_name;
+                oldData.last_name = data?.data?.data?.last_name;
+                oldData.full_name = data?.data?.data?.full_name;
+                oldData.email = data?.data?.data?.email;
+                oldData.username = data?.data?.data?.username;
+                localStorage.setItem('userData', JSON.stringify(oldData));
+                setUserData(JSON.parse(localStorage.getItem('userData')));
             } else {
                 setSnackbarAlertOpen(true);
                 setSnackbarContent({
@@ -100,22 +109,10 @@ const MyProfile = () => {
                                 <div className='text-red-600 text-xs'>{formik.errors.email}</div>
                             ) : null}
 
-                            <p className='text-sm font-semibold mb-1 mt-5'>Mobile Number country code</p>
-                            <SelectC />
-                            {formik.errors.country_code && formik.touched.country_code ? (
-                                <div className='text-red-600 text-xs'>{formik.errors.country_code}</div>
-                            ) : null}
-
                             <p className='text-sm font-semibold mb-1 mt-5'> Mobile Number</p>
                             <InputC value={formik.values.contact_no} type="tel" name="contact_no" onChange={formik.handleChange} />
                             {formik.errors.contact_no && formik.touched.contact_no ? (
                                 <div className='text-red-600 text-xs'>{formik.errors.contact_no}</div>
-                            ) : null}
-
-                            <p className='text-sm font-semibold mb-1 mt-5'>Alternate Mobile Number country code</p>
-                            <SelectC />
-                            {formik.errors.alternative_country_code && formik.touched.alternative_country_code ? (
-                                <div className='text-red-600 text-xs'>{formik.errors.alternative_country_code}</div>
                             ) : null}
 
                             <p className='text-sm font-semibold mb-1 mt-5'>Alternate Mobile Number</p>
@@ -125,13 +122,13 @@ const MyProfile = () => {
                             ) : null}
 
                             <p className='text-sm font-semibold mb-1 mt-5'>Birth date</p>
-                            <InputC value={formik.values.birth_date} type="text" name="birth_date" onChange={formik.handleChange} />
+                            <DatePickerC value={formik.values.birth_date} name="birth_date" onChange={formik.handleChange} />
                             {formik.errors.birth_date && formik.touched.birth_date ? (
                                 <div className='text-red-600 text-xs'>{formik.errors.birth_date}</div>
                             ) : null}
 
                             <p className='text-sm font-semibold mb-1 mt-5'>Gender</p>
-                            <SelectC name="gender" value={formik.values.gender} 
+                            <SelectC name="gender" options={genders} value={formik.values.gender} 
                             onChange={handleSelectChange('gender')} />
                             {formik.errors.gender && formik.touched.gender ? (
                                 <div className='text-red-600 text-xs'>{formik.errors.gender}</div>
