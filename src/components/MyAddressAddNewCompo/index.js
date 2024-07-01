@@ -30,11 +30,11 @@ const MyAddressAddNewCompo = () => {
                     type: 'success',
                     message: data?.data?.message
                 })
-                if(values?.is_default === true){
+                if (values?.is_default === true) {
                     localStorage.removeItem("defaultAdd");
                     let cityName = await getCityNameById(values?.city_id);
                     let stateName = await getStateNameById(values?.state_id);
-                    localStorage.setItem("defaultAdd", JSON.stringify({city: cityName?.data?.data?.name, state: stateName?.data?.data?.name, pincode: values?.pin_code}));
+                    localStorage.setItem("defaultAdd", JSON.stringify({ city: cityName?.data?.data?.name, state: stateName?.data?.data?.name, pincode: values?.pin_code }));
                     let defaultAddress = JSON.parse(localStorage.getItem("defaultAdd"));
                     setDefaultAdd(defaultAddress);
                 }
@@ -51,18 +51,34 @@ const MyAddressAddNewCompo = () => {
 
     const handleSelectChange = (name) => (value) => {
         formik.setFieldValue(name, value);
+        if(name === 'country_id'){
+            formik.setFieldValue('state_id', '');
+            formik.setFieldValue('city_id', '');
+            getStateList({
+                filters: [
+                    {
+                        "id": name,
+                        "value": value
+                    }
+                ]
+        });
+        }
+        if(name === 'state_id'){
+            getCityList({
+                filters: [
+                    {
+                        "id": name,
+                        "value": value
+                    }
+                ]
+        });
+        }
     };
 
     useEffect(() => {
         getCountryList()
-    }, []);
-
-    useEffect(() => {
-        getCityList()
-    }, []);
-
-    useEffect(() => {
         getStateList()
+        getCityList()
     }, []);
 
     return (
@@ -82,13 +98,6 @@ const MyAddressAddNewCompo = () => {
 
                     <form action="" onSubmit={formik.handleSubmit}>
                         <div className='flex flex-col w-full'>
-
-                            <p className='text-sm font-semibold mb-1 mt-5'>Country/Region</p>
-                            <SelectC name="country_id"
-                                onChange={handleSelectChange('country_id')} value={formik.values.country_id} options={countries} />
-                            {formik.errors.country_id && formik.touched.country_id ? (
-                                <div className='text-red-600 text-xs'>{formik.errors.country_id}</div>
-                            ) : null}
 
                             <p className='text-sm font-semibold mb-1 mt-5'>Full Name </p>
                             <InputC type="text" name="user_name" onChange={formik.handleChange} value={formik.values.user_name} />
@@ -121,10 +130,11 @@ const MyAddressAddNewCompo = () => {
                                 <div className='text-red-600 text-xs'>{formik.errors.pin_code}</div>
                             ) : null}
 
-                            <p className='text-sm font-semibold mb-1 mt-5'>Town/City</p>
-                            <SelectC options={cities} name="city_id" onChange={handleSelectChange('city_id')} value={formik.values.city_id} />
-                            {formik.errors.city_id && formik.touched.city_id ? (
-                                <div className='text-red-600 text-xs'>{formik.errors.city_id}</div>
+                            <p className='text-sm font-semibold mb-1 mt-5'>Country/Region</p>
+                            <SelectC name="country_id"
+                                onChange={handleSelectChange('country_id')} value={formik.values.country_id} options={countries} />
+                            {formik.errors.country_id && formik.touched.country_id ? (
+                                <div className='text-red-600 text-xs'>{formik.errors.country_id}</div>
                             ) : null}
 
                             <p className='text-sm font-semibold mb-1 mt-5'>State</p>
@@ -132,6 +142,13 @@ const MyAddressAddNewCompo = () => {
                             {formik.errors.state_id && formik.touched.state_id ? (
                                 <div className='text-red-600 text-xs'>{formik.errors.state_id}</div>
                             ) : null}
+                            
+                            <p className='text-sm font-semibold mb-1 mt-5'>Town/City</p>
+                            <SelectC options={cities} name="city_id" onChange={handleSelectChange('city_id')} value={formik.values.city_id} />
+                            {formik.errors.city_id && formik.touched.city_id ? (
+                                <div className='text-red-600 text-xs'>{formik.errors.city_id}</div>
+                            ) : null}
+
 
                             <div className='flex items-center mt-5 mb-8'>
                                 <input type="checkbox"

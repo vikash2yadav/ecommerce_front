@@ -6,29 +6,29 @@ export const CountryStateCityContext = ({ children }) => {
 
     const [countries, setCountries] = useState([]);
     const [totalCountries, setTotalCountries] = useState(null);
+    
+    const [states, setStates] = useState([]);
+    const [totalStates, setTotalStates] = useState(null);
 
     const [cities, setCities] = useState([]);
     const [totalCities, setTotalCities] = useState(null);
-
-    const [states, setStates] = useState([]);
-    const [totalStates, setTotalStates] = useState(null);
 
     const getCountryList = async () => {
         let data = await getAllCountryList();
         setCountries(data.data.data.rows);
         setTotalCountries(data.data.data.count);
     }
-
-    const getCityList = async () => {
-        let data = await getAllCityList();
-        setCities(data.data.data.rows);
-        setTotalCities(data.data.data.count);
-    }
-
-    const getStateList = async () => {
-        let data = await getAllStateList();
+    
+    const getStateList = async (body) => {
+        let data = await getAllStateList(body);
         setStates(data.data.data.rows);
         setTotalCountries(data.data.data.count);
+    }
+
+    const getCityList = async (body) => {
+        let data = await getAllCityList(body);
+        setCities(data.data.data.rows);
+        setTotalCities(data.data.data.count);
     }
     
     return (

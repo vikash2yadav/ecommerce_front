@@ -32,14 +32,9 @@ const ProductDetailComponent = ({ id }) => {
                     <div className=''>
                         <img className="h w-80 " src={activeImage} alt="" />
                     </div>
-
-                    {
-                        productData?.product_variants.map((i) => (
-                            <h1 className='text-red text-4xl'>{i.attribute_value.value}</h1>
-                        ))
-                    }
+                    
                     <div className='w-96 flex py-6 flex flex-col'>
-                        <h1 className='text-2xl text-gray-600 font-semibold mb-2'>{productData?.name}{productData?.product_variants?.attribute_value?.value} (5g) </h1>
+                        <h1 className='text-2xl text-gray-600 font-semibold mb-2'>{productData?.name}{productData?.product_variants?.attribute_value?.value} </h1>
                         <p className='flex font-semibold text-sm mb-6'>4.1 <span className='mx-2'><ReactStars value={4} /> </span>
                             |  <span className='mx-2'>19 reviews </span>| <Link to="" className='text-blue-600 mx-2 hover:underline'>Search this product</Link></p>
 
