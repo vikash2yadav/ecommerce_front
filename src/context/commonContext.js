@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2';
 import React, { createContext, useState } from 'react';
 import {SnackBarAlert} from '../components/SnackBarAlert'
 export const CommonsContext = createContext();

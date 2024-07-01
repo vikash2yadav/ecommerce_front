@@ -1,13 +1,22 @@
 import React, { useContext, useEffect } from 'react'
 import AdminSidebar from '../../../../components/Admin/AdminSidebar'
 import Table from '../../../../components/Table'
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import PaginationC from '../../../../components/PaginationC';
 import { CategoryContext } from '../../../../context/CategoryContext'
+import { CommonsContext } from '../../../../context/CommonContext'
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
+import InputC from '../../../../components/InputC'
+import { useFormik } from 'formik';
+import { addCategoryInitialValue, addCategorySchema } from './Schema';
+import TextAreaC from '../../../../components/TextAreaC'
+import ButtonC from '../../../../components/ButtonC'
+import { addCategory } from '../../../../apis/category';
 
 const Categories = () => {
     const { categories, setCategories, getAllCategories } = useContext(CategoryContext);
+    const { formIsOpen, setFormIsOpen } = useContext(CommonsContext);
+    const { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
     const columns = [
         {
@@ -49,7 +58,30 @@ const Categories = () => {
         },
     ];
 
-    useEffect(()=>{
+    const formik = useFormik({
+        initialValues: addCategoryInitialValue,
+        validationSchema: addCategorySchema,
+        onSubmit: async (values) => {
+            let data = await addCategory(values);
+            if (data?.status === 200) {
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'success',
+                    message: data.data.message
+                });
+                getAllCategories();
+                setFormIsOpen(false)
+            } else {
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'error',
+                    message: data.data.message
+                });
+            }
+        }
+    })
+
+    useEffect(() => {
         getAllCategories();
     }, [setCategories]);
 
@@ -64,7 +96,7 @@ const Categories = () => {
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
                     <div className='flex justify-end mb-2'>
-                        <Button>+ Add New</Button>
+                        <Button onClick={() => setFormIsOpen(true)}>+ Add New</Button>
                     </div>
 
                     <div className='overflow-x-auto'>
@@ -75,6 +107,27 @@ const Categories = () => {
 
                 </div>
             </div>
+
+            <Modal open={formIsOpen} onCancel={() => setFormIsOpen(false)} footer={null}>
+                <p className='text-xl font-semibold mt-3 mb-3'> Add Category </p>
+
+                <form action="" onSubmit={formik.handleSubmit}>
+                    <div className='mb-3'>
+                        <InputC placeholder="Name" name="name" value={formik.values.name} onChange={formik.handleChange} />
+                        {formik.errors.name && formik.touched.name ? (
+                            <div className='text-red-600 text-xs'>{formik.errors.name}</div>
+                        ) : null}
+                    </div>
+
+                    <div className='mb-3'>
+                        <TextAreaC placeholder="description" name="description" value={formik.values.description} onChange={formik.handleChange} />
+                        {formik.errors.description && formik.touched.description ? (
+                            <div className='text-red-600 text-xs'>{formik.errors.description}</div>
+                        ) : null}
+                    </div>
+                    <ButtonC type="submit" variant="outlined" label="Add" color="primary" />
+                </form>
+            </Modal>
         </>
     )
 }

@@ -33,6 +33,7 @@ const Table = ({ columns, data }) => {
                                 {row.cells.map(cell => {
                                     return <td class="px-6 py-6 font-medium whitespace-nowrap" {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
+                                
                             </tr>
                         );
                     })}
