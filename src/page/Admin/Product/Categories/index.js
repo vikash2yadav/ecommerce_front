@@ -15,8 +15,7 @@ import { addCategory } from '../../../../apis/category';
 
 const Categories = () => {
     const { categories, setCategories, getAllCategories } = useContext(CategoryContext);
-    const { formIsOpen, setFormIsOpen } = useContext(CommonsContext);
-    const { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+    const { formIsOpen, setFormIsOpen, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
     const columns = [
         {

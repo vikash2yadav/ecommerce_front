@@ -4,7 +4,7 @@ export const LanguageContext = createContext();
 
 export const LangContext = ({ children }) => {
     const [languages, setLanguages] = useState([]);
-    const [languageTotal, setLanguageTotal] = useState([]);
+    const [languageTotal, setLanguageTotal] = useState();
 
     const getAllLanguages = async () => {
         let data = await getLanguageList();

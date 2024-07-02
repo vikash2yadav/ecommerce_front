@@ -12,6 +12,7 @@ import { AdminContext } from "./AdminContext";
 import { CartContext } from "./CartContext";
 import { CountryStateCityContext } from "./CountryStateCityContext";
 import { CommonContext } from "./CommonContext";
+import { RoleContext } from "./RoleContext"
 
 // eslint-disable-next-line react/prop-types
 export const MainContext = ({ children }) => {
@@ -20,33 +21,35 @@ export const MainContext = ({ children }) => {
         <>
             <CommonContext>
                 <LoginContext>
-                    <CountryStateCityContext>
-                        <LangContext>
-                            <CustomerContext>
-                                <CartContext>
-                                    <AdminContext>
-                                        <PartnerContext>
-                                            <ProductContext>
-                                                <ProductVariantContext>
-                                                    <ProductFaqContext>
-                                                        <ProductReviewContext>
-                                                            <CatContext>
-                                                                <OrderContext>
+                    <RoleContext>
+                        <CountryStateCityContext>
+                            <LangContext>
+                                <CustomerContext>
+                                    <CartContext>
+                                        <AdminContext>
+                                            <PartnerContext>
+                                                <ProductContext>
+                                                    <ProductVariantContext>
+                                                        <ProductFaqContext>
+                                                            <ProductReviewContext>
+                                                                <CatContext>
+                                                                    <OrderContext>
 
-                                                                    {children}
+                                                                        {children}
 
-                                                                </OrderContext>
-                                                            </CatContext>
-                                                        </ProductReviewContext>
-                                                    </ProductFaqContext>
-                                                </ProductVariantContext>
-                                            </ProductContext>
-                                        </PartnerContext>
-                                    </AdminContext>
-                                </CartContext>
-                            </CustomerContext>
-                        </LangContext>
-                    </CountryStateCityContext>
+                                                                    </OrderContext>
+                                                                </CatContext>
+                                                            </ProductReviewContext>
+                                                        </ProductFaqContext>
+                                                    </ProductVariantContext>
+                                                </ProductContext>
+                                            </PartnerContext>
+                                        </AdminContext>
+                                    </CartContext>
+                                </CustomerContext>
+                            </LangContext>
+                        </CountryStateCityContext>
+                    </RoleContext>
                 </LoginContext>
             </CommonContext>
         </>
