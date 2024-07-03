@@ -1,18 +1,15 @@
-import {callPostApi} from './index';
+import {callApi} from './index';
 
 export async function getOrderList (body) {
-    let data = await callPostApi({url: 'http://localhost:8000/order/get/list', body});
-    return data;
+    return await callApi({method: "POST", url: 'http://localhost:8000/order/get/list', body});
 }
 
 export async function getOrderItemList (body) {
-    let data = await callPostApi({url: 'http://localhost:8000/order_item/get/list', body});
-    return data;
+    return await callApi({method: "POST", url: 'http://localhost:8000/order_item/get/list', body});
 }
 
 export async function getAllMyOrderList (body) {
-    let data = await callPostApi({url: 'http://localhost:8000/order/my/get/list', body});
-    return data;
+    return await callApi({method: "POST", url: 'http://localhost:8000/order/my/get/list', body});
 }
 
 

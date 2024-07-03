@@ -5,9 +5,12 @@ import { Button } from 'antd';
 import PaginationC from '../../../../components/PaginationC';
 import { PartnersContext } from "../../../../context/PartnerContext"
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
+import Form from './Form';
+import { CommonsContext } from '../../../../context/CommonContext'
 
 const Customers = () => {
     const { vendors, setVendors ,getAllVendors } = useContext(PartnersContext);
+    const { formIsOpen, setFormIsOpen } = useContext(CommonsContext);
 
     const columns = [
         {
@@ -93,6 +96,10 @@ const Customers = () => {
         },
     ];
 
+    const handleOpen = () => {
+        setFormIsOpen(true)
+    }
+
     useEffect(()=> {
         getAllVendors();
     }, [setVendors]);
@@ -107,7 +114,7 @@ const Customers = () => {
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
                     <div className='flex justify-end mb-2'>
-                        <Button>+ Add New</Button>
+                        <Button onClick={handleOpen}>+ Add New</Button>
                     </div>
 
                     <div className='overflow-x-auto'>
@@ -118,6 +125,7 @@ const Customers = () => {
 
                 </div>
             </div>
+            <Form formIsOpen={formIsOpen} setFormIsOpen={setFormIsOpen} />
         </>
     )
 }

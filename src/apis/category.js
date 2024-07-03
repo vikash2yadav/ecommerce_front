@@ -1,11 +1,9 @@
-import {callPostApi} from './index';
+import {callApi} from './index';
 
 export async function getCategoryList (body) {
-    let data = await callPostApi({url: 'http://localhost:8000/category/get/list', body});
-    return data;
+    return await callApi({method: "POST",url: 'http://localhost:8000/category/get/list', body});
 }
 
 export async function addCategory (body) {
-    let data = await callPostApi({url: 'http://localhost:8000/category/add', body});
-    return data;
+    return await callApi({method: "POST", url: 'http://localhost:8000/category/add', body});
 }

@@ -1,27 +1,27 @@
 import * as Yup from 'yup';
 
-export const addAdminInitialValue = {
+export const addCustomerInitialValue = {
     first_name: '',
     last_name: '',
     email: '',
     password: '',
     birth_date: '',
-    gender: '',
     contact_no: '',
-    alternative_contact_no: '',
+    gender: '',
+    // role_id: '',
     language_id: ''
 }
 
-export const addAdminSchema = Yup.object().shape({
+export const addCustomerSchema = Yup.object().shape({
     first_name: Yup.string().min(3, 'should be upto 3 character' ).required('Required'),
     last_name: Yup.string().min(3, 'should be upto 3 character' ).required('Required'),
     email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string().min(6, 'should be upto 6 character' ).required('Required'),
     birth_date: Yup.date().required('Required'),
     gender: Yup.number().required('Required'),
-    contact_no: Yup.string().required('Required'),
-    alternative_contact_no: Yup.string(),
+    // role_id: Yup.number().required('Required'),
     language_id: Yup.number().required('Required'),
+    contact_no: Yup.string().required('Required')
 })
 
 

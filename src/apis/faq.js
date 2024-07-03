@@ -1,6 +1,5 @@
-import {callPostApi} from './index';
+import {callApi} from './index';
 
 export async function getProductFaqList (body) {
-    let data = await callPostApi({url: 'http://localhost:8000/product_faq/get/list', body});
-    return data;
+    return await callApi({method: "POST", url: 'http://localhost:8000/product_faq/get/list', body});
 }
