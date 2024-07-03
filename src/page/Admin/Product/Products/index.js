@@ -10,9 +10,11 @@ import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 import Form from './Form'
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { PartnersContext } from '../../../../context/PartnerContext';
 
 const Products = () => {
     const { getAllCategories } = useContext(CategoryContext);
+    const { getAllVendors } = useContext(PartnersContext);
     const { products, getAllProducts } = useContext(ProductsContext);
     const { formIsOpen, setFormIsOpen } = useContext(CommonsContext);
 
@@ -69,6 +71,7 @@ const Products = () => {
     const handleOpen = () => {
         setFormIsOpen(true);
         getAllCategories();
+        getAllVendors();
     }
 
     useEffect(() => {

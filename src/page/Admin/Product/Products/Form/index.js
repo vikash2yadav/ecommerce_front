@@ -10,10 +10,12 @@ import { CommonsContext } from '../../../../../context/CommonContext'
 import { addProductApi } from '../../../../../apis/product'
 import { ProductsContext } from '../../../../../context/ProductContext'
 import { CategoryContext } from "../../../../../context/CategoryContext"
+import { PartnersContext } from "../../../../../context/PartnerContext"
 
 const Form = (props) => {
   const { categories } = useContext(CategoryContext);
   const { getAllProducts } = useContext(ProductsContext);
+  const { vendors } = useContext(PartnersContext);
   const { setFormIsOpen, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
   const formik = useFormik({
@@ -50,6 +52,14 @@ const Form = (props) => {
 
                 <form action="" onSubmit={formik.handleSubmit}>
    
+                <div className='mb-3'>
+                    <p className='text-sm'>Title</p>
+                        <InputC className='w-full' name="title" value={formik.values.title} onChange={handleChange} />
+                        {formik.errors.title && formik.touched.title ? (
+                            <div className='text-red-600 text-xs'>{formik.errors.title}</div>
+                        ) : null}
+                    </div>   
+
                      <div className='mb-3'>
                      <p className='text-sm'>Product Name</p>
                         <InputC  name="name" value={formik.values.name} onChange={formik.handleChange} />
@@ -71,6 +81,14 @@ const Form = (props) => {
                         <SelectC options={categories} className='w-full' name="category_id" value={formik.values.category_id} onChange={handleChange} />
                         {formik.errors.category_id && formik.touched.category_id ? (
                             <div className='text-red-600 text-xs'>{formik.errors.category_id}</div>
+                        ) : null}
+                    </div>     
+
+                    <div className='mb-3'>
+                    <p className='text-sm'>Vendor</p>
+                        <SelectC options={vendors} className='w-full' name="Vendor_id" value={formik.values.Vendor_id} onChange={handleChange} />
+                        {formik.errors.Vendor_id && formik.touched.Vendor_id ? (
+                            <div className='text-red-600 text-xs'>{formik.errors.Vendor_id}</div>
                         ) : null}
                     </div>          
 
