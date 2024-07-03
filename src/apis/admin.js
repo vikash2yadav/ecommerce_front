@@ -9,6 +9,6 @@ export async function addAdminApi (body) {
 }
 
 export async function changeAdminPassword (body) {
-    return await callApi({method: "GET", url: 'http://localhost:8000/admin/change_password', body});
+    return await callApi({method: "PUT", url: 'http://localhost:8000/admin/change_password', body});
 }
 
