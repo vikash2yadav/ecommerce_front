@@ -4,26 +4,40 @@ import { FaLocationCrosshairs } from "react-icons/fa6";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import { LanguageContext } from '../../context/LangContext';
-import { common } from '../../languages/common';
+import { LoginsContext } from '../../context/LoginContext';
+import { signOut } from '../../apis/customer';
+import { CommonsContext } from '../../context/CommonContext';
 
 const Header = () => {
-  const { languages } = useContext(LanguageContext)
-  const [currentLang, setCurrentLang] = useState('');
+
   const navigate = useNavigate();
+  let { isLoggedIn, UserLogOut, userData, defaultAdd, cartItemsCount } = useContext(LoginsContext);
+  let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+  const [currentLang, setCurrentLang] = useState('');
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAccountList, setShowAccountList] = useState(false);
   const [showBestSeller, setShowBestSeller] = useState(false);
+  
+  let handleSignOut = async () => {
+    let data = await signOut();
+    if (data.status === 200) {
+      setSnackbarAlertOpen(true)
+      setSnackbarContent({
+        type: 'success',
+        message: data?.data?.message
+      })
+      UserLogOut();
+      navigate('/login');
+    } else {
+      setSnackbarAlertOpen(true)
+      setSnackbarContent({
+        type: 'error',
+        message: data?.data?.message
+      })
+    }
 
-  const updateLang = (code) => {
-    setCurrentLang(code);
   }
-
-  useEffect(()=>{
-    let code = localStorage.getItem('lang');
-    setCurrentLang(code);
-  },[])
 
   return (
     <>
@@ -34,13 +48,14 @@ const Header = () => {
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
             {/* <span className="self-center text-2xl font-semibold whitespace-nowrap blue:text-white"></span> */}
           </Link>
-
           <Link to="/my/account/address">
             <div className='text-white flex justify-center items-center border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
               <div className='text-xl'><FaLocationCrosshairs /></div>
               <div className='mx-1'>
                 <p className='text-xs text-gray-200'>{currentLang === '' ? '' : ''}
-                  <span className='text-xs font-semibold mx-1'>Ahmedabad, Gujarat-380026</span> </p>
+
+                  <span className='text-xs font-semibold mx-1'>{ defaultAdd?.city + ',' } {isLoggedIn && defaultAdd?.state + ' - '}{isLoggedIn && defaultAdd?.pincode}</span>
+                </p>
                 <p className='font-bold text-l'>Update location</p>
               </div>
             </div>
@@ -67,7 +82,8 @@ const Header = () => {
           <div onMouseEnter={() => setShowAccountList(!showAccountList)}
             onMouseLeave={() => setShowAccountList(!showAccountList)}
             className='text-white text-sm flex justify-center items-end border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
-            <div className='px-1'><p className='text-xs'>Hello, user</p>
+            <div className='px-1'><p className='text-xs'>Hello, <span>{isLoggedIn ? userData?.last_name : 'user'}</span></p>
+
               <p className='text-sm font-bold'>Account & lists</p>
             </div>
             <div className='text-gray-200'><FaAngleDown /></div>
@@ -76,9 +92,16 @@ const Header = () => {
           <div onMouseEnter={() => setShowAccountList(showAccountList)}
             onMouseLeave={() => setShowAccountList(!showAccountList)}
             className={`z-50 w-64 my-4 ${showAccountList ? 'block' : 'hidden'}  bg-white text-black absolute top-10 right-40 text-base list-none divide-y rounded-lg shadow`} id="user-dropdown">
+
             <div className="px-4 py-3 flex justify-center items-center flex-col">
-              <button className='mb-1 w-48 bg-yellow-400 text-xs font-semibold border hover:underline p-2 rounded-lg' onClick={() => navigate('/login')}> Sign In</button>
-              <p className='text-xs'> New user? <span className='text-xs text-blue-500 hover:underline hover:text-red-500'><Link to="/register">Sign Up</Link></span></p>
+              {
+                !isLoggedIn && (
+                  <>
+                    <button className='mb-1 w-48 bg-yellow-400 text-xs font-semibold border hover:underline p-2 rounded-lg' onClick={() => navigate('/login')}> Sign In</button>
+                    <p className='text-xs'> New user? <span className='text-xs text-blue-500 hover:underline hover:text-red-500'><Link to="/register">Sign Up</Link></span></p>
+                  </>
+                )
+              }
             </div>
 
             <ul className="py-2" aria-labelledby="user-menu-button">
@@ -92,7 +115,7 @@ const Header = () => {
                 <Link to="/my/wishlist" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Wish List</Link>
               </li>
               <li>
-                <a href="#" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</a>
+                <Link to="/" className="block px-4 py-0.5 text-sm hover:underline hover:text-red-700">Your Recomendations</Link>
               </li>
             </ul>
 
@@ -101,7 +124,7 @@ const Header = () => {
 
           <div onClick={() => navigate('/my/cart')} className='text-white flex  border rounded-lg cursor-pointer border-transparent hover:border-white p-1'>
             <div className='text-4xl'><FiShoppingCart /></div>
-            <span className='text-ms font-bold pt-4'>Cart</span>
+            <span className='text-xl font-bold pt-4'> {cartItemsCount} </span>
           </div>
 
           <button type="button"
@@ -116,8 +139,9 @@ const Header = () => {
             onMouseLeave={() => setShowProfile(!showProfile)}
             className={`z-50 my-4 ${showProfile ? 'block' : 'hidden'} bg-white  absolute top-8 right-1 text-base list-none  divide-y rounded-lg shadow`} id="user-dropdown">
             <div className="px-4 py-3">
-              <span className="block text-sm text-black">Bonnie Green</span>
-              <span className="block text-sm  text-purple-700 truncate">name@flowbite.com</span>
+
+              <span className="block text-sm text-black">{isLoggedIn ? userData?.full_name : 'user name'}</span>
+              <span className="block text-sm  text-purple-700 truncate">{isLoggedIn ? userData?.email : 'email'}</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
@@ -130,7 +154,7 @@ const Header = () => {
                 <Link href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Settings</Link>
               </li>
               <li>
-                <Link href="#" className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Sign out</Link>
+                <Link onClick={handleSignOut} className="block px-4 py-1.5 text-sm hover:underline hover:text-red-700">Sign out</Link>
               </li>
             </ul>
 
@@ -153,7 +177,7 @@ const Header = () => {
                   English (US)
                 </button>
 
-                <div
+                {/* <div
                   onMouseEnter={() => setShowLanguageMenu(showLanguageMenu)}
                   onMouseLeave={() => setShowLanguageMenu(!showLanguageMenu)}
                   className={`z-50 ${showLanguageMenu ? 'block' : 'hidden'} rounded-xl absolute top-28 right-1 md:top-24 sm:top-28  my-2 text-base list-none divide-y divide-blue-100 rounded-lg shadow `} id="language-dropdown-menu">
@@ -163,7 +187,7 @@ const Header = () => {
                         return (<>
                           <li onClick={() => {
                             localStorage.setItem("lang", item.code);
-                            updateLang(item.code);
+
                           }}>
                             <Link className="block px-4 py-1 text-xs text-black hover:border hover:underline hover:border-gray-600" role="menuitem">
                               <div className="inline-flex items-center ">
@@ -176,10 +200,11 @@ const Header = () => {
                         </>)
 
                       })
-                    }
+                    } 
                   </ul>
 
-                </div>              </div>
+                </div>  */}
+              </div>
               <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 " aria-controls="navbar-user" aria-expanded="false">
                 <span className="sr-only">Open main menu</span>
                 <svg className="w-5 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">

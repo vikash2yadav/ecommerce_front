@@ -12,7 +12,7 @@ const MyAccountCompo2 = ({ heading, links }) => {
                 {
                     links.map((item) => {   
                         return (
-                            <Link className='text-sm text-blue-800 hover:text-red-600 hover:underline'>{item.link}</Link>
+                            <Link to={item.to} className='text-sm text-blue-800 hover:text-red-600 hover:underline'>{item.link}</Link>
                         )
                     })
                 }

@@ -4,19 +4,17 @@ export const LanguageContext = createContext();
 
 export const LangContext = ({ children }) => {
     const [languages, setLanguages] = useState([]);
+    const [languageTotal, setLanguageTotal] = useState();
 
     const getAllLanguages = async () => {
         let data = await getLanguageList();
         setLanguages(data.data.data.rows)
+        setLanguageTotal(data.data.data.count);
     }
 
-    useEffect(()=> {
-        getAllLanguages();
-    },[languages]);
-
-    return (    
+    return (
         <LanguageContext.Provider value={{
-            languages, setLanguages
+            languages, setLanguages, getAllLanguages, languageTotal, setLanguageTotal
         }}>
             {children}
         </LanguageContext.Provider>

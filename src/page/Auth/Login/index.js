@@ -1,14 +1,20 @@
 import { useFormik } from 'formik';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { TfiAlert } from "react-icons/tfi";
 import { Link, useNavigate } from 'react-router-dom';
 import { loginInitialValues, loginSchema } from './Schema';
 import InputC from '../../../components/InputC';
 import { signIn } from '../../../apis/user';
 import CommonFooter from '../CommonFooter';
+import { LoginsContext } from '../../../context/LoginContext';
+import { CommonsContext } from '../../../context/CommonContext';
 
 const Login = () => {
     const navigate = useNavigate();
+
+    let {UserLogin} = useContext(LoginsContext);
+    let { setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+
     const [passwordError, setPasswordError] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -16,13 +22,20 @@ const Login = () => {
         initialValues: loginInitialValues,
         validationSchema: loginSchema,
         onSubmit: async (values) => {
-            console.log(values)
             let data = await signIn(values);
             if (data.status === 200) {
-                navigate('/')
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'success',
+                    message: data.data.message
+                })
+                UserLogin(data.data.data);
             } else {
-                setPasswordError(true);
-                setErrorMessage(data.data.message)
+                setSnackbarAlertOpen(true);
+                setSnackbarContent({
+                    type: 'error',
+                    message: data.data.message
+                })
             }
         }
     })
@@ -92,7 +105,7 @@ const Login = () => {
             <div className='flex flex-col justify-center items-center'>
 
                 <span className='text-xs mb-3'> New to Ecommerce?</span>
-                <button className='mb-5 w-72 md:w-80 bg-white text-sm font-semibold border hover:bg-yellow-500 border-gray-300 p-1 rounded-lg  '> Create your account</button>
+                <button onClick={()=>navigate('/register')} className='mb-5 w-72 md:w-80 bg-white text-sm font-semibold border hover:bg-yellow-500 border-gray-300 p-1 rounded-lg  '> Create your account</button>
 
             </div>
             <hr className='h-0.5 mx-20 mb-4' />

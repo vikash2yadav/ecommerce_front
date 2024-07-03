@@ -1,15 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import ReactStars from 'react-stars'
 import { FaLocationDot } from "react-icons/fa6";
 import ProductDetailReviews from '../ProductDetailReviews';
+import { getProductById } from '../../apis/product'
 
-const ProductDetailComponent = () => {
-
+const ProductDetailComponent = ({ id }) => {
+    const [productData, setProductData] = useState();
     const [activeImage, setActiveImage] = useState('https://m.media-amazon.com/images/I/41Q+oC53k+L._AC_SY400_.jpg');
+
+    let getProductBySlug = async () => {
+        let data = await getProductById(id);
+        setProductData(data?.data?.data);
+        console.log(data?.data?.data)
+    }
+
+    useEffect(() => {
+        getProductBySlug();
+    }, []);
+
     return (
         <>
-
             <div className='w-full px-4 flex '>
                 <div className='flex flex-col'>
                     <img className="h-14 w-14 mt-10 pointer" onClick={() => setActiveImage('https://m.media-amazon.com/images/I/41Q+oC53k+L._AC_SY400_.jpg')} src="https://m.media-amazon.com/images/I/41Q+oC53k+L._AC_SY400_.jpg" alt="" />
@@ -21,9 +32,9 @@ const ProductDetailComponent = () => {
                     <div className=''>
                         <img className="h w-80 " src={activeImage} alt="" />
                     </div>
-
+                    
                     <div className='w-96 flex py-6 flex flex-col'>
-                        <h1 className='text-2xl text-gray-600 font-semibold mb-2'>Vivo 17 Pro Max (5g) </h1>
+                        <h1 className='text-2xl text-gray-600 font-semibold mb-2'>{productData?.name}{productData?.product_variants?.attribute_value?.value} </h1>
                         <p className='flex font-semibold text-sm mb-6'>4.1 <span className='mx-2'><ReactStars value={4} /> </span>
                             |  <span className='mx-2'>19 reviews </span>| <Link to="" className='text-blue-600 mx-2 hover:underline'>Search this product</Link></p>
 
@@ -95,7 +106,7 @@ const ProductDetailComponent = () => {
                 </div>
             </div>
 
-            <ProductDetailReviews/>
+            <ProductDetailReviews />
         </>
     )
 }
