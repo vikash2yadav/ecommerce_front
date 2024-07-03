@@ -4,10 +4,17 @@ import Table from '../../../../components/Table'
 import { Button } from 'antd';
 import PaginationC from '../../../../components/PaginationC';
 import { ProductsContext } from '../../../../context/ProductContext'
+import { CommonsContext } from '../../../../context/CommonContext'
+import { CategoryContext } from "../../../../context/CategoryContext"
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
+import Form from './Form'
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteOutline } from "react-icons/md";
 
 const Products = () => {
-    const { products, setProducts, getAllProducts } = useContext(ProductsContext);
+    const { getAllCategories } = useContext(CategoryContext);
+    const { products, getAllProducts } = useContext(ProductsContext);
+    const { formIsOpen, setFormIsOpen } = useContext(CommonsContext);
 
     const columns = [
         {
@@ -15,43 +22,58 @@ const Products = () => {
             accessor: 'id',
         },
         {
+            Header: 'Vendor',
+            accessor: 'vendor_id',
+        },
+        {
             Header: 'Name',
             accessor: 'name',
         },
         {
-            Header: 'Slug',
-            accessor: 'slug',
+            Header: 'Title',
+            accessor: 'title',
         },
         {
             Header: 'Description',
             accessor: 'description',
         },
         {
-            Header: 'Created by',
-            accessor: 'created_by',
-        },
-        {
-            Header: 'Updated by',
-            accessor: 'updated_by',
+            Header: 'Category',
+            accessor: 'category_id',
         },
         {
             Header: 'Status',
             accessor: 'status',
+            Cell: ({ row }) => (
+               <button>status</button>
+            )
         },
         {
             Header: 'Action',
             accessor: 'action',
-            component: (
-                <>
-
-                </>
+            Cell: ({ row }) => (
+                <div className='flex justify-center items-center'>
+                    <FiEdit
+                        // onClick={() => handleEdit(row)}
+                        className="text-blue-600 text-xl hover:text-blue-900"
+                    />
+                    <MdDeleteOutline
+                        // onClick={() => handleDelete(row)}
+                        className="text-red-600 text-2xl hover:text-red-900 ml-2"
+                    />
+                </div>
             )
         },
     ];
 
-    useEffect(()=>{
+    const handleOpen = () => {
+        setFormIsOpen(true);
+        getAllCategories();
+    }
+
+    useEffect(() => {
         getAllProducts();
-    }, [setProducts]);
+    }, []);
 
     return (
         <>
@@ -63,7 +85,7 @@ const Products = () => {
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
                     <div className='flex justify-end mb-2'>
-                        <Button>+ Add New</Button>
+                        <Button onClick={handleOpen}>+ Add New</Button>
                     </div>
 
                     <div className='overflow-x-auto'>
@@ -74,6 +96,8 @@ const Products = () => {
 
                 </div>
             </div>
+
+            <Form setFormIsOpen={setFormIsOpen} formIsOpen={formIsOpen} />
         </>
     )
 }

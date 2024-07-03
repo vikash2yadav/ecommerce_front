@@ -12,6 +12,8 @@ import { addCategoryInitialValue, addCategorySchema } from './Schema';
 import TextAreaC from '../../../../components/TextAreaC'
 import ButtonC from '../../../../components/ButtonC'
 import { addCategory } from '../../../../apis/category';
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteOutline } from "react-icons/md";
 
 const Categories = () => {
     const { categories, setCategories, getAllCategories } = useContext(CategoryContext);
@@ -49,11 +51,19 @@ const Categories = () => {
         {
             Header: 'Action',
             accessor: 'action',
-            component: (
-                <>
-
-                </>
+            Cell: ({ row }) => (
+                <div className='flex justify-center items-center'>
+                    <FiEdit
+                        // onClick={() => handleEdit(row)}
+                        className="text-blue-600 text-xl hover:text-blue-900"
+                    />
+                    <MdDeleteOutline
+                        // onClick={() => handleDelete(row)}
+                        className="text-red-600 text-2xl hover:text-red-900 ml-2"
+                    />
+                </div>
             )
+
         },
     ];
 

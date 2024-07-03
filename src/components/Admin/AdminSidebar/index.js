@@ -102,9 +102,9 @@ const AdminSidebar = () => {
               <li>
                 <Link to="/admin/dashboard/products" className="flex text-white hover:bg-gray-400 items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Products</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/admin/dashboard/product_variants" className="flex text-white hover:bg-gray-400 items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Product Variants</Link>
-              </li>
+              </li> */}
             </ul>
 
             <button onClick={() => handleUserToggle(UserToggle)} type="button" className="text-white hover:bg-gray-400 flex items-center w-full p-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100 " aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">

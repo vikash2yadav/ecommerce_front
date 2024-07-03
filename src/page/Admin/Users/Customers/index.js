@@ -8,7 +8,8 @@ import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 import { CommonsContext } from '../../../../context/CommonContext'
 import Form from './Form';
 import { LanguageContext } from '../../../../context/LangContext';
-// import { RolesContext } from '../../../../context/RoleContext';
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteOutline } from "react-icons/md";
 
 const Customers = () => {
     const { customers, setCustomers, getAllCustomers } = useContext(CustomersContext);
@@ -87,11 +88,19 @@ const Customers = () => {
         {
             Header: 'Action',
             accessor: 'action',
-            component: (
-                <>
-
-                </>
+            Cell: ({ row }) => (
+                <div className='flex justify-center items-center'>
+                    <FiEdit
+                        // onClick={() => handleEdit(row)}
+                        className="text-blue-600 text-xl hover:text-blue-900"
+                    />
+                    <MdDeleteOutline
+                        // onClick={() => handleDelete(row)}
+                        className="text-red-600 text-2xl hover:text-red-900 ml-2"
+                    />
+                </div>
             )
+
         },
     ];
 

@@ -4,7 +4,7 @@ export const CommonsContext = createContext();
 
 export const CommonContext = ({ children }) => {
     const [snackbarAlertOpen, setSnackbarAlertOpen] = useState(false);
-    const [snackbarContent, setSnackbarContent] = useState({'abc':'dddd'});
+    const [snackbarContent, setSnackbarContent] = useState({});
 
     const [formIsOpen, setFormIsOpen] = useState(false);
     const [formIsEdit, setFormIsEdit] = useState(false);
