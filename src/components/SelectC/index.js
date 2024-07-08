@@ -5,7 +5,7 @@ const { Option } = Select;
 
 const SelectC = ({ className, defaultValue, options, value, onChange }) => {
   return (
-    <Select defaultValue={defaultValue} className={className} value={value} onChange={onChange}>
+    <Select showSearch defaultValue={defaultValue} className={className} value={value} onChange={onChange}>
       {options && options.map((item) => (
         <Option key={item.id} value={item.id}>
           {item.name}

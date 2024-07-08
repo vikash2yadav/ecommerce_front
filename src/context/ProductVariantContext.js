@@ -8,8 +8,10 @@ export const ProductVariantContext = ({ children }) => {
 
     const getAllProductVariants = async () => {
         let data = await getProductVariantList();
-        setProductVariants(data.data.data.rows);
-        setTotalProductVariants(data.data.data.count);
+        if (data?.status === 200) {
+            setProductVariants(data.data.data.rows);
+            setTotalProductVariants(data.data.data.count);
+        }
     }
 
     return (

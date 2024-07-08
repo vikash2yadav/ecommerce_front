@@ -1,23 +1,47 @@
-import React, { useContext, useEffect } from 'react'
-import AdminSidebar from '../../../../components/Admin/AdminSidebar'
-import Table from '../../../../components/Table'
-import { Button, Modal } from 'antd';
+import React, { useContext, useEffect } from 'react';
+import Form from './Form'
+import AdminSidebar from '../../../../components/Admin/AdminSidebar';
+import Table from '../../../../components/Table';
+import { Button } from 'antd';
 import PaginationC from '../../../../components/PaginationC';
-import { CategoryContext } from '../../../../context/CategoryContext'
-import { CommonsContext } from '../../../../context/CommonContext'
+import { CategoryContext } from '../../../../context/CategoryContext';
+import { CommonsContext } from '../../../../context/CommonContext';
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
-import InputC from '../../../../components/InputC'
-import { useFormik } from 'formik';
-import { addCategoryInitialValue, addCategorySchema } from './Schema';
-import TextAreaC from '../../../../components/TextAreaC'
-import ButtonC from '../../../../components/ButtonC'
-import { addCategory } from '../../../../apis/category';
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import ButtonC from '../../../../components/ButtonC';
+import { getCategoryById, deleteCategory } from '../../../../apis/category';
 
 const Categories = () => {
-    const { categories, setCategories, getAllCategories } = useContext(CategoryContext);
-    const { formIsOpen, setFormIsOpen, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+    const { categories, getAllCategories, setEditData } = useContext(CategoryContext);
+    const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+
+    const handleEdit = async (id) => {
+        let data = await getCategoryById(id);
+        if (data?.status === 200) {
+            setEditData(data?.data?.data);
+        }
+        setFormIsEdit(true);
+        setFormIsOpen(false);
+    }
+
+    const handleDelete = async (row) => {
+        let data = await deleteCategory(row);
+        if (data?.status === 200) {
+            setSnackbarAlertOpen(true);
+            setSnackbarContent({
+                type: 'success',
+                message: data?.data?.message
+            })
+            getAllCategories();
+        } else {
+            setSnackbarAlertOpen(true);
+            setSnackbarContent({
+                type: 'error',
+                message: data?.data?.message
+            })
+        }
+    }
 
     const columns = [
         {
@@ -33,62 +57,69 @@ const Categories = () => {
             accessor: 'description',
         },
         {
+            Header: 'Parent Category',
+            accessor: 'parent_id',
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.category?.name ? row?.original?.category?.name : '-'
+                )
+            }
+        },
+        {
             Header: 'Created by',
             accessor: 'created_by',
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.admins?.name ? row?.original?.admins?.name : '-'
+                )
+            }
         },
         {
             Header: 'Updated by',
             accessor: 'updated_by',
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.admins?.name ? row?.original?.admins?.name : '-'
+                )
+            }
         },
         {
             Header: 'Status',
             accessor: 'status',
+            Cell: ({ row }) => {
+                return (
+                    <ButtonC label="Active" variant="contained" color="success" />
+                )
+            }
         },
         {
             Header: 'Action',
             accessor: 'action',
             Cell: ({ row }) => (
-                <div className='flex justify-center items-center'>
+                <div className='flex justify-evenly items-center'>
+
                     <FiEdit
-                        // onClick={() => handleEdit(row)}
-                        className="text-blue-600 text-xl hover:text-blue-900"
+                        onClick={() => handleEdit(row?.original?.id)}
+                        className="text-blue-600 text-xl hover:text-blue-900 hover:cursor-pointer"
                     />
                     <MdDeleteOutline
-                        // onClick={() => handleDelete(row)}
-                        className="text-red-600 text-2xl hover:text-red-900 ml-2"
+                        onClick={() => handleDelete(row?.original?.id)}
+                        className="text-red-600 text-2xl hover:text-red-900 ml-2 hover:cursor-pointer"
                     />
                 </div>
             )
-
         },
     ];
 
-    const formik = useFormik({
-        initialValues: addCategoryInitialValue,
-        validationSchema: addCategorySchema,
-        onSubmit: async (values) => {
-            let data = await addCategory(values);
-            if (data?.status === 200) {
-                setSnackbarAlertOpen(true);
-                setSnackbarContent({
-                    type: 'success',
-                    message: data.data.message
-                });
-                getAllCategories();
-                setFormIsOpen(false)
-            } else {
-                setSnackbarAlertOpen(true);
-                setSnackbarContent({
-                    type: 'error',
-                    message: data.data.message
-                });
-            }
-        }
-    })
+    const handleOpen = () => {
+        setFormIsOpen(true);
+        setFormIsEdit(false);
+        // getAllCategories();
+    }
 
     useEffect(() => {
         getAllCategories();
-    }, [setCategories]);
+    }, []);
 
     return (
         <>
@@ -101,7 +132,7 @@ const Categories = () => {
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
                     <div className='flex justify-end mb-2'>
-                        <Button onClick={() => setFormIsOpen(true)}>+ Add New</Button>
+                        <Button onClick={handleOpen}>+ Add New</Button>
                     </div>
 
                     <div className='overflow-x-auto'>
@@ -113,26 +144,7 @@ const Categories = () => {
                 </div>
             </div>
 
-            <Modal open={formIsOpen} onCancel={() => setFormIsOpen(false)} footer={null}>
-                <p className='text-xl font-semibold mt-3 mb-3'> Add Category </p>
-
-                <form action="" onSubmit={formik.handleSubmit}>
-                    <div className='mb-3'>
-                        <InputC placeholder="Name" name="name" value={formik.values.name} onChange={formik.handleChange} />
-                        {formik.errors.name && formik.touched.name ? (
-                            <div className='text-red-600 text-xs'>{formik.errors.name}</div>
-                        ) : null}
-                    </div>
-
-                    <div className='mb-3'>
-                        <TextAreaC placeholder="description" name="description" value={formik.values.description} onChange={formik.handleChange} />
-                        {formik.errors.description && formik.touched.description ? (
-                            <div className='text-red-600 text-xs'>{formik.errors.description}</div>
-                        ) : null}
-                    </div>
-                    <ButtonC type="submit" variant="outlined" label="Add" color="primary" />
-                </form>
-            </Modal>
+            <Form open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />
         </>
     )
 }

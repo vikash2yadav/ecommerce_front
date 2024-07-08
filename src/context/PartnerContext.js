@@ -10,14 +10,18 @@ export const PartnerContext = ({ children }) => {
 
     const getAllVendors = async () => {
         let data = await getVendorList();
-        setVendors(data.data.data.rows);
-        setTotalVendors(data.data.data.count);
+        if (data?.status === 200) {
+            setVendors(data.data.data.rows);
+            setTotalVendors(data.data.data.count);
+        }
     }
 
     const getAllDeliveryPartners = async () => {
         let data = await getDeliveryPartnerList();
-        setDeliveryPartners(data.data.data.rows);
-        setTotalDeliveryPartners(data.data.data.count);
+        if (data?.status === 200) {
+            setDeliveryPartners(data.data.data.rows);
+            setTotalDeliveryPartners(data.data.data.count);
+        }
     }
 
     return (

@@ -8,8 +8,10 @@ export const LangContext = ({ children }) => {
 
     const getAllLanguages = async () => {
         let data = await getLanguageList();
-        setLanguages(data.data.data.rows)
-        setLanguageTotal(data.data.data.count);
+        if (data?.status === 200) {
+            setLanguages(data.data.data.rows)
+            setLanguageTotal(data.data.data.count);
+        }
     }
 
     return (

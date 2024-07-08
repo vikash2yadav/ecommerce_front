@@ -8,8 +8,10 @@ export const CartContext = ({ children }) => {
 
     const getAllCustomerCartItems = async () => {
         let data = await getCustomerCartItemsList();
-        setCustomerCartItems(data.data.data.rows);
-        setTotalCustomerCartItems(data.data.data.count);
+        if (data?.status === 200) {
+            setCustomerCartItems(data.data.data.rows);
+            setTotalCustomerCartItems(data.data.data.count);
+        }
     }
 
     return (

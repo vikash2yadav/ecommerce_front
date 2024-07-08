@@ -8,6 +8,7 @@ const ButtonC = (props) => {
                 variant={props?.variant}
                 type={props?.type}
                 color={props?.color}
+                onClick={props?.onClick}
             >
                 {props?.label}
             </Button>

@@ -8,9 +8,10 @@ export const ProductFaqContext = ({ children }) => {
 
     const getAllFaqs = async () => {
         let data = await getProductFaqList();
-        setFaqs(data.data.data.rows);
-     
-        setTotalfaqs(data.data.data.count);
+        if (data?.status === 200) {
+            setFaqs(data.data.data.rows);
+            setTotalfaqs(data.data.data.count);
+        }
     }
 
     return (

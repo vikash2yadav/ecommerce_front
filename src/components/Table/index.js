@@ -15,7 +15,7 @@ const Table = ({ columns, data }) => {
 
     return (
         <>
-            <table {...getTableProps()} className="w-full text-sm text-left rtl:text-right ">
+            <table {...getTableProps()} className="w-full text-center text-sm text-left rtl:text-right ">
                 <thead className="text-xs  uppercase bg-gray-400 text-white">
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>

@@ -8,8 +8,10 @@ export const AdminContext = ({ children }) => {
 
     const getAllAdmins = async () => {
         let data = await getAdminList();
-        setAdmins(data.data.data.rows);
-        setTotalAdmins(data.data.data.count);
+        if (data?.status === 200) {
+            setAdmins(data.data.data.rows);
+            setTotalAdmins(data.data.data.count);
+        }
     }
 
     return (

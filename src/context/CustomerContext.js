@@ -11,26 +11,33 @@ export const CustomerContext = ({ children }) => {
 
     const getCustomerDefaultAddress = async () => {
         let data = await getMyDefaultAddress();
-        setMyDefaultAddress(data.data.data);
+        if (data?.status === 200) {
+            setMyDefaultAddress(data.data.data);
+        }
     }
 
     const getAllCustomers = async () => {
         let data = await getCustomerList();
-        setCustomers(data.data.data.rows);
-        setTotalCustomers(data.data.data.count);
+        if (data?.status === 200) {
+            setCustomers(data.data.data.rows);
+            setTotalCustomers(data.data.data.count);
+        }
     }
 
     const getCustomerProfileInfo = async () => {
         let data = await getMyProfile();
-        console.log('data', data);
-        setCustomerProfileInfo(data.data.data);
+        if (data?.status === 200) {
+            setCustomerProfileInfo(data.data.data);
+        }
     }
 
     const getAllMyAddresses = async () => {
         let data = await getCustomerAddressList();
-        setMyAddressList(data.data.data.rows);
+        if (data?.status === 200) {
+            setMyAddressList(data.data.data.rows);
+        }
     }
-    
+
     return (
         <CustomersContext.Provider value={{
             customers, setCustomers, totalCustomers, setTotalCustomers, getAllCustomers,
