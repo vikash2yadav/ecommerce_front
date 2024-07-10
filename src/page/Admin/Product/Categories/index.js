@@ -10,11 +10,11 @@ import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import ButtonC from '../../../../components/ButtonC';
-import { getCategoryById, deleteCategory } from '../../../../apis/category';
+import { getCategoryById, deleteCategory, categoryStatusChange } from '../../../../apis/category';
 
 const Categories = () => {
-    const { categories, getAllCategories, setEditData } = useContext(CategoryContext);
-    const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+    const { categories, getAllCategories, setEditData, totalCategories, defaultFilter, setDefaultFilter } = useContext(CategoryContext);
+    const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, handleDelete } = useContext(CommonsContext);
 
     const handleEdit = async (id) => {
         let data = await getCategoryById(id);
@@ -25,40 +25,58 @@ const Categories = () => {
         setFormIsOpen(false);
     }
 
-    const handleDelete = async (row) => {
-        let data = await deleteCategory(row);
-        if (data?.status === 200) {
-            setSnackbarAlertOpen(true);
-            setSnackbarContent({
-                type: 'success',
-                message: data?.data?.message
-            })
-            getAllCategories();
-        } else {
-            setSnackbarAlertOpen(true);
-            setSnackbarContent({
-                type: 'error',
-                message: data?.data?.message
-            })
-        }
+    const handleDeleteCategory = async (id) => {
+        return await deleteCategory(id);
+    }
+
+    const handleStatusChange = async (body) => {
+        await categoryStatusChange(body);
+        getAllCategories(defaultFilter);
     }
 
     const columns = [
         {
             Header: 'Name',
-            accessor: 'name',
+            access: 'name',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.name ? row?.original?.name : '-'
+                )
+            }
         },
         {
             Header: 'Slug',
-            accessor: 'slug',
+            access: 'slug',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.slug ? row?.original?.slug : '-'
+                )
+            }
         },
         {
             Header: 'Description',
-            accessor: 'description',
+            access: 'description',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.description ? row?.original?.description : '-'
+                )
+            }
         },
         {
-            Header: 'Parent Category',
-            accessor: 'parent_id',
+            Header: 'Parent category',
+            access: 'parent_id',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
             Cell: ({ row }) => {
                 return (
                     row?.original?.category?.name ? row?.original?.category?.name : '-'
@@ -67,7 +85,10 @@ const Categories = () => {
         },
         {
             Header: 'Created by',
-            accessor: 'created_by',
+            access: 'created_by',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
             Cell: ({ row }) => {
                 return (
                     row?.original?.admins?.name ? row?.original?.admins?.name : '-'
@@ -76,7 +97,10 @@ const Categories = () => {
         },
         {
             Header: 'Updated by',
-            accessor: 'updated_by',
+            access: 'updated_by',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
             Cell: ({ row }) => {
                 return (
                     row?.original?.admins?.name ? row?.original?.admins?.name : '-'
@@ -85,16 +109,27 @@ const Categories = () => {
         },
         {
             Header: 'Status',
-            accessor: 'status',
+            access: 'status',
+            isSearch: false,
+            isShort: false,
+            isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    <ButtonC label="Active" variant="contained" color="success" />
+                    <ButtonC
+                        onClick={() => handleStatusChange({ id: row?.original?.id, status: !(row?.original?.status) })}
+                        style={{ width: "90px" }}
+                        label={row?.original?.status === 1 ? 'Active' : 'InActive'}
+                        variant='contained'
+                        color={row?.original?.status === 1 ? 'success' : 'error'} />
                 )
             }
         },
         {
             Header: 'Action',
-            accessor: 'action',
+            access: 'action',
+            isSearch: false,
+            isShort: false,
+            isColumn: true,
             Cell: ({ row }) => (
                 <div className='flex justify-evenly items-center'>
 
@@ -103,7 +138,7 @@ const Categories = () => {
                         className="text-blue-600 text-xl hover:text-blue-900 hover:cursor-pointer"
                     />
                     <MdDeleteOutline
-                        onClick={() => handleDelete(row?.original?.id)}
+                        onClick={() => handleDelete(row?.original?.id, undefined, handleDeleteCategory, getAllCategories, defaultFilter)}
                         className="text-red-600 text-2xl hover:text-red-900 ml-2 hover:cursor-pointer"
                     />
                 </div>
@@ -118,8 +153,8 @@ const Categories = () => {
     }
 
     useEffect(() => {
-        getAllCategories();
-    }, []);
+        getAllCategories(defaultFilter);
+    }, [defaultFilter, setDefaultFilter]);
 
     return (
         <>
@@ -136,10 +171,21 @@ const Categories = () => {
                     </div>
 
                     <div className='overflow-x-auto'>
-                        <Table columns={columns} data={categories} />
+                        <Table 
+                        columns={columns} 
+                        data={categories} 
+                        fetchDataApi={getAllCategories} 
+                        defaultFilter={defaultFilter}
+                        setDefaultFilter={setDefaultFilter}
+                        />
                     </div>
 
-                    <PaginationC />
+                    <PaginationC
+                        defaultFilter={defaultFilter}
+                        setDefaultFilter={setDefaultFilter}
+                        fetchDataApi={getAllCategories}
+                        totalItems={totalCategories}
+                    />
 
                 </div>
             </div>

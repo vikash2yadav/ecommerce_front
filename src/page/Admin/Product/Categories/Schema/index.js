@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 export const addCategoryInitialValue = {
     name: '',
     description: '',
-    parent_id: ''
 }
 
 export const addCategorySchema = Yup.object().shape({

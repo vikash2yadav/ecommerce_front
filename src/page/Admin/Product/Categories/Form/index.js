@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import InputC from '../../../../../components/InputC';
 import SelectC from '../../../../../components/SelectC';
-import TextAreaC from '../../../../../components/TextAreaC';
 import ButtonC from '../../../../../components/ButtonC';
 import { Modal } from 'antd';
 import { CommonsContext } from '../../../../../context/CommonContext';
@@ -12,7 +11,7 @@ import { CategoryContext } from '../../../../../context/CategoryContext';
 import classNames from 'classnames';
 
 const Form = (props) => {
-    const { categories, getAllCategories, editData } = useContext(CategoryContext);
+    const { categories, getAllCategories, editData, defaultFilter } = useContext(CategoryContext);
     const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
     const handleClose = () => {
@@ -49,7 +48,7 @@ const Form = (props) => {
                     type: 'success',
                     message: data.data.message
                 });
-                getAllCategories();
+                getAllCategories(defaultFilter);
                 handleClose()
                 formik.resetForm();
             } else {
@@ -116,8 +115,7 @@ const Form = (props) => {
 
                 <div className='mb-3'>
                     <p className='text-sm'>Description <span className='font-semibold text-red-600'>*</span></p>
-                    <TextAreaC
-                        defaultValue={formIsEdit ? editData?.description : ''}
+                    <InputC
                         placeholder="cultural books are here"
                         name="description"
                         value={formik.values.description}

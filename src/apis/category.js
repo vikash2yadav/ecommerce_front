@@ -20,3 +20,6 @@ export async function deleteCategory (id, body) {
     return await callApi({method: "DELETE", url: `http://localhost:8000/category/delete/${id}`, body});
 }
 
+export async function categoryStatusChange (body) {
+    return await callApi({method: "PUT", url: `http://localhost:8000/category/status_change`, body});
+}

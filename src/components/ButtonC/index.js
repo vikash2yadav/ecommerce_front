@@ -5,6 +5,7 @@ const ButtonC = (props) => {
     return (
         <>
             <Button
+                style={props?.style}
                 variant={props?.variant}
                 type={props?.type}
                 color={props?.color}
