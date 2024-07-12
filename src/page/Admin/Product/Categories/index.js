@@ -52,7 +52,7 @@ const Categories = () => {
             access: 'slug',
             isSearch: true,
             isShort: true,
-            isColumn: true,
+            isColumn: true ,
             Cell: ({ row }) => {
                 return (
                     row?.original?.slug ? row?.original?.slug : '-'
@@ -73,7 +73,7 @@ const Categories = () => {
         },
         {
             Header: 'Parent category',
-            access: 'parent_id',
+            access: 'parent_category.name',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -85,32 +85,32 @@ const Categories = () => {
         },
         {
             Header: 'Created by',
-            access: 'created_by',
+            access: 'createdBy.full_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.admins?.name ? row?.original?.admins?.name : '-'
+                    row?.original?.createdBy?.full_name ? row?.original?.createdBy?.full_name : '-'
                 )
             }
         },
         {
             Header: 'Updated by',
-            access: 'updated_by',
+            access: 'updatedBy.full_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.admins?.name ? row?.original?.admins?.name : '-'
+                    row?.original?.updatedBy?.full_name ? row?.original?.updatedBy?.full_name : '-'
                 )
             }
         },
         {
             Header: 'Status',
             access: 'status',
-            isSearch: false,
+            isStatus: true,
             isShort: false,
             isColumn: true,
             Cell: ({ row }) => {
@@ -127,7 +127,6 @@ const Categories = () => {
         {
             Header: 'Action',
             access: 'action',
-            isSearch: false,
             isShort: false,
             isColumn: true,
             Cell: ({ row }) => (

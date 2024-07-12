@@ -30,7 +30,7 @@ const Form = (props) => {
                     type: 'success',
                     message: data.data.message
                 });
-                getAllCategories();
+                getAllCategories(defaultFilter);
                 handleClose()
                 formik.resetForm();
             } else {
