@@ -7,6 +7,7 @@ import SelectC from '../SelectC';
 const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter }) => {
 
     const handleSearchChange = async (columnId, value) => {
+        
         let newFilters = [...defaultFilter.filters];
         const existingFilterIndex = newFilters.findIndex(filter => filter.id === columnId);
 
@@ -26,7 +27,6 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
             filters: newFilters
         }));
 
-        console.log(newFilters)
         await fetchDataApi({ ...defaultFilter, filters: newFilters });
     };
 

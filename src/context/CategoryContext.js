@@ -1,8 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { getCategoryList } from "../apis/category.js"
+import { CommonsContext } from './CommonContext.js';
 export const CategoryContext = createContext();
 
 export const CatContext = ({ children }) => {
+    const {setSnackbarAlertOpen, setSnackbarContent} = useContext(CommonsContext)
     const [categories, setCategories] = useState([]);
     const [totalCategories, setTotalCategories] = useState(null);
     const [editData, setEditData] = useState({});
@@ -18,6 +20,12 @@ export const CatContext = ({ children }) => {
         if (data?.status === 200) {
             setCategories(data.data.data.rows);
             setTotalCategories(data.data.data.count);
+        }else{
+            setSnackbarAlertOpen(true);
+            setSnackbarContent({
+                type: 'error',
+                message: data?.data?.message
+            })
         }
     }
 

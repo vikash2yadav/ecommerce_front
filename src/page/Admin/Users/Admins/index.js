@@ -10,13 +10,13 @@ import Form from './Form';
 import { LanguageContext } from '../../../../context/LangContext';
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
-import { deleteAdminApi, adminStatusChange } from '../../../../apis/admin';
+import { deleteAdminApi, adminStatusChange, getAdminById } from '../../../../apis/admin';
 import ButtonC from '../../../../components/ButtonC';
 import { GrPowerReset } from "react-icons/gr";
 
 const Admins = () => {
-    const { admins, totalAdmins, getAdminById, setEditData, getAllAdmins, defaultFilter, setDefaultFilter } = useContext(AdminsContext);
-    const { formIsOpen, setFormIsOpen, setFormIsEdit, handleDelete} = useContext(CommonsContext);
+    const { admins, totalAdmins, setEditData, getAllAdmins, defaultFilter, setDefaultFilter } = useContext(AdminsContext);
+    const { formIsOpen, setFormIsOpen,formIsEdit, setFormIsEdit, handleDelete} = useContext(CommonsContext);
     const { getAllLanguages } = useContext(LanguageContext);
 
     const handleEdit = async (id) => {
@@ -40,7 +40,7 @@ const Admins = () => {
     const columns = [
         {
             Header: 'First Name',
-            accessor: 'first_name',
+            access: 'first_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -52,7 +52,7 @@ const Admins = () => {
         },
         {
             Header: 'Last Name',
-            accessor: 'last_name',
+            access: 'last_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -64,7 +64,7 @@ const Admins = () => {
         },
         {
             Header: 'Full Name',
-            accessor: 'full_name',
+            access: 'full_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -76,7 +76,7 @@ const Admins = () => {
         },
         {
             Header: 'Email',
-            accessor: 'email',
+            access: 'email',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -88,7 +88,7 @@ const Admins = () => {
         },
         {
             Header: 'Birth date',
-            accessor: 'birth_date',
+            access: 'birth_date',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -100,7 +100,7 @@ const Admins = () => {
         },
         {
             Header: 'Gender',
-            accessor: 'gender',
+            access: 'gender',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -112,7 +112,7 @@ const Admins = () => {
         },
         {
             Header: 'Contact No',
-            accessor: 'contact_no',
+            access: 'contact_no',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -124,7 +124,7 @@ const Admins = () => {
         },
         {
             Header: 'Alternative contact no',
-            accessor: 'alternative_contact_no',
+            access: 'alternative_contact_no',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -136,9 +136,8 @@ const Admins = () => {
         },
         {
             Header: 'Language',
-            accessor: 'language',
+            access: 'language.name',
             isSearch: true,
-            isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
@@ -148,43 +147,42 @@ const Admins = () => {
         },
         {
             Header: 'Role',
-            accessor: 'role_id',
+            access: 'role.name',
             isSearch: true,
-            isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.role_id ? row?.original?.role_id : '-'
+                    row?.original?.role?.name ? row?.original?.role?.name : '-'
                 )
             }
         },
         {
             Header: 'Created by',
-            accessor: 'created_by',
+            access: 'adminCreatedBy.full_name',
             isSearch: true,
-            isShort: true,
+            isShort: false,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.created_by ? row?.original?.created_by : '-'
+                    row?.original?.adminCreatedBy?.full_name ? row?.original?.adminCreatedBy?.full_name : '-'
                 )
             }
         },
         {
             Header: 'Updated by',
-            accessor: 'updated_by',
+            access: 'adminUpdatedBy.full_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.updated_by ? row?.original?.updated_by : '-'
+                    row?.original?.adminUpdatedBy?.full_name ? row?.original?.adminUpdatedBy?.full_name : '-'
                 )
             }
         },
         {
             Header: 'Status',
-            accessor: 'status',
+            access: 'status',
             isStatus: true,
             isShort: false,
             isColumn: true,
@@ -201,7 +199,7 @@ const Admins = () => {
         },
         {
             Header: 'Action',
-            accessor: 'action',
+            access: 'action',
             isShort: false,
             isColumn: true,
             Cell: ({ row }) => (
@@ -227,7 +225,7 @@ const Admins = () => {
 
     useEffect(() => {
         getAllAdmins(defaultFilter);
-    }, [])
+    }, [defaultFilter, setDefaultFilter]);
 
     return (
         <>
@@ -239,10 +237,9 @@ const Admins = () => {
 
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
-                    <div className='flex justify-end mb-2'>
+                    <div className='flex justify-end items-center mb-2'>
                     <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllAdmins()}/></div>
                         <Button onClick={handleOpen}>+ Add New</Button>
-
                     </div>
 
                     <div className='overflow-x-auto'>
@@ -265,7 +262,7 @@ const Admins = () => {
 
             </div>
 
-            <Form formIsOpen={formIsOpen} setFormIsOpen={setFormIsOpen} />
+            <Form open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)}  />
         </>
     )
 }
