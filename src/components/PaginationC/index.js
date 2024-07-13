@@ -45,8 +45,8 @@ const PaginationC = (props) => {
         :
         (
           <tr>
-          <td className="p-6" colSpan={8}>
-            <h1 className="text-center text-2xl mt-7"> No Data Found </h1>
+          <td className="" colSpan={8}>
+            <h1 className="text-center text-2xl mt-7 ml-7"> No Data Found </h1>
           </td>
         </tr>
         )

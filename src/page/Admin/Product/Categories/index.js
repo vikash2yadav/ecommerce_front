@@ -11,6 +11,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import ButtonC from '../../../../components/ButtonC';
 import { getCategoryById, deleteCategory, categoryStatusChange } from '../../../../apis/category';
+import { GrPowerReset } from "react-icons/gr";
 
 const Categories = () => {
     const { categories, getAllCategories, setEditData, totalCategories, defaultFilter, setDefaultFilter } = useContext(CategoryContext);
@@ -75,7 +76,6 @@ const Categories = () => {
             Header: 'Parent category',
             access: 'parent_category.name',
             isSearch: true,
-            isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
@@ -87,7 +87,6 @@ const Categories = () => {
             Header: 'Created by',
             access: 'createdBy.full_name',
             isSearch: true,
-            isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
@@ -99,7 +98,6 @@ const Categories = () => {
             Header: 'Updated by',
             access: 'updatedBy.full_name',
             isSearch: true,
-            isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
@@ -165,7 +163,8 @@ const Categories = () => {
 
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
-                    <div className='flex justify-end mb-2'>
+                    <div className='flex justify-end items-center mb-2'>
+                        <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllCategories()}/></div>
                         <Button onClick={handleOpen}>+ Add New</Button>
                     </div>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTable } from 'react-table';
 import { FaLongArrowAltUp, FaLongArrowAltDown } from "react-icons/fa";
 import SearchC from '../SearchC';
@@ -48,9 +48,9 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
     };
 
     const statusOptions = [
-        {name: "All", id: '2'},
-        {name: "Active", id: '1'},
-        {name: "Not Active", id: '0'},
+        { name: "All", id: '2' },
+        { name: "Active", id: '1' },
+        { name: "Not Active", id: '0' },
     ]
 
     const handleStatusChange = async (columnId, value) => {
@@ -81,8 +81,8 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
                                             {column.render('Header')}
                                             {column?.isShort && (
                                                 <div className='flex justify-between'>
-                                                    <FaLongArrowAltUp className='hover:text-gray-500 hover:cursor-pointer' onClick={() => handleShort(column?.access, false)} />
-                                                    <FaLongArrowAltDown className='hover:text-gray-500 hover:cursor-pointer' onClick={() => handleShort(column?.access, true)} />
+                                                    {/* <FaLongArrowAltUp className='hover:text-gray-500 hover:cursor-pointer' onClick={() => handleShort(column?.access, false)} />
+                                                    <FaLongArrowAltDown className='hover:text-gray-500 hover:cursor-pointer' onClick={() => handleShort(column?.access, true)} /> */}
                                                 </div>
                                             )}
                                         </div>
