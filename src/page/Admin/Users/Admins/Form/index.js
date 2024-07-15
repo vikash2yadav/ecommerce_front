@@ -11,9 +11,9 @@ import { LanguageContext } from '../../../../../context/LangContext'
 import { addAdminApi, updateAdminApi } from '../../../../../apis/admin'
 
 const Form = (props) => {
-    const { getAllAdmins, editData } = useContext(AdminsContext);
+    const { getAllAdmins, editData, defaultFilter } = useContext(AdminsContext);
     const { languages } = useContext(LanguageContext);
-    const { formIsOpen,formIsEdit, setFormIsEdit, setFormIsOpen, defaultFilter, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+    const { formIsOpen,formIsEdit, setFormIsEdit, setFormIsOpen, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
     const handleClose = () => {
         setFormIsOpen(false);

@@ -7,17 +7,21 @@ const PaginationC = (props) => {
   const pageItems = [5, 10, 15, 20];
 
   const handleChange = (items) => {
+   
     props.setDefaultFilter(prevValue => ({
       ...prevValue,
       itemsPerPage: items
     }))
+    console.log(props?.defaultFilter)
   };
 
   const handlePageChange = (event, page) => {
+   
     props.setDefaultFilter(prevValue => ({
       ...prevValue,
       currentPage: page
     }))
+    console.log(props?.defaultFilter)
   };
 
   return (

@@ -34,7 +34,7 @@ export const updateAdminSchema = Yup.object().shape({
 
 
 export const genders = [
-    { id: 1, name: 'Men', value: 'men' },
-    { id: 2, name: 'Women', value: 'women' },
-    { id: 3, name: 'Others', value: 'others' },
+    {  name: 'Male', id: 'male' },
+    { name: 'Female', id: 'female' },
+    {  name: 'Others', id: 'others' },
 ];

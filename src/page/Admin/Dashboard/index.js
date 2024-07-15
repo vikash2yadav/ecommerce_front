@@ -110,7 +110,7 @@ const Dashboard = () => {
               </Link>
             </div>
 
-            <Link to="/vendor/orders" >
+            <Link to="/admin/dashboard/admins" >
               <div className="flex items-center justify-center h-48 hover:opacity-65  mb-4 rounded bg-gray-300 ">
                 <h1 className='text-6xl font-semibold font-serif mb-2'>+{totalAdmins}</h1>
                 <p className="text-3xl mx-2">Admins</p>

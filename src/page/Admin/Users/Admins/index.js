@@ -238,7 +238,9 @@ const Admins = () => {
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
                     <div className='flex justify-end items-center mb-2'>
-                    <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllAdmins()}/></div>
+                    <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllAdmins(setDefaultFilter({
+                            currentPage: 1,itemsPerPage: 5,filters: [],sortBy: []
+                        }))}/></div>
                         <Button onClick={handleOpen}>+ Add New</Button>
                     </div>
 

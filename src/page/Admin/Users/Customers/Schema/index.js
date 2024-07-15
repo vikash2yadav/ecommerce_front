@@ -18,7 +18,7 @@ export const addCustomerSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
     password: Yup.string().min(6, 'should be upto 6 character' ).required('Required'),
     birth_date: Yup.date().required('Required'),
-    gender: Yup.number().required('Required'),
+    gender: Yup.string().required('Required'),
     // role_id: Yup.number().required('Required'),
     language_id: Yup.number().required('Required'),
     contact_no: Yup.string().required('Required')
@@ -26,7 +26,7 @@ export const addCustomerSchema = Yup.object().shape({
 
 
 export const genders = [
-    { id: 1, name: 'Men', value: 'men' },
-    { id: 2, name: 'Women', value: 'women' },
-    { id: 3, name: 'Others', value: 'others' },
+    { name: 'Male', id: 'male' },
+    {  name: 'Female', id: 'female' },
+    {  name: 'Others', id: 'others' },
 ];
