@@ -8,10 +8,11 @@ export const ProductReviewContext = ({ children }) => {
 
     const getAllProductReviews = async () => {
         let data = await getProductReviewList();
-        setProductReviews(data.data.data.rows);
-        setTotalProductReviews(data.data.data.count);
+        if (data?.status === 200) {
+            setProductReviews(data.data.data.rows);
+            setTotalProductReviews(data.data.data.count);
+        }
     }
-
     return (
         <ProductReviewsContext.Provider value={{
             productReviews, setProductReviews, totalProductReviews, setTotalProductReviews, getAllProductReviews

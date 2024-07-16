@@ -1,88 +1,157 @@
-import React, { useContext, useEffect } from 'react'
-import AdminSidebar from '../../../../components/Admin/AdminSidebar'
-import Table from '../../../../components/Table'
-import { Button, Modal } from 'antd';
+import React, { useContext, useEffect } from 'react';
+import Form from './Form'
+import AdminSidebar from '../../../../components/Admin/AdminSidebar';
+import Table from '../../../../components/Table';
+import { Button } from 'antd';
 import PaginationC from '../../../../components/PaginationC';
-import { CategoryContext } from '../../../../context/CategoryContext'
-import { CommonsContext } from '../../../../context/CommonContext'
+import { CategoryContext } from '../../../../context/CategoryContext';
+import { CommonsContext } from '../../../../context/CommonContext';
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
-import InputC from '../../../../components/InputC'
-import { useFormik } from 'formik';
-import { addCategoryInitialValue, addCategorySchema } from './Schema';
-import TextAreaC from '../../../../components/TextAreaC'
-import ButtonC from '../../../../components/ButtonC'
-import { addCategory } from '../../../../apis/category';
+import { FiEdit } from "react-icons/fi";
+import { MdDeleteOutline } from "react-icons/md";
+import ButtonC from '../../../../components/ButtonC';
+import { getCategoryById, deleteCategory, categoryStatusChange } from '../../../../apis/category';
+import { GrPowerReset } from "react-icons/gr";
 
 const Categories = () => {
-    const { categories, setCategories, getAllCategories } = useContext(CategoryContext);
-    const { formIsOpen, setFormIsOpen, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+    const { categories, getAllCategories, setEditData, totalCategories, defaultFilter, setDefaultFilter } = useContext(CategoryContext);
+    const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, handleDelete } = useContext(CommonsContext);
+
+    const handleEdit = async (id) => {
+        let data = await getCategoryById(id);
+        if (data?.status === 200) {
+            setEditData(data?.data?.data);
+        }
+        setFormIsEdit(true);
+        setFormIsOpen(false);
+    }
+
+    const handleDeleteCategory = async (id) => {
+        return await deleteCategory(id);
+    }
+
+    const handleStatusChange = async (body) => {
+        await categoryStatusChange(body);
+        getAllCategories(defaultFilter);
+    }
 
     const columns = [
         {
-            Header: 'Id',
-            accessor: 'id',
-        },
-        {
             Header: 'Name',
-            accessor: 'name',
+            access: 'name',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.name ? row?.original?.name : '-'
+                )
+            }
         },
         {
             Header: 'Slug',
-            accessor: 'slug',
+            access: 'slug',
+            isSearch: true,
+            isShort: true,
+            isColumn: true ,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.slug ? row?.original?.slug : '-'
+                )
+            }
         },
         {
             Header: 'Description',
-            accessor: 'description',
+            access: 'description',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.description ? row?.original?.description : '-'
+                )
+            }
+        },
+        {
+            Header: 'Parent category',
+            access: 'parent_category.name',
+            isSearch: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.category?.name ? row?.original?.category?.name : '-'
+                )
+            }
         },
         {
             Header: 'Created by',
-            accessor: 'created_by',
+            access: 'createdBy.full_name',
+            isSearch: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.createdBy?.full_name ? row?.original?.createdBy?.full_name : '-'
+                )
+            }
         },
         {
             Header: 'Updated by',
-            accessor: 'updated_by',
+            access: 'updatedBy.full_name',
+            isSearch: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.updatedBy?.full_name ? row?.original?.updatedBy?.full_name : '-'
+                )
+            }
         },
         {
             Header: 'Status',
-            accessor: 'status',
+            access: 'status',
+            isStatus: true,
+            isShort: false,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    <ButtonC
+                        onClick={() => handleStatusChange({ id: row?.original?.id, status: !(row?.original?.status) })}
+                        style={{ width: "90px" }}
+                        label={row?.original?.status === 1 ? 'Active' : 'InActive'}
+                        variant='contained'
+                        color={row?.original?.status === 1 ? 'success' : 'error'} />
+                )
+            }
         },
         {
             Header: 'Action',
-            accessor: 'action',
-            component: (
-                <>
+            access: 'action',
+            isShort: false,
+            isColumn: true,
+            Cell: ({ row }) => (
+                <div className='flex justify-evenly items-center'>
 
-                </>
+                    <FiEdit
+                        onClick={() => handleEdit(row?.original?.id)}
+                        className="text-blue-600 text-xl hover:text-blue-900 hover:cursor-pointer"
+                    />
+                    <MdDeleteOutline
+                        onClick={() => handleDelete(row?.original?.id, undefined, handleDeleteCategory, getAllCategories, defaultFilter)}
+                        className="text-red-600 text-2xl hover:text-red-900 ml-2 hover:cursor-pointer"
+                    />
+                </div>
             )
         },
     ];
 
-    const formik = useFormik({
-        initialValues: addCategoryInitialValue,
-        validationSchema: addCategorySchema,
-        onSubmit: async (values) => {
-            let data = await addCategory(values);
-            if (data?.status === 200) {
-                setSnackbarAlertOpen(true);
-                setSnackbarContent({
-                    type: 'success',
-                    message: data.data.message
-                });
-                getAllCategories();
-                setFormIsOpen(false)
-            } else {
-                setSnackbarAlertOpen(true);
-                setSnackbarContent({
-                    type: 'error',
-                    message: data.data.message
-                });
-            }
-        }
-    })
+    const handleOpen = () => {
+        setFormIsOpen(true);
+        setFormIsEdit(false);
+        // getAllCategories();
+    }
 
     useEffect(() => {
-        getAllCategories();
-    }, [setCategories]);
+        getAllCategories(defaultFilter);
+    }, [defaultFilter, setDefaultFilter]);
 
     return (
         <>
@@ -94,39 +163,34 @@ const Categories = () => {
 
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
-                    <div className='flex justify-end mb-2'>
-                        <Button onClick={() => setFormIsOpen(true)}>+ Add New</Button>
+                    <div className='flex justify-end items-center mb-2'>
+                        <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllCategories(setDefaultFilter({
+                            currentPage: 1,itemsPerPage: 5,filters: [],sortBy: []
+                        }))}/></div>
+                        <Button onClick={handleOpen}>+ Add New</Button>
                     </div>
 
                     <div className='overflow-x-auto'>
-                        <Table columns={columns} data={categories} />
+                        <Table 
+                        columns={columns} 
+                        data={categories} 
+                        fetchDataApi={getAllCategories} 
+                        defaultFilter={defaultFilter}
+                        setDefaultFilter={setDefaultFilter}
+                        />
                     </div>
 
-                    <PaginationC />
+                    <PaginationC
+                        defaultFilter={defaultFilter}
+                        setDefaultFilter={setDefaultFilter}
+                        fetchDataApi={getAllCategories}
+                        totalItems={totalCategories}
+                    />
 
                 </div>
             </div>
 
-            <Modal open={formIsOpen} onCancel={() => setFormIsOpen(false)} footer={null}>
-                <p className='text-xl font-semibold mt-3 mb-3'> Add Category </p>
-
-                <form action="" onSubmit={formik.handleSubmit}>
-                    <div className='mb-3'>
-                        <InputC placeholder="Name" name="name" value={formik.values.name} onChange={formik.handleChange} />
-                        {formik.errors.name && formik.touched.name ? (
-                            <div className='text-red-600 text-xs'>{formik.errors.name}</div>
-                        ) : null}
-                    </div>
-
-                    <div className='mb-3'>
-                        <TextAreaC placeholder="description" name="description" value={formik.values.description} onChange={formik.handleChange} />
-                        {formik.errors.description && formik.touched.description ? (
-                            <div className='text-red-600 text-xs'>{formik.errors.description}</div>
-                        ) : null}
-                    </div>
-                    <ButtonC type="submit" variant="outlined" label="Add" color="primary" />
-                </form>
-            </Modal>
+            <Form open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />
         </>
     )
 }

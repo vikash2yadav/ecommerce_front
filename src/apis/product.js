@@ -12,3 +12,7 @@ export async function getProductById (id, body) {
     return await callApi({method: "GET", url: `http://localhost:8000/product/get/${id}`, body});
 }
 
+export async function addProductApi (body) {
+    return await callApi({method: "POST", url: `http://localhost:8000/product/add`, body});
+}
+

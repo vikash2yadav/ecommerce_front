@@ -12,61 +12,29 @@ import { AdminsContext } from '../../../context/AdminContext'
 import { ProductReviewsContext } from '../../../context/ProductReviewContext'
 
 const Dashboard = () => {
-  const { totalOrders, setTotalOrders, totalOrderItems, setTotalOrderItems, getAllOrderItems, getAllOrders } = useContext(OrdersContext);
-  const { totalProducts, setTotalProducts, getAllProducts } = useContext(ProductsContext);
-  const { totalCategories, setTotalCategories, getAllCategories } = useContext(CategoryContext);
-  const { totalProductVariants, setTotalProductVariants, getAllProductVariants } = useContext(ProductVariantsContext);
-  const { totalfaqs, setTotalfaqs, getAllFaqs } = useContext(ProductFaqsContext);
-  const { totalCustomers, setTotalCustomers, getAllCustomers } = useContext(CustomersContext);
-  const { totalVendors, setTotalVendors, getAllVendors, totalDeliveryPartners,
-    setTotalDeliveryPartners, getAllDeliveryPartners
-  } = useContext(PartnersContext);
-  const { totalAdmins, setTotalAdmins, getAllAdmins } = useContext(AdminsContext);
-  const { totalProductReviews, setTotalProductReviews, getAllProductReviews } = useContext(ProductReviewsContext);
+  const { totalOrders, totalOrderItems, getAllOrderItems, getAllOrders } = useContext(OrdersContext);
+  const { totalProducts, getAllProducts } = useContext(ProductsContext);
+  const { totalCategories, getAllCategories } = useContext(CategoryContext);
+  const { totalProductVariants, getAllProductVariants } = useContext(ProductVariantsContext);
+  const { totalfaqs, getAllFaqs } = useContext(ProductFaqsContext);
+  const { totalCustomers, getAllCustomers } = useContext(CustomersContext);
+  const { totalVendors, getAllVendors, totalDeliveryPartners,getAllDeliveryPartners} = useContext(PartnersContext);
+  const { totalAdmins, getAllAdmins } = useContext(AdminsContext);
+  const { totalProductReviews, getAllProductReviews } = useContext(ProductReviewsContext);
 
   useEffect(() => {
     getAllOrders();
-  }, [setTotalOrders]);
-
-  useEffect(() => {
     getAllOrderItems();
-  }, [setTotalOrderItems]);
-
-  useEffect(() => {
     getAllProducts();
-  }, [setTotalProducts])
-
-  useEffect(() => {
     getAllCategories();
-  }, [setTotalCategories])
-
-  useEffect(() => {
     getAllProductVariants();
-  }, [setTotalProductVariants])
-
-  useEffect(() => {
     getAllFaqs();
-  }, [setTotalfaqs])
-
-  useEffect(() => {
     getAllCustomers();
-  }, [setTotalCustomers])
-
-  useEffect(() => {
     getAllDeliveryPartners();
-  }, [setTotalDeliveryPartners])
-
-  useEffect(() => {
     getAllVendors()
-  }, [setTotalVendors])
-
-  useEffect(() => {
     getAllAdmins()
-  }, [setTotalAdmins])
-
-  useEffect(() => {
     getAllProductReviews()
-  }, [setTotalProductReviews])
+  }, []);
 
   return (
     <>
@@ -89,11 +57,10 @@ const Dashboard = () => {
                 </div>
               </Link>
 
-
               <Link to="/admin/dashboard/product_review" >
-                <div className="flex items-center justify-center hover:opacity-65  flex-col rounded bg-gray-300 h-40 ">
+                <div className="flex items-center hover:opacity-65 justify-center flex-col h-36 rounded bg-gray-300 ">
                   <h1 className='text-4xl font-semibold font-serif mb-2'>+{totalProductReviews}</h1>
-                  <p className="text-xl">Product Reviews</p>
+                  <p className='text-xl'>Product Reviews</p>
                 </div>
               </Link>
 
@@ -143,7 +110,7 @@ const Dashboard = () => {
               </Link>
             </div>
 
-            <Link to="/vendor/orders" >
+            <Link to="/admin/dashboard/admins" >
               <div className="flex items-center justify-center h-48 hover:opacity-65  mb-4 rounded bg-gray-300 ">
                 <h1 className='text-6xl font-semibold font-serif mb-2'>+{totalAdmins}</h1>
                 <p className="text-3xl mx-2">Admins</p>

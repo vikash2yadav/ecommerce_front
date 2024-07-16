@@ -58,3 +58,19 @@ export async function deleteMyAccount (body) {
 export async function addCustomerApi (body) {
     return await callApi({method: "POST", url: 'http://localhost:8000/user/add' , body});
 }
+
+export async function updateCustomerApi (body) {
+    return await callApi({method: "PUT", url: 'http://localhost:8000/user/update' , body});
+}
+
+export async function deleteCustomerApi (id, body) {
+    return await callApi({method: "DELETE", url: `http://localhost:8000/user/delete/${id}` , body});
+}
+
+export async function categoryStatusChangeApi (body) {
+    return await callApi({method: "PUT", url: 'http://localhost:8000/user/status_change' , body});
+}
+
+export async function getCustomerByIdApi (id, body) {
+    return await callApi({method: "GET", url: `http://localhost:8000/user/get/${id}` , body});
+}

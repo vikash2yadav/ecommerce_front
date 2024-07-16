@@ -8,8 +8,10 @@ export const RoleContext = ({ children }) => {
 
     const getAllRoles = async () => {
         let data = await getRoleListApi();
-        setRoles(data.data.data.rows)
-        setRoleTotal(data.data.data.count);
+        if (data?.status === 200) {
+            setRoles(data.data.data.rows)
+            setRoleTotal(data.data.data.count);
+        }
     }
 
     return (

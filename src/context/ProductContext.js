@@ -10,16 +10,20 @@ export const ProductContext = ({ children }) => {
 
     const getAllProducts = async () => {
         let data = await getProductList();
-        setProducts(data.data.data.rows);
-        setTotalProducts(data.data.data.count);
+        if (data?.status === 200) {
+            setProducts(data.data.data.rows);
+            setTotalProducts(data.data.data.count);
+        }
     }
 
     const getAllVendorProducts = async () => {
         let data = await getVendorProductList();
-        setVendorProducts(data.data.data.rows);
-        setTotalVendorProducts(data.data.data.count);
+        if (data?.status === 200) {
+            setVendorProducts(data.data.data.rows);
+            setTotalVendorProducts(data.data.data.count);
+        }
     }
-    
+
     return (
         <ProductsContext.Provider value={{
             products, setProducts, totalProducts, setTotalProducts, getAllProducts,
