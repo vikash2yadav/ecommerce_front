@@ -12,11 +12,12 @@ import { MdDeleteOutline } from "react-icons/md";
 import { LanguageContext } from '../../../../context/LangContext';
 import { getVendorByIdApi, vendorStatusChangeApi, deleteVendorApi } from '../../../../apis/partner';
 import ButtonC from '../../../../components/ButtonC';
+import { GrPowerReset } from "react-icons/gr";
 
 const Customers = () => {
     const { getAllLanguages } = useContext(LanguageContext)
-    const { vendors, getAllVendors, defaultFilter, setDefaultFilter, totalVendors } = useContext(PartnersContext);
-    const { formIsOpen, setFormIsOpen, setFormIsEdit, formIsEdit, setEditData, handleDelete } = useContext(CommonsContext);
+    const { vendors, getAllVendors, vendorDefaultFilter, setEditData, setVendorDefaultFilter, totalVendors } = useContext(PartnersContext);
+    const { formIsOpen, setFormIsOpen, setFormIsEdit, formIsEdit, handleDelete } = useContext(CommonsContext);
 
     const handleEdit = async (id) => {
         let data = await getVendorByIdApi(id);
@@ -34,7 +35,7 @@ const Customers = () => {
 
     const handleStatusChange = async (body) => {
         await vendorStatusChangeApi(body);
-        getAllVendors(defaultFilter);
+        getAllVendors(vendorDefaultFilter);
     }
 
     const columns = [
@@ -147,26 +148,26 @@ const Customers = () => {
         },
         {
             Header: 'Created by',
-            access: 'customerCreatedBy.full_name',
+            access: 'partnerCreatedBy.full_name',
             isSearch: true,
             isShort: false,
             isColumn: true,
             Cell: ({ row }) => {
                 console.log(row)
                 return (
-                    row?.original?.customerCreatedBy?.full_name ? row?.original?.customerCreatedBy?.full_name : '-'
+                    row?.original?.partnerCreatedBy?.full_name ? row?.original?.partnerCreatedBy?.full_name : '-'
                 )
             }
         },
         {
             Header: 'Updated by',
-            access: 'customerUpdatedBy.full_name',
+            access: 'partnerUpdatedBy.full_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.customerUpdatedBy?.full_name ? row?.original?.customerUpdatedBy?.full_name : '-'
+                    row?.original?.partnerUpdatedBy?.full_name ? row?.original?.partnerUpdatedBy?.full_name : '-'
                 )
             }
         },
@@ -200,7 +201,7 @@ const Customers = () => {
                         className="text-blue-600 text-xl hover:text-blue-900 hover:cursor-pointer"
                     />
                     <MdDeleteOutline
-                        onClick={() => handleDelete(row?.original?.id, undefined, handleDeleteVendor, getAllVendors, defaultFilter)}
+                        onClick={() => handleDelete(row?.original?.id, undefined, handleDeleteVendor, getAllVendors, vendorDefaultFilter)}
                         className="text-red-600 text-2xl hover:text-red-900 ml-2 hover:cursor-pointer"
                     />
                 </div>
@@ -215,8 +216,8 @@ const Customers = () => {
     }
 
     useEffect(() => {
-        getAllVendors(defaultFilter);
-    }, [defaultFilter, setDefaultFilter]);
+        getAllVendors(vendorDefaultFilter);
+    }, [vendorDefaultFilter, setVendorDefaultFilter]);
 
     return (
         <>
@@ -228,7 +229,7 @@ const Customers = () => {
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
                     <div className='flex justify-end items-center mb-2'>
-                        <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={() => getAllCustomers(setDefaultFilter({
+                        <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={() => getAllVendors(setVendorDefaultFilter({
                             currentPage: 1, itemsPerPage: 5, filters: [], sortBy: []
                         }))} /></div>
                         <Button onClick={handleOpen}>+ Add New</Button>
@@ -239,13 +240,13 @@ const Customers = () => {
                             columns={columns}
                             data={vendors}
                             fetchDataApi={getAllVendors}
-                            defaultFilter={defaultFilter}
-                            setDefaultFilter={setDefaultFilter} />
+                            defaultFilter={vendorDefaultFilter}
+                            setDefaultFilter={setVendorDefaultFilter} />
                     </div>
 
                     <PaginationC
-                        defaultFilter={defaultFilter}
-                        setDefaultFilter={setDefaultFilter}
+                        defaultFilter={vendorDefaultFilter}
+                        setDefaultFilter={setVendorDefaultFilter}
                         fetchDataApi={getAllVendors}
                         totalItems={totalVendors}
                     />

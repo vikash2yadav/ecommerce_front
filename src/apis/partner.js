@@ -14,6 +14,14 @@ export async function vendorStatusChangeApi (body) {
     return await callApi({method: 'PUT', url: `http://localhost:8000/partner/vendor/status_change`, body});
 }
 
+export async function addVendorApi (body) {
+    return await callApi({method: 'POST', url: `http://localhost:8000/partner/vendor/add`, body});
+}
+
+export async function updateVendorApi (body) {
+    return await callApi({method: 'PUT', url: `http://localhost:8000/partner/vendor/update`, body});
+}
+
 export async function deleteVendorApi (id, body) {
     return await callApi({method: 'DELETE', url: `http://localhost:8000/partner/vendor/delete/${id}`, body});
 }
@@ -31,8 +39,4 @@ export async function getDeliveryPartnerByIdApi (id, body) {
 
 export async function addPartnerApi (body) {
     return await callApi({method: 'POST', url: 'http://localhost:8000/partner/delivery_partner/add', body});
-}
-
-export async function addVendorApi (body) {
-    return await callApi({method: 'POST', url: 'http://localhost:8000/partner/vendor/add', body});
 }

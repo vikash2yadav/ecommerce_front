@@ -11,9 +11,9 @@ import { LanguageContext } from '../../../../../context/LangContext'
 import { PartnersContext } from '../../../../../context/PartnerContext'
 
 const Form = (props) => {
-  const { getAllVendors, editData } = useContext(PartnersContext);
-  const { languages ,getAllLanguages} = useContext(LanguageContext);
-  const { formIsOpen, setFormIsOpen, defaultFilter, formIsEdit, setFormIsEdit, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+  const { getAllVendors, vendorDefaultFilter, editData } = useContext(PartnersContext);
+  const { languages } = useContext(LanguageContext);
+  const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
   const handleClose = () => {
     setFormIsOpen(false);
@@ -30,7 +30,7 @@ const handleSubmit = async (values, { resetForm }) => {
                 type: 'success',
                 message: data.data.message
             });
-            getAllVendors(defaultFilter);
+            getAllVendors(vendorDefaultFilter);
             handleClose()
             formik.resetForm();
         } else {
@@ -48,7 +48,7 @@ const handleSubmit = async (values, { resetForm }) => {
                 type: 'success',
                 message: data.data.message
             });
-            getAllVendors(defaultFilter);
+            getAllVendors(vendorDefaultFilter);
             handleClose()
             formik.resetForm();
         } else {
