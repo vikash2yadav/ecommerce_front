@@ -64,6 +64,7 @@ const MyAddressAddNewCompo = () => {
         });
         }
         if(name === 'state_id'){
+            formik.setFieldValue('city_id',null);
             getCityList({
                 filters: [
                     {

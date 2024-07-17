@@ -15,7 +15,6 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
             if (value) {
                 newFilters[existingFilterIndex].value = value;
             } else {
-                // Remove filter if value is empty
                 newFilters.splice(existingFilterIndex, 1);
             }
         } else if (value) {
@@ -27,7 +26,7 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
             filters: newFilters
         }));
 
-        await fetchDataApi({ ...defaultFilter, filters: newFilters });
+            await fetchDataApi({ ...defaultFilter, filters: newFilters });
     };
 
     const handleShort = async (columnId, direction) => {
