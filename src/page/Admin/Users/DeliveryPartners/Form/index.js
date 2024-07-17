@@ -4,21 +4,25 @@ import { useFormik } from 'formik'
 import InputC from '../../../../../components/InputC'
 import SelectC from '../../../../../components/SelectC'
 import ButtonC from '../../../../../components/ButtonC'
-import { addPartnerInitialValue, addPartnerSchema, genders } from '../Schema'
+import { addPartnerInitialValue, addPartnerSchema,updatePartnerSchema, genders } from '../Schema'
 import { CommonsContext } from '../../../../../context/CommonContext'
-import { addPartnerApi } from '../../../../../apis/partner'
+import { addPartnerApi, updateDeliveryPartnerApi } from '../../../../../apis/partner'
 import { LanguageContext } from '../../../../../context/LangContext'
 import { PartnersContext } from '../../../../../context/PartnerContext'
 
 const Form = (props) => {
-  const { getAllDeliveryPartners } = useContext(PartnersContext);
-  const { languages ,getAllLanguages} = useContext(LanguageContext);
-  const { setFormIsOpen, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+  const { getAllDeliveryPartners, deliveryPartnerDefaultFilter, editData } = useContext(PartnersContext);
+  const { languages } = useContext(LanguageContext);
+  const { formIsOpen, formIsEdit, setFormIsOpen, setFormIsEdit, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
-  const formik = useFormik({
-    initialValues: addPartnerInitialValue,
-    validationSchema: addPartnerSchema,
-    onSubmit: async (values) => {
+  const handleClose = () => {
+    setFormIsOpen(false);
+    setFormIsEdit(false);
+    formik.resetForm();
+}
+
+const handleSubmit = async (values, { resetForm }) => {
+    if (formIsOpen) {
         let data = await addPartnerApi(values);
         if (data?.status === 200) {
             setSnackbarAlertOpen(true);
@@ -26,8 +30,27 @@ const Form = (props) => {
                 type: 'success',
                 message: data.data.message
             });
-            getAllDeliveryPartners();
-            setFormIsOpen(false)
+            getAllDeliveryPartners(deliveryPartnerDefaultFilter);
+            handleClose()
+            formik.resetForm();
+        } else {
+            setSnackbarAlertOpen(true);
+            setSnackbarContent({
+                type: 'error',
+                message: data.data.message
+            });
+        }
+    } else {
+        let data = await updateDeliveryPartnerApi(values);
+        if (data?.status === 200) {
+            setSnackbarAlertOpen(true);
+            setSnackbarContent({
+                type: 'success',
+                message: data.data.message
+            });
+            getAllDeliveryPartners(deliveryPartnerDefaultFilter);
+            handleClose()
+            formik.resetForm();
         } else {
             setSnackbarAlertOpen(true);
             setSnackbarContent({
@@ -36,20 +59,28 @@ const Form = (props) => {
             });
         }
     }
-})
+}
+
+const formik = useFormik({
+    initialValues: addPartnerInitialValue,
+    validationSchema: formIsOpen ? addPartnerSchema : updatePartnerSchema,
+    onSubmit: handleSubmit
+});
 
   const handleChange = (name) => (value) => {
     formik.setFieldValue(name, value)
   }
 
-  useEffect(()=>{
-    getAllLanguages();
-  }, [])
+  useEffect(() => {
+    if (formIsEdit) {
+        formik.setValues(editData);
+    }
+}, [formIsEdit, editData]);
 
   return (
     <>
-       <Modal open={props?.formIsOpen} onCancel={() => props?.setFormIsOpen(false)} footer={null}>
-                <p className='text-xl font-semibold mt-3 mb-3'> Add Partner </p>
+       <Modal open={props?.open} onCancel={handleClose} footer={null}>
+                <p className='text-xl font-semibold mt-3 mb-3'> {formIsOpen ? 'Add Delivery Partner' : 'Update Delivery Partner'}  </p>
 
                 <form action="" onSubmit={formik.handleSubmit}>
    
@@ -77,21 +108,25 @@ const Form = (props) => {
                         ) : null}
                     </div>
 
-                    <div className='mb-3'>
-                    <p className='text-sm'>Password</p>
-                        <InputC placeholder="Password" name="password" value={formik.values.password} onChange={formik.handleChange} />
+                    {
+                    formIsOpen && (
+                        <div className='mb-3'>
+                        <p className='text-sm'>Password</p>
+                        <InputC name="password" value={formik.values.password} onChange={formik.handleChange} />
                         {formik.errors.password && formik.touched.password ? (
                             <div className='text-red-600 text-xs'>{formik.errors.password}</div>
                         ) : null}
                     </div>
+                    )
+                  }
 
-                    <div className='mb-3'>
+                    {/* <div className='mb-3'>
                         <p className='text-sm'>Profile Image</p>
                         <InputC className='relative overflow-hidden ' type="file" name="profile_image" value={formik.values.profile_image} onChange={formik.handleChange} />
                         {formik.errors.profile_image && formik.touched.profile_image ? (
                             <div className='text-red-600 text-xs'>{formik.errors.profile_image}</div>
                         ) : null}
-                    </div>
+                    </div> */}
 
                     <div className='mb-3'>
                     <p className='text-sm'>Birth Date</p>
@@ -134,7 +169,7 @@ const Form = (props) => {
                     </div>  
                     
 
-                    <ButtonC type="submit" variant="outlined" label="Add" color="primary" />
+                    <ButtonC type="submit" variant="outlined"  label={formIsOpen ? 'Add' : 'Update'} color="primary" />
                 </form>
             </Modal>
     </>

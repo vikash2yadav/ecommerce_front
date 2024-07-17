@@ -11,16 +11,16 @@ export const PartnerContext = ({ children }) => {
     const [editData, setEditData] = useState({});
     const [totalDeliveryPartners, setTotalDeliveryPartners] = useState(null);
     const [vendorDefaultFilter, setVendorDefaultFilter] = useState({
-        "currentPage": 1,
-        "itemsPerPage": 5,
-        "filters": [],
-        "sortBy": []
+        currentPage: 1,
+        itemsPerPage: 5,
+        filters: [],
+        sortBy: []
     });
-    const [deliveryPartnerDefaultFilter, setDeliveryPartnerVendorDefaultFilter] = useState({
-        "currentPage": 1,
-        "itemsPerPage": 5,
-        "filters": [],
-        "sortBy": []
+    const [deliveryPartnerDefaultFilter, setDeliveryPartnerDefaultFilter] = useState({
+        currentPage: 1,
+        itemsPerPage: 5,
+        filters: [],
+        sortBy: []
     });
 
     const getAllVendors = async (value) => {
@@ -57,7 +57,7 @@ export const PartnerContext = ({ children }) => {
             getAllVendors, deliveryPartners, setDeliveryPartners,
             totalDeliveryPartners, setTotalDeliveryPartners, getAllDeliveryPartners,
             vendorDefaultFilter, setVendorDefaultFilter,
-            deliveryPartnerDefaultFilter, setDeliveryPartnerVendorDefaultFilter,
+            deliveryPartnerDefaultFilter, setDeliveryPartnerDefaultFilter,
             editData, setEditData
         }}>
             {children}

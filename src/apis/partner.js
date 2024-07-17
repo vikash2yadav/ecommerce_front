@@ -37,6 +37,18 @@ export async function getDeliveryPartnerByIdApi (id, body) {
     return await callApi({method: 'GET', url: `http://localhost:8000/partner/delivery_partner/get/${id}`, body});
 }
 
+export async function deleteDeliveryPartnerApi (id, body) {
+    return await callApi({method: 'DELETE', url: `http://localhost:8000/partner/delivery_partner/delete/${id}`, body});
+}
+
 export async function addPartnerApi (body) {
     return await callApi({method: 'POST', url: 'http://localhost:8000/partner/delivery_partner/add', body});
+}
+
+export async function updateDeliveryPartnerApi (body) {
+    return await callApi({method: 'PUT', url: `http://localhost:8000/partner/delivery_partner/update`, body});
+}
+
+export async function deliveryPartnerStatusChangeApi (body) {
+    return await callApi({method: 'PUT', url: `http://localhost:8000/partner/delivery_partner/status_change`, body});
 }
