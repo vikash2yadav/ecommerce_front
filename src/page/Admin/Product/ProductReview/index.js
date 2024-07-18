@@ -14,26 +14,19 @@ import ButtonC from '../../../../components/ButtonC';
 import { GrPowerReset } from "react-icons/gr";
 import { CustomersContext } from '../../../../context/CustomerContext';
 import { ProductsContext } from '../../../../context/ProductContext';
-import { ProductVariantsContext } from '../../../../context/ProductVariantContext';
 import ReactStars from 'react-stars';
-import { getProductVariantListById } from '../../../../apis/product_variant';
 
 const ProductReview = () => {
     const { formIsOpen, formIsEdit, setFormIsOpen, setFormIsEdit, handleDelete } = useContext(CommonsContext);
-    const { variantListByProduct, setVariantListByProduct } = useContext(ProductVariantsContext);
-    const { productReviews,editData, setEditData, getAllProductReviews, defaultFilter, totalProductReviews, setDefaultFilter } = useContext(ProductReviewsContext);
+    const { productReviews, setEditData, getAllProductReviews, defaultFilter, totalProductReviews, setDefaultFilter } = useContext(ProductReviewsContext);
     const { getAllCustomers } = useContext(CustomersContext);
     const { getAllProducts } = useContext(ProductsContext);
-
-     
     
     const handleEdit = async (id) => {
         let data = await getProductReviewById(id);
         if (data?.status === 200) {
             setEditData(data?.data?.data);
         }
-        await getProductVariantListById(2);
-        setVariantListByProduct(data?.data?.data?.rows);
         setFormIsEdit(true);
         setFormIsOpen(false);
         getAllCustomers();
@@ -71,21 +64,6 @@ const ProductReview = () => {
             Cell: ({ row }) => {
                 return (
                     row?.original?.product?.name ? row?.original?.product?.name : '-'
-                )
-            }
-        },
-        {
-            Header: 'Product variant',
-            access: 'product_variant.name',
-            isSearch: true,
-            isShort: true,
-            isColumn: true,
-            Cell: ({ row }) => {
-                return (
-                    <>
-                        <p> <span className='mx-1 border py-0.5 px-1 bg-gray-400 text-white rounded-lg border-1'>{row?.original?.product_variant?.attribute?.name ? row?.original?.product_variant?.attribute?.name : '-'}</span>:
-                            <span className='mx-1'>{row?.original?.product_variant?.attribute_value ? row?.original?.product_variant?.attribute_value : '-'}</span></p>
-                    </>
                 )
             }
         },
@@ -167,7 +145,7 @@ const ProductReview = () => {
             <AdminSidebar />
             <div className="p-4 sm:ml-64 mb-6">
 
-                <UperTitleBox title="All Product Reviews" />
+                <UperTitleBox title="Product Reviews" />
 
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 

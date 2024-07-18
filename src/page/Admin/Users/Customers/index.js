@@ -224,7 +224,7 @@ const Customers = () => {
             <AdminSidebar />
             <div className="p-4 sm:ml-64 mb-6">
 
-                <UperTitleBox title="All Customers" />
+                <UperTitleBox title="Customers" />
 
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 
