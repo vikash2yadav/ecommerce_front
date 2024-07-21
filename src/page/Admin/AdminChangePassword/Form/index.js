@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import InputC from '../../../../components/InputC'
-import ButtonC from '../../../../components/ButtonC'
 import { useFormik } from 'formik'
 import { adminChangePasswordInitialValue, adminChangePasswordSchema } from '../Schema'
 import {changeAdminPassword} from '../../../../apis/admin'
 import { CommonsContext } from '../../../../context/CommonContext'
 import { useNavigate } from 'react-router-dom'
+import { Button } from 'antd'
 
 const Form = () => {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Form = () => {
     
     return (
         <>
-            <form action="" className='w-80' onSubmit={formik.handleSubmit}>
+            <form action="" className='w-full' onSubmit={formik.handleSubmit}>
                 <div className='mb-3'>
                     <InputC placeholder="Current Password"
                     type="password"
@@ -69,7 +69,11 @@ const Form = () => {
                     ) : null}
                 </div>
 
-                <ButtonC type="submit" variant='contained' color='secondary' className='' label="Change password" />
+                
+               <Button type="submit" variant='contained' type='primary' >
+                    Change Password
+                </Button>
+              
             </form>
         </>
     )

@@ -177,7 +177,7 @@ const Faq = () => {
                         fetchDataApi={getAllFaqs}
                         totalItems={totalfaqs}
                     />
-                    <PaginationC />
+                   
                 </div>
             </div>
             <Form open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />

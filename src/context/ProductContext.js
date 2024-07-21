@@ -7,6 +7,13 @@ export const ProductContext = ({ children }) => {
     const [totalProducts, setTotalProducts] = useState(0);
     const [vendorProducts, setVendorProducts] = useState([]);
     const [totalVendorProducts, setTotalVendorProducts] = useState(0);
+    const [editData, setEditData] = useState({});
+    const [productsDefaultFilter, setProductsDefaultFilter] = useState({
+        currentPage: 1,
+        itemsPerPage: 5,
+        filters: [],
+        sortBy: []
+    });
 
     const getAllProducts = async () => {
         let data = await getProductList();
@@ -27,7 +34,10 @@ export const ProductContext = ({ children }) => {
     return (
         <ProductsContext.Provider value={{
             products, setProducts, totalProducts, setTotalProducts, getAllProducts,
-            vendorProducts, setVendorProducts, totalVendorProducts, setTotalVendorProducts, getAllVendorProducts
+            vendorProducts, setVendorProducts, totalVendorProducts, 
+            setTotalVendorProducts, getAllVendorProducts, editData, setEditData,
+            productsDefaultFilter, setProductsDefaultFilter,
+
         }}>
             {children}
         </ProductsContext.Provider>
