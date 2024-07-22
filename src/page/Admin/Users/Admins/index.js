@@ -233,7 +233,7 @@ const Admins = () => {
 
             <div className="p-4 sm:ml-64 mb-6">
 
-                <UperTitleBox title="All Admins" />
+                <UperTitleBox title="Admins" />
 
                 <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
 

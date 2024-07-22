@@ -99,7 +99,7 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
                                     column?.isColumn && (
                                         <th className="py-3 px-6" {...column.getHeaderProps()}>
                                             {column?.isSearch && (
-                                                <div className='flex justify-center items-center'>
+                                                <div className='flex justify-center bg-gray-100 items-center'>
                                                     <SearchC
                                                         sx={{ width: "120px" }}
                                                         className="text-xs"

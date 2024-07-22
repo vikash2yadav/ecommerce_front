@@ -27,3 +27,11 @@ export async function adminStatusChange (body) {
 export async function getAdminById (id, body) {
     return await callApi({method: "GET", url: `http://localhost:8000/admin/get/${id}`, body});
 }
+
+export async function getProfile (body) {
+    return await callApi({method: "GET", url: `http://localhost:8000/admin/self/profile`, body});
+}
+
+export async function updateSelfProfile (body) {
+    return await callApi({method: "PUT", url: `http://localhost:8000/admin/update/self/profile`, body});
+}

@@ -1,47 +1,66 @@
-import React, { useContext, useEffect } from 'react';
-import Form from './Form'
-import AdminSidebar from '../../../../components/Admin/AdminSidebar';
-import Table from '../../../../components/Table';
+import React, { useContext, useEffect } from 'react'
+import AdminSidebar from '../../../components/Admin/AdminSidebar'
+import Table from '../../../components/Table'
 import { Button } from 'antd';
-import PaginationC from '../../../../components/PaginationC';
-import { CategoryContext } from '../../../../context/CategoryContext';
-import { CommonsContext } from '../../../../context/CommonContext';
-import UperTitleBox from '../../../../components/Admin/UperTitleBox';
+import PaginationC from '../../../components/PaginationC';
+import { ProductsContext } from '../../../context/ProductContext'
+import { CommonsContext } from '../../../context/CommonContext'
+import { CategoryContext } from "../../../context/CategoryContext"
+import UperTitleBox from '../../../components/Admin/UperTitleBox';
+import Form from './Form'
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
-import ButtonC from '../../../../components/ButtonC';
-import { getCategoryById, deleteCategory, categoryStatusChange } from '../../../../apis/category';
+import { PartnersContext } from '../../../context/PartnerContext';
+import { getProductById, deleteProductApi, productStatusChangeApi } from '../../../apis/product';
+import ButtonC from '../../../components/ButtonC';
 import { GrPowerReset } from "react-icons/gr";
+import { TbInfoTriangleFilled } from "react-icons/tb";
 
-const Categories = () => {
-    const { categories, getAllCategories, setEditData, totalCategories, defaultFilter, setDefaultFilter } = useContext(CategoryContext);
-    const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, handleDelete } = useContext(CommonsContext);
+const Products = () => {
+    const { getAllCategories } = useContext(CategoryContext);
+    const { getAllVendors } = useContext(PartnersContext);
+    const { products,totalProducts, getAllProducts, setEditData, productsDefaultFilter, setProductsDefaultFilter } = useContext(ProductsContext);
+    const { formIsOpen,setFormIsEdit,formIsEdit, setFormIsOpen, handleDelete } = useContext(CommonsContext);
 
     const handleEdit = async (id) => {
-        let data = await getCategoryById(id);
+        let data = await getProductById(id);
         if (data?.status === 200) {
             setEditData(data?.data?.data);
         }
         setFormIsEdit(true);
         setFormIsOpen(false);
+        getAllCategories();
+        getAllVendors();
     }
 
-    const handleDeleteCategory = async (id) => {
-        return await deleteCategory(id);
+    const handleDeleteProduct = async (id) => {
+        return await deleteProductApi(id);
     }
 
     const handleStatusChange = async (body) => {
-        await categoryStatusChange(body);
-        getAllCategories(defaultFilter);
+        await productStatusChangeApi(body);
+        getAllProducts(productsDefaultFilter);
     }
 
     const columns = [
+        {
+            Header: 'Vendor',
+            access: 'partner.full_name',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.partner?.full_name ? row?.original?.partner?.full_name : '-'
+                )
+            }
+        },
         {
             Header: 'Name',
             access: 'name',
             isSearch: true,
             isShort: true,
-            isColumn: true,
+            isColumn: true ,
             Cell: ({ row }) => {
                 return (
                     row?.original?.name ? row?.original?.name : '-'
@@ -61,6 +80,18 @@ const Categories = () => {
             }
         },
         {
+            Header: 'Title',
+            access: 'title',
+            isSearch: true,
+            isShort: true,
+            isColumn: true ,
+            Cell: ({ row }) => {
+                return (
+                    row?.original?.title ? row?.original?.title : '-'
+                )
+            }
+        },
+        {
             Header: 'Description',
             access: 'description',
             isSearch: true,
@@ -73,8 +104,8 @@ const Categories = () => {
             }
         },
         {
-            Header: 'Parent category',
-            access: 'parent_category.name',
+            Header: 'Category',
+            access: 'category.name',
             isSearch: true,
             isColumn: true,
             Cell: ({ row }) => {
@@ -84,24 +115,25 @@ const Categories = () => {
             }
         },
         {
-            Header: 'Created by',
-            access: 'createdBy.full_name',
-            isSearch: true,
+            Header: 'Variants',
+            access: 'variants',
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.createdBy?.full_name ? row?.original?.createdBy?.full_name : '-'
+                    <div className='flex justify-center items-center'>
+                        <span className='text-3xl hover:cursor-pointer text-gray-400'><TbInfoTriangleFilled/></span>
+                    </div>
                 )
             }
         },
         {
-            Header: 'Updated by',
-            access: 'updatedBy.full_name',
+            Header: 'Last updated by',
+            access: 'last_updated_by.full_name',
             isSearch: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.updatedBy?.full_name ? row?.original?.updatedBy?.full_name : '-'
+                    row?.original?.admin?.full_name ? row?.original?.admin?.full_name : '-'
                 )
             }
         },
@@ -135,7 +167,7 @@ const Categories = () => {
                         className="text-blue-600 text-xl hover:text-blue-900 hover:cursor-pointer"
                     />
                     <MdDeleteOutline
-                        onClick={() => handleDelete(row?.original?.id, undefined, handleDeleteCategory, getAllCategories, defaultFilter)}
+                        onClick={() => handleDelete(row?.original?.id, undefined, handleDeleteProduct, getAllProducts, productsDefaultFilter)}
                         className="text-red-600 text-2xl hover:text-red-900 ml-2 hover:cursor-pointer"
                     />
                 </div>
@@ -145,26 +177,25 @@ const Categories = () => {
 
     const handleOpen = () => {
         setFormIsOpen(true);
-        setFormIsEdit(false);
-        // getAllCategories();
+        getAllCategories();
+        getAllVendors();
     }
 
     useEffect(() => {
-        getAllCategories(defaultFilter);
-    }, [defaultFilter, setDefaultFilter]);
+        getAllProducts(productsDefaultFilter);
+    }, [productsDefaultFilter, setProductsDefaultFilter]);
 
     return (
         <>
             <AdminSidebar />
-
             <div className="p-4 sm:ml-64 mb-6">
 
-                <UperTitleBox title="Categories" />
+                <UperTitleBox title="Products" />
 
-                <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
+                <div className="p-4 border-2 border-gray-200 border rounded-lg mb-8">
 
-                    <div className='flex justify-end items-center mb-2'>
-                        <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllCategories(setDefaultFilter({
+                <div className='flex justify-end items-center mb-2'>
+                        <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllProducts(setProductsDefaultFilter({
                             currentPage: 1,itemsPerPage: 5,filters: [],sortBy: []
                         }))}/></div>
                         <Button onClick={handleOpen}>+ Add New</Button>
@@ -173,18 +204,18 @@ const Categories = () => {
                     <div className='overflow-x-auto'>
                         <Table 
                         columns={columns} 
-                        data={categories} 
-                        fetchDataApi={getAllCategories} 
-                        defaultFilter={defaultFilter}
-                        setDefaultFilter={setDefaultFilter}
+                        data={products} 
+                        fetchDataApi={getAllProducts} 
+                        defaultFilter={productsDefaultFilter}
+                        setDefaultFilter={setProductsDefaultFilter}
                         />
                     </div>
 
                     <PaginationC
-                        defaultFilter={defaultFilter}
-                        setDefaultFilter={setDefaultFilter}
-                        fetchDataApi={getAllCategories}
-                        totalItems={totalCategories}
+                        defaultFilter={productsDefaultFilter}
+                        setDefaultFilter={setProductsDefaultFilter}
+                        fetchDataApi={getAllProducts}
+                        totalItems={totalProducts}
                     />
 
                 </div>
@@ -195,4 +226,4 @@ const Categories = () => {
     )
 }
 
-export default Categories
+export default Products

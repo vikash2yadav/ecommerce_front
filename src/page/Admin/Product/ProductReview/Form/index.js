@@ -1,4 +1,4 @@
-import { Modal, Select } from 'antd'
+import { Modal } from 'antd'
 import React, { useContext, useEffect } from 'react'
 import { useFormik } from 'formik'
 import SelectC from '../../../../../components/SelectC'
@@ -7,15 +7,12 @@ import ButtonC from '../../../../../components/ButtonC'
 import { addProductReviewInitialValue, addProductReviewSchema } from '../Schema'
 import { CommonsContext } from '../../../../../context/CommonContext'
 import { addProductReviewApi, updateProductReviewApi } from '../../../../../apis/product_review'
-import { getProductVariantListById } from '../../../../../apis/product_variant'
 import { ProductsContext } from '../../../../../context/ProductContext'
-import { ProductVariantsContext } from "../../../../../context/ProductVariantContext"
 import { ProductReviewsContext } from "../../../../../context/ProductReviewContext"
 import { CustomersContext } from '../../../../../context/CustomerContext'
 import ReactStars from 'react-stars'
 
 const Form = (props) => {
-    const { variantListByProduct, setVariantListByProduct } = useContext(ProductVariantsContext);
     const { customers } = useContext(CustomersContext);
     const { products } = useContext(ProductsContext);
     const { getAllProductReviews, defaultFilter, editData } = useContext(ProductReviewsContext);
@@ -74,18 +71,12 @@ const Form = (props) => {
     });
 
     const handleChange = (name) => async (value) => {
-        if (name === "product_id") {
-            formik.setFieldValue('product_variant_id',null);
-            let data = await getProductVariantListById(value);
-            setVariantListByProduct(data?.data?.data?.rows);
-        }
         formik.setFieldValue(name, value);
     }
 
     useEffect(() => {
         if (formIsEdit) {
             formik.setValues(editData);
-            // formik.setValues({...editData, 'product_variant_id': editData?.product_variant?.attribute_value});
         }
     }, [formIsEdit, editData]);
 
@@ -109,14 +100,6 @@ const Form = (props) => {
                         <SelectC options={products} className='w-full' name="product_id" value={formik.values.product_id} onChange={handleChange('product_id')} />
                         {formik.errors.product_id && formik.touched.product_id ? (
                             <div className='text-red-600 text-xs'>{formik.errors.product_id}</div>
-                        ) : null}
-                    </div>
-
-                    <div className='mb-3'>
-                        <p className='text-sm'>Product Variant</p>
-                        <SelectC options={variantListByProduct} className='w-full' name="product_variant_id" value={formik.values.product_variant_id} onChange={handleChange('product_variant_id')} />
-                        {formik.errors.product_variant_id && formik.touched.product_variant_id ? (
-                            <div className='text-red-600 text-xs'>{formik.errors.product_variant_id}</div>
                         ) : null}
                     </div>
 

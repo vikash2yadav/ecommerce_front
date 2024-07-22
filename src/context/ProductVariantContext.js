@@ -7,7 +7,6 @@ export const ProductVariantContext = ({ children }) => {
     const {setSnackbarAlertOpen, setSnackbarContent} = useContext(CommonsContext);
     const [productVariants, setProductVariants] = useState([]);
     const [totalProductVariants, setTotalProductVariants] = useState(null);
-    const [variantListByProduct, setVariantListByProduct ] = useState([]);
 
     const getAllProductVariants = async () => {
         let data = await getProductVariantList();
@@ -27,7 +26,6 @@ export const ProductVariantContext = ({ children }) => {
         <ProductVariantsContext.Provider value={{
             productVariants, setProductVariants, totalProductVariants,
              setTotalProductVariants, getAllProductVariants,
-             variantListByProduct, setVariantListByProduct
         }}>
             {children}
         </ProductVariantsContext.Provider>

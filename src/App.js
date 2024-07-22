@@ -25,7 +25,7 @@ import Coupons from './page/Coupons';
 import Dashboard from './page/Admin/Dashboard';
 import Orders from './page/Admin/Order/Orders';
 import Categories from './page/Admin/Product/Categories';
-import Products from './page/Admin/Product/Products';
+import Products from './page/Admin/Product';
 import ProductReview from './page/Admin/Product/ProductReview';
 import Faq from './page/Admin/Product/Faq';
 import ProductVariants from './page/Admin/Product/ProductVariants';

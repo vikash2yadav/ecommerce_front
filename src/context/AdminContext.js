@@ -9,10 +9,10 @@ export const AdminContext = ({ children }) => {
     const [admins, setAdmins] = useState([]);
     const [totalAdmins, setTotalAdmins] = useState(null);
     const [defaultFilter, setDefaultFilter] = useState({
-        "currentPage": 1,
-        "itemsPerPage": 5,
-        "filters": [],
-        "sortBy": []
+        currentPage: 1,
+        itemsPerPage: 5,
+        filters: [],
+        sortBy: []
     });
 
     const getAllAdmins = async (value) => {
@@ -31,7 +31,8 @@ export const AdminContext = ({ children }) => {
 
     return (
         <AdminsContext.Provider value={{
-            admins, setAdmins, totalAdmins,editData, setEditData, setTotalAdmins, getAllAdmins, defaultFilter, setDefaultFilter
+            admins, setAdmins, totalAdmins,editData, setEditData,
+            setTotalAdmins, getAllAdmins, defaultFilter, setDefaultFilter, 
         }}>
             {children}
         </AdminsContext.Provider>
