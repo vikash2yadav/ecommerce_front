@@ -15,8 +15,8 @@ export const ProductContext = ({ children }) => {
         sortBy: []
     });
 
-    const getAllProducts = async () => {
-        let data = await getProductList();
+    const getAllProducts = async (value) => {
+        let data = await getProductList(value);
         if (data?.status === 200) {
             setProducts(data.data.data.rows);
             setTotalProducts(data.data.data.count);

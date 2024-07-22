@@ -13,7 +13,7 @@ import { PartnersContext } from "../../../../context/PartnerContext"
 
 const Form = (props) => {
   const { categories } = useContext(CategoryContext);
-  const { getAllProducts, editData, defaultFilter } = useContext(ProductsContext);
+  const { getAllProducts, editData, productsDefaultFilter } = useContext(ProductsContext);
   const { vendors } = useContext(PartnersContext);
   const { setFormIsOpen,formIsOpen,formIsEdit,setFormIsEdit, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
 
@@ -32,7 +32,7 @@ const handleSubmit = async (values, { resetForm }) => {
                 type: 'success',
                 message: data.data.message
             });
-            getAllProducts(defaultFilter);
+            getAllProducts(productsDefaultFilter);
             handleClose()
             formik.resetForm();
         } else {
@@ -50,7 +50,7 @@ const handleSubmit = async (values, { resetForm }) => {
                 type: 'success',
                 message: data.data.message
             });
-            getAllProducts(defaultFilter);
+            getAllProducts(productsDefaultFilter);
             handleClose()
             formik.resetForm();
         } else {

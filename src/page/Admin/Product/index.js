@@ -45,7 +45,7 @@ const Products = () => {
     const columns = [
         {
             Header: 'Vendor',
-            access: 'partner_id',
+            access: 'partner.full_name',
             isSearch: true,
             isShort: true,
             isColumn: true,
@@ -105,7 +105,7 @@ const Products = () => {
         },
         {
             Header: 'Category',
-            access: 'category_id',
+            access: 'category.name',
             isSearch: true,
             isColumn: true,
             Cell: ({ row }) => {
@@ -128,7 +128,7 @@ const Products = () => {
         },
         {
             Header: 'Last updated by',
-            access: 'last_updated_by',
+            access: 'last_updated_by.full_name',
             isSearch: true,
             isColumn: true,
             Cell: ({ row }) => {
@@ -192,7 +192,7 @@ const Products = () => {
 
                 <UperTitleBox title="Products" />
 
-                <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
+                <div className="p-4 border-2 border-gray-200 border rounded-lg mb-8">
 
                 <div className='flex justify-end items-center mb-2'>
                         <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'><GrPowerReset onClick={()=>getAllProducts(setProductsDefaultFilter({
