@@ -1,97 +1,51 @@
-import React, { useContext, useEffect } from 'react'
-import AdminSidebar from '../../../../components/Admin/AdminSidebar'
-import Table from '../../../../components/Table'
-import { Button } from 'antd';
-import PaginationC from '../../../../components/PaginationC';
-import { ProductVariantsContext } from '../../../../context/ProductVariantContext'
-import UperTitleBox from '../../../../components/Admin/UperTitleBox';
+import { Modal } from 'antd';
+import React, { useContext } from 'react';
+import ButtonC from '../../../../components/ButtonC'
+import { ProductVariantsContext } from "../../../../context/ProductVariantContext"
 
-const Products = () => {
-    const { productVariants, setProductVariants, getAllProductVariants } = useContext(ProductVariantsContext);
-
-    const columns = [
-        {
-            Header: 'Id',
-            accessor: 'id',
-        },
-        {
-            Header: 'Product id',
-            accessor: 'product_id',
-        },
-        {
-            Header: 'Attribute id',
-            accessor: 'attribute_id',
-        },
-        {
-            Header: 'Attribute value id',
-            accessor: 'attribute_value_id',
-        },
-        {
-            Header: 'Price',
-            accessor: 'price',
-        },
-        {
-            Header: 'Discount',
-            accessor: 'discount',
-        },
-        {
-            Header: 'Stock',
-            accessor: 'stock',
-        },
-        {
-            Header: 'Weight',
-            accessor: 'weight',
-        },
-        {
-            Header: 'Dimensions',
-            accessor: 'dimensions',
-        },
-        {
-            Header: 'Material',
-            accessor: 'material',
-        },
-        {
-            Header: 'Image',
-            accessor: 'image',
-        },
-        {
-            Header: 'Action',
-            accessor: 'action',
-            component: (
-                <>
-
-                </>
-            )
-        },
-    ];
-
-    useEffect(() => {
-        getAllProductVariants();
-    }, [setProductVariants]);
-
+const ProductVariants = () => {
+    const { variantDetailOpen, setVariantDetailOpen, productVariants } = useContext(ProductVariantsContext)
     return (
-        <>
-            <AdminSidebar />
-            <div className="p-4 sm:ml-64 mb-6">
+        <div>
+            <Modal
+                open={variantDetailOpen}
+                onCancel={() => setVariantDetailOpen(false)}
+                footer={null}
+                className="overflow-y-auto h-2/3"
+                width={800}
+            >
+                {
+                    productVariants ? productVariants.map((variant) => ((
+                        <>
+                            <p className='mt-5 mb-3 text-xl font-semibold'>Product Variants</p>
 
-                <UperTitleBox title="All Product Variants" />
+                            <div className="flex w-full text-center flex-col">
 
-                <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
+                                <div className='border flex justify-between items-center border-2 rounded-xl border-gray-200 w-full h-44 mb-3'>
+                                    <div>
+                                        <h1>vnjhrvirjkgv</h1>
+                                    </div>
+                                    <div>
+                                        <h1>vjkfvrtjkvmrjodfoekk,</h1>
+                                    </div>
+                                </div>
 
-                    <div className='flex justify-end mb-2'>
-                        <Button>+ Add New</Button>
+                                <div className="mt-1">
+                                    <ButtonC type="submit" className="md:w-24 w-28 sm:w-16" variant="outlined" label="Add" color="primary" />
+                                </div>
+                            </div>
+                        </>
+                    )
+                    )
+                    ) : (
+                    <div className='flex justify-center items-center text-2xl'>
+                        No data
                     </div>
-
-                    <div className='overflow-x-auto'>
-                        <Table columns={columns} data={productVariants} />
-                    </div>
-
-                    <PaginationC />
-
-                </div>
-            </div>
-        </>
-    )
+                )
+                }
+            </Modal>
+        </div>
+    );
 }
 
-export default Products
+export default ProductVariants;
