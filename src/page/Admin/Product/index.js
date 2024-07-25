@@ -77,38 +77,26 @@ const Products = () => {
             }
         },
         {
-            Header: 'Slug',
-            access: 'slug',
+            Header: 'Sku',
+            access: 'sku',
             isSearch: true,
             isShort: true,
             isColumn: true ,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.slug ? row?.original?.slug : '-'
+                    row?.original?.sku ? row?.original?.sku : '-'
                 )
             }
         },
         {
-            Header: 'Title',
-            access: 'title',
-            isSearch: true,
-            isShort: true,
-            isColumn: true ,
-            Cell: ({ row }) => {
-                return (
-                    row?.original?.title ? row?.original?.title : '-'
-                )
-            }
-        },
-        {
-            Header: 'Description',
-            access: 'description',
+            Header: 'Keywords',
+            access: 'keywords',
             isSearch: true,
             isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.description ? row?.original?.description : '-'
+                    row?.original?.keywords ? row?.original?.keywords : '-'
                 )
             }
         },
