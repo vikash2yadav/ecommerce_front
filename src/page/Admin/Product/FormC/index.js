@@ -10,8 +10,9 @@ import { addProductApi, updateProductApi } from '../../../../apis/product'
 import { ProductsContext } from '../../../../context/ProductContext'
 import { CategoryContext } from "../../../../context/CategoryContext"
 import { PartnersContext } from "../../../../context/PartnerContext"
-
-const Form = (props) => {
+import { FaDeleteLeft } from "react-icons/fa6";
+import { IoMdAdd } from "react-icons/io";
+const FormC = (props) => {
     const { categories } = useContext(CategoryContext);
     const { getAllProducts, editData, productsDefaultFilter } = useContext(ProductsContext);
     const { vendors } = useContext(PartnersContext);
@@ -84,7 +85,7 @@ const Form = (props) => {
             <Modal open={props?.open} width={600} onCancel={handleClose} footer={null} className='mt-0 overflow-y-auto h-4/5' >
 
                 <p className='text-xl font-semibold mt-3 mb-5'>{formIsOpen ? 'Add Product' : 'Update Product'}</p>
-                <form action="" onSubmit={formik.handleSubmit} className='h-full'>
+                <form action="" onSubmit={formik.handleSubmit} className=''>
 
                     <div className='grid grid-cols-2 gap-8 mb-3'>
                         <div className='mb-3'>
@@ -168,7 +169,7 @@ const Form = (props) => {
                         </div>
                     </div>
 
-                    <div className='mb-5'>
+                    <div className='mb-12'>
                         <p className='text-sm'>Keywords <span className='text-xs text-blue-500 mx-1'>( keywords will be use for filter your product )</span> </p>
                         <InputC name="keywords" value={formik.values.keywords} onChange={formik.handleChange} />
                         {formik.errors.keywords && formik.touched.keywords ? (
@@ -176,63 +177,119 @@ const Form = (props) => {
                         ) : null}
                     </div>
 
-                    <div className="flex justify-center items-center mt-5">
-                        <ButtonC type="submit" variant="outlined" label={formIsOpen ? 'Add' : 'Update'} color="primary" />
-                    </div>
 
-
-                </form>
-
-                <Formik
-                    initialValues={{ friends: ['jared', 'ian', 'brent'] }}
-                    onSubmit={values =>
-                        setTimeout(() => {
-                            alert(JSON.stringify(values, null, 2));
-                        }, 500)
-                    }
-                    render={({ values }) => (
-                        <Form>
+                    <Formik
+                        initialValues={{ variants: [] }}
+                        onSubmit={values =>
+                            setTimeout(() => {
+                                alert(JSON.stringify(values, null, 2));
+                            }, 500)
+                        }
+                        render={({ values }) => (
                             <FieldArray
-                                name="friends"
+                                className="bg-gray-100"
+                                name="variants"
                                 render={arrayHelpers => (
                                     <div>
-                                        {values.friends && values.friends.length > 0 ? (
-                                            values.friends.map((friend, index) => (
+                                        {values.variants && values.variants.length > 0 ? (
+                                            values.variants.map((friend, index) => (
                                                 <div key={index}>
-                                                    <Field name={`friends.${index}`} />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => arrayHelpers.insert(index, '')} // insert an empty string at a position
-                                                    >
-                                                        +
-                                                    </button>
+                                                    <p className='text-xl font-semibold'>{formIsOpen ? `Product Variant ${index + 1}` : `Product Variant ${index + 1}`}</p>
+                                                    <div className='flex justify-end items-end mb-3'>
+                                                        <FaDeleteLeft size="2.2rem" className='text-gray-700' onClick={() => arrayHelpers.remove(index)} />
+                                                    </div>
+
+                                                    <div className='grid grid-cols-2 gap-8 mb-3'>
+                                                        <div className='mb-3'>
+                                                            <p className='text-sm'>Product Name </p>
+                                                            <InputC name="name" value={formik.values.name} onChange={formik.handleChange} />
+                                                            {formik.errors.name && formik.touched.name ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.name}</div>
+                                                            ) : null}
+                                                        </div>
+
+                                                        <div className='mb-3'>
+                                                            <p className='text-sm'>Sku </p>
+                                                            <InputC className='w-full' name="sku" value={formik.values.sku} onChange={formik.handleChange} />
+                                                            {formik.errors.sku && formik.touched.sku ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.sku}</div>
+                                                            ) : null}
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div className='grid grid-cols-2 gap-8 mb-3'>
+                                                        <div className='mb-3'>
+                                                            <p className='text-sm'>Strike Price </p>
+                                                            <InputC type="number" placeholder={0} className='w-full' name="strike_price" value={formik.values.strike_price} onChange={formik.handleChange} />
+                                                            {formik.errors.strike_price && formik.touched.strike_price ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.strike_price}</div>
+                                                            ) : null}
+                                                        </div>
+
+                                                        <div className='mb-3'>
+                                                            <p className='text-sm'>Price </p>
+                                                            <InputC type="number" placeholder={0} className='w-full' name="price" value={formik.values.price} onChange={formik.handleChange} />
+                                                            {formik.errors.price && formik.touched.price ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.price}</div>
+                                                            ) : null}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className='grid grid-cols-2 gap-8 mb-3'>
+                                                        <div className='mb-3'>
+                                                            <p className='text-sm'>Tag </p>
+                                                            <SelectC options={tags} className='w-full' name="tag" value={formik.values.tag} onChange={handleChange('tag')} />
+                                                            {formik.errors.tag && formik.touched.tag ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.tag}</div>
+                                                            ) : null}
+                                                        </div>
+
+                                                        <div className='mb-3'>
+                                                            <p className='text-sm'>Stock </p>
+                                                            <InputC type="number" placeholder={0} className='w-full' name="stock" value={formik.values.stock} onChange={formik.handleChange} />
+                                                            {formik.errors.stock && formik.touched.stock ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.stock}</div>
+                                                            ) : null}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className='mb-8'>
+                                                        <p className='text-sm'>Keywords <span className='text-xs text-blue-500 mx-1'>( keywords will be use for filter your product )</span> </p>
+                                                        <InputC name="keywords" value={formik.values.keywords} onChange={formik.handleChange} />
+                                                        {formik.errors.keywords && formik.touched.keywords ? (
+                                                            <div className='text-red-600 text-xs'>{formik.errors.keywords}</div>
+                                                        ) : null}
+                                                    </div>
+                                                    
+                                                   {
+                                                    arrayHelpers.length > 1 && (
+                                                        <hr className='mb-6'/>
+                                                    )
+                                                   }
                                                 </div>
                                             ))
                                         ) : (
-                                            <button type="button" onClick={() => arrayHelpers.push('')}>
-                                                {/* show this when user has removed all friends from the list */}
-                                                Add a friend
-                                            </button>
+                                            <></>
                                         )}
-                                        <div>
-                                            <button type="submit">Submit</button>
-                                        </div>
+                                        <ButtonC style={{marginBottom: '30px'}} startIcon={<IoMdAdd />} type="button" onClick={() => arrayHelpers.push('')} variant="outlined" label={formIsOpen ? 'Add Variant' : 'Update Variant'} color="primary" />
                                     </div>
                                 )}
                             />
-                        </Form>
-                    )}
-                />
+                        )}
+                    />
+
+
+                    <div className="flex justify-center items-center mt-3">
+                        <ButtonC type="cancel" variant="outlined" label={formIsOpen ? 'Cancel' : 'Cancel'} color="primary" />
+                        <ButtonC style={{ marginLeft: '10px' }} type="submit" variant="contained" label={formIsOpen ? 'Submit' : 'Update'} color="primary" />
+                    </div>
+                </form>
             </Modal>
         </>
     )
 }
 
-export default Form
+export default FormC
 

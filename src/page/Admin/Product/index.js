@@ -7,7 +7,6 @@ import { ProductsContext } from '../../../context/ProductContext'
 import { CommonsContext } from '../../../context/CommonContext'
 import { CategoryContext } from "../../../context/CategoryContext"
 import UperTitleBox from '../../../components/Admin/UperTitleBox';
-import Form from './Form'
 import ProductVariants from './ProductVariants'
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
@@ -18,6 +17,7 @@ import ButtonC from '../../../components/ButtonC';
 import { GrPowerReset } from "react-icons/gr";
 import { TbInfoTriangleFilled } from "react-icons/tb";
 import { ProductVariantsContext } from '../../../context/ProductVariantContext';
+import FormC from './FormC';
 
 const Products = () => {
     const { getAllCategories } = useContext(CategoryContext);
@@ -219,7 +219,7 @@ const Products = () => {
                 </div>
             </div>
 
-            <Form open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />
+            <FormC open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />
 
             <ProductVariants />
         </>
