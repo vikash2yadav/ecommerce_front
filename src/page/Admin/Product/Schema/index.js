@@ -6,8 +6,23 @@ export const addProductInitialValue = {
     vendor_id: '',
     category_id: '',
     strike_price: '',
+    tag: '',
     price: '',
-    stock: ''
+    stock: '',
+    variants:[
+        {
+            name:'',
+            sku: '',
+            strike_price: '',
+            price: '',
+            tag: '',
+            stock: '',
+            attributes:[{
+                attribute_id: '',
+                attribute_value: ''
+            }, {}, {}]
+        }, {}, {}
+    ]
 }
 
 export const addProductSchema = Yup.object({

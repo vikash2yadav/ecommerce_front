@@ -71,10 +71,11 @@ const FormC = (props) => {
         onSubmit: handleSubmit
     });
 
+    
     const handleChange = (name) => (value) => {
         formik.setFieldValue(name, value)
     }
-
+    
     useEffect(() => {
         if (formIsEdit) {
             formik.setValues(editData);
@@ -117,9 +118,9 @@ const FormC = (props) => {
                     <div className='grid grid-cols-2 gap-8 mb-3'>
                         <div className='mb-3'>
                             <p className='text-sm'>Product Name </p>
-                            <InputC name="name" value={formik.values.name} onChange={formik.handleChange} />
-                            {formik.errors.name && formik.touched.name ? (
-                                <div className='text-red-600 text-xs'>{formik.errors.name}</div>
+                            <InputC name="variants.name" value={formik.values.variants.name} onChange={formik.handleChange} />
+                            {formik?.errors?.variants?.name && formik?.touched?.variants?.name ? (
+                                <div className='text-red-600 text-xs'>{formik?.errors?.variants?.name}</div>
                             ) : null}
                         </div>
 
@@ -178,18 +179,14 @@ const FormC = (props) => {
                         ) : null}
                     </div>
 
-
+                   { console.log("index", formik.values.variants)}
                     <Formik
                         initialValues={{
                             variants: [{
-                                "attributes": []
+                                attributes: [{}]
                             }]
                         }}
-                        onSubmit={values =>
-                            setTimeout(() => {
-                                alert(JSON.stringify(values, null, 2));
-                            }, 500)
-                        }
+                        onSubmit={values =>''}
                         render={({ values }) => (
                             <FieldArray
                                 className="bg-gray-100"
@@ -197,8 +194,9 @@ const FormC = (props) => {
                                 render={arrayHelpers => (
                                     <div>
                                         {values.variants && values.variants.length > 0 ? (
-                                            values.variants.map((friend, index) => (
-                                                <div key={index}>
+                                            values.variants.map((item, index) => (
+                                                <div key={index}>   
+                                                {/* {console.log("index", index)} */}
                                                     <p className='text-xl font-semibold'>{formIsOpen ? `Product Variant ${index + 1}` : `Product Variant ${index + 1}`}</p>
                                                     <div className='flex justify-end items-end mb-3'>
                                                         <FaDeleteLeft size="2.2rem" className='text-gray-700' onClick={() => arrayHelpers.remove(index)} />
@@ -207,18 +205,18 @@ const FormC = (props) => {
                                                     <div className='grid grid-cols-2 gap-8 mb-3'>
                                                         <div className='mb-3'>
                                                             <p className='text-sm'>Product Name </p>
-                                                            <InputC name="name" value={formik.values.name} onChange={formik.handleChange} />
-                                                            {formik.errors.name && formik.touched.name ? (
-                                                                <div className='text-red-600 text-xs'>{formik.errors.name}</div>
-                                                            ) : null}
+                                                            <InputC name={`variants[${index}].name`} value={formik.values.variants[index].name} onChange={formik.handleChange} />
+                                                            {/* {formik?.errors?.variants[index]?.name && formik?.touched?.variants[index]?.name ? (
+                                                                <div className='text-red-600 text-xs'>{formik?.errors?.variants[index]?.name}</div>
+                                                            ) : null} */}
                                                         </div>
 
                                                         <div className='mb-3'>
                                                             <p className='text-sm'>Sku </p>
-                                                            <InputC className='w-full' name="sku" value={formik.values.sku} onChange={formik.handleChange} />
-                                                            {formik.errors.sku && formik.touched.sku ? (
-                                                                <div className='text-red-600 text-xs'>{formik.errors.sku}</div>
-                                                            ) : null}
+                                                            <InputC name={`variants[${index}].sku`} value={formik.values.variants[index].sku} onChange={formik.handleChange} />
+                                                            {/* {formik.errors.variants[index]?.sku && formik.touched.variants[index]?.sku ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.variants[index]?.sku}</div>
+                                                            ) : null} */}
                                                         </div>
 
 
@@ -227,49 +225,49 @@ const FormC = (props) => {
                                                     <div className='grid grid-cols-2 gap-8 mb-3'>
                                                         <div className='mb-3'>
                                                             <p className='text-sm'>Strike Price </p>
-                                                            <InputC type="number" placeholder={0} className='w-full' name="strike_price" value={formik.values.strike_price} onChange={formik.handleChange} />
-                                                            {formik.errors.strike_price && formik.touched.strike_price ? (
-                                                                <div className='text-red-600 text-xs'>{formik.errors.strike_price}</div>
-                                                            ) : null}
+                                                            <InputC type="number" placeholder={0} className='w-full' name={`variants[${index}].strike_price`} value={formik.values.variants[index].strike_price} onChange={formik.handleChange} />
+                                                            {/* {formik.errors.variants[index].strike_price && formik.touched.variants[index].strike_price ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.variants[index].strike_price}</div>
+                                                            ) : null} */}
                                                         </div>
 
                                                         <div className='mb-3'>
                                                             <p className='text-sm'>Price </p>
-                                                            <InputC type="number" placeholder={0} className='w-full' name="price" value={formik.values.price} onChange={formik.handleChange} />
-                                                            {formik.errors.price && formik.touched.price ? (
-                                                                <div className='text-red-600 text-xs'>{formik.errors.price}</div>
-                                                            ) : null}
+                                                            <InputC type="number" placeholder={0} className='w-full' name={`variants[${index}].price`} value={formik.values.variants[index].price} onChange={formik.handleChange} />
+                                                            {/* {formik.errors.variants[index].price && formik.touched.variants[index].price ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.variants[index].price}</div>
+                                                            ) : null} */}
                                                         </div>
                                                     </div>
 
                                                     <div className='grid grid-cols-2 gap-8 mb-3'>
                                                         <div className='mb-3'>
                                                             <p className='text-sm'>Tag </p>
-                                                            <SelectC options={tags} className='w-full' name="tag" value={formik.values.tag} onChange={handleChange('tag')} />
-                                                            {formik.errors.tag && formik.touched.tag ? (
-                                                                <div className='text-red-600 text-xs'>{formik.errors.tag}</div>
-                                                            ) : null}
+                                                            <SelectC options={tags} className='w-full' name={`variants[${index}].tag`} value={formik.values.variants[index].tag} onChange={handleChange('tag')} />
+                                                            {/* {formik.errors.variants[index].tag && formik.touched.variants[index].tag ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.variants[index].tag}</div>
+                                                            ) : null} */}
                                                         </div>
 
                                                         <div className='mb-3'>
                                                             <p className='text-sm'>Stock </p>
-                                                            <InputC type="number" placeholder={0} className='w-full' name="stock" value={formik.values.stock} onChange={formik.handleChange} />
-                                                            {formik.errors.stock && formik.touched.stock ? (
-                                                                <div className='text-red-600 text-xs'>{formik.errors.stock}</div>
-                                                            ) : null}
+                                                            <InputC type="number" placeholder={0} className='w-full' name={`variants[${index}].stock`} value={formik.values.variants[index].stock} onChange={formik.handleChange} />
+                                                            {/* {formik.errors.variants[index].stock && formik.touched.variants[index].stock ? (
+                                                                <div className='text-red-600 text-xs'>{formik.errors.variants[index].stock}</div>
+                                                            ) : null} */}
                                                         </div>
                                                     </div>
 
                                                     <FieldArray
                                                         className="bg-gray-100"
-                                                        name="attributes"
+                                                        name="variants"
                                                         render={arrayHelpers => (
                                                             <>
                                                                 <p className='text-sm'>Attributes </p>
                                                                 <div className='grid grid-cols-2 gap-8 mb-3 border border border-gray-200 py-4 px-6'>
                                                                     <div className='mb-3'>
                                                                         <p className='text-xs'>Name</p>
-                                                                        <SelectC className='w-full' name="attribute_id" value={formik.values.attribute_id} onChange={handleChange('attribute_id')} />
+                                                                        <SelectC options={tags} className='w-full' name={`variants[${index}].attributes[${index}].attribute_id`} value={formik.values.variants[index].attributes[index].attribute_id} onChange={handleChange('attribute_id')} />
                                                                         {formik.errors.attribute_id && formik.touched.attribute_id ? (
                                                                             <div className='text-red-600 text-xs'>{formik.errors.attribute_id}</div>
                                                                         ) : null}
@@ -289,17 +287,11 @@ const FormC = (props) => {
 
                                                     <div className='mb-8'>
                                                         <p className='text-sm'>Keywords <span className='text-xs text-blue-500 mx-1'>( keywords will be use for filter your product )</span> </p>
-                                                        <InputC name="keywords" value={formik.values.keywords} onChange={formik.handleChange} />
-                                                        {formik.errors.keywords && formik.touched.keywords ? (
-                                                            <div className='text-red-600 text-xs'>{formik.errors.keywords}</div>
-                                                        ) : null}
+                                                        <InputC name={`variants[${index}].keywords`} value={formik.values.variants[index].keywords} onChange={formik.handleChange} />
+                                                        {/* {formik.errors.variants[index].keywords && formik.touched.variants[index].keywords ? (
+                                                            <div className='text-red-600 text-xs'>{formik.errors.variants[index].keywords}</div>
+                                                        ) : null} */}
                                                     </div>
-
-                                                    {
-                                                        arrayHelpers.length > 1 && (
-                                                            <hr className='mb-6' />
-                                                        )
-                                                    }
                                                 </div>
                                             ))
                                         ) : (
