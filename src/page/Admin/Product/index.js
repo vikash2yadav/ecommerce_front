@@ -47,7 +47,7 @@ const Products = () => {
     }
 
     const handleVariantDetails = async (id) => {
-        getAllProductVariants(id);
+        await getAllProductVariants(id);
         setVariantDetailOpen(true);
     }
 
