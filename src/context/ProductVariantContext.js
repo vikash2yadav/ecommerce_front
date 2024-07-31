@@ -8,6 +8,8 @@ export const ProductVariantContext = ({ children }) => {
     const [productVariants, setProductVariants] = useState([]);
     const [totalProductVariants, setTotalProductVariants] = useState(null);
     const [variantDetailOpen, setVariantDetailOpen] = useState(false);
+    const [highLightDetailOpen, setHighLightDetailOpen] = useState(false)
+    const [specificationDetailOpen, setSpecificationDetailOpen] = useState(false)
 
     const getAllProductVariants = async (id) => {
         let data = await getProductVariantListById(id);
@@ -28,7 +30,9 @@ export const ProductVariantContext = ({ children }) => {
         <ProductVariantsContext.Provider value={{
             productVariants, setProductVariants, totalProductVariants,
              setTotalProductVariants, getAllProductVariants,
-             variantDetailOpen, setVariantDetailOpen
+             variantDetailOpen, setVariantDetailOpen,
+             highLightDetailOpen, setHighLightDetailOpen,
+             specificationDetailOpen, setSpecificationDetailOpen
         }}>
             {children}
         </ProductVariantsContext.Provider>
