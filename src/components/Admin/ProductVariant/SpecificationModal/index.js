@@ -19,7 +19,8 @@ const SpecificationModal = ({ list }) => {
         footer={null}
         width={450}
       >
-        <p className='mt-5 mb-3 text-xl font-semibold mb-5 capitalize'>specifications</p>
+       <div className='md:max-h-80 md:min-h-28 min-h-18 max-h-64 overflow-y-auto hide-scrollbar'>
+       <p className='mt-5 mb-3 text-xl font-semibold mb-5 capitalize'>specifications</p>
         {
           list.length === 0 ? (
             <div className='flex pt-2 mb-5 justify-center items-center text-2xl'>
@@ -52,6 +53,7 @@ const SpecificationModal = ({ list }) => {
               </TableContainer>
             )
         }
+       </div>
       </Modal>
     </>
   )

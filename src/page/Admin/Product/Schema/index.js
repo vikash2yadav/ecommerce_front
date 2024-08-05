@@ -36,8 +36,8 @@ export const addProductSchema = Yup.object({
 });
 
 export const tags = [
-    {  name: 'Regular', id: 1 },
-    { name: 'Ecommerce`s choice', id: 2 },
-    {  name: 'Sale', id: 3 },
-    {  name: 'Limited time deal', id: 3 },
+    {  name: 'Regular', id: '1' },
+    { name: 'Ecommerce`s choice', id: '2' },
+    {  name: 'Sale', id: '3' },
+    {  name: 'Limited time deal', id: '4' },
 ]

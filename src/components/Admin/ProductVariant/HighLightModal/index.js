@@ -12,9 +12,10 @@ const HighLightModal = ({ list }) => {
         open={highLightDetailOpen}
         onCancel={() => setHighLightDetailOpen(false)}
         footer={null} 
+        width={450}
       >
-       <div  className='md:h-56 h-36' >
-       <Divider orientation="left" className='capitilize'>Highlights</Divider>
+       <div className='md:max-h-80 md:min-h-28 min-h-18 max-h-64 overflow-y-auto hide-scrollbar'>
+       <Divider orientation="left" className='capitalize'>Highlights</Divider>
         {
           list ? (
             <List

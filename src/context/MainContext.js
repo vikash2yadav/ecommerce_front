@@ -13,6 +13,8 @@ import { CartContext } from "./CartContext";
 import { CountryStateCityContext } from "./CountryStateCityContext";
 import { CommonContext } from "./CommonContext";
 import { RoleContext } from "./RoleContext"
+import { AttributeContext } from "./AttributeContext"
+import { SpecificationContext } from "./SpecificationContext";
 
 // eslint-disable-next-line react/prop-types
 export const MainContext = ({ children }) => {
@@ -29,6 +31,8 @@ export const MainContext = ({ children }) => {
                                         <AdminContext>
                                             <PartnerContext>
                                                 <ProductContext>
+                                                <SpecificationContext>
+                                                    <AttributeContext>
                                                     <ProductVariantContext>
                                                         <ProductFaqContext>
                                                             <ProductReviewContext>
@@ -42,6 +46,8 @@ export const MainContext = ({ children }) => {
                                                             </ProductReviewContext>
                                                         </ProductFaqContext>
                                                     </ProductVariantContext>
+                                                    </AttributeContext>
+                                                    </SpecificationContext>
                                                 </ProductContext>
                                             </PartnerContext>
                                         </AdminContext>

@@ -24,7 +24,7 @@ const Products = () => {
     const { getAllVendors } = useContext(PartnersContext);
     const { products,totalProducts, getAllProducts, setEditData, productsDefaultFilter, setProductsDefaultFilter } = useContext(ProductsContext);
     const { formIsOpen,setFormIsEdit,formIsEdit, setFormIsOpen, handleDelete } = useContext(CommonsContext);
-    const { setVariantDetailOpen, getAllProductVariants } = useContext(ProductVariantsContext);
+    const { setVariantDetailOpen, getAllProductVariants, getParentProductData } = useContext(ProductVariantsContext);
 
     const handleEdit = async (id) => {
         let data = await getProductById(id);
@@ -47,8 +47,9 @@ const Products = () => {
     }
 
     const handleVariantDetails = async (id) => {
-        await getAllProductVariants(id);
         setVariantDetailOpen(true);
+        await getAllProductVariants(id);
+        await getParentProductData(id);
     }
 
     const columns = [
