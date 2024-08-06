@@ -1,10 +1,10 @@
 import React from 'react'
 import { Tag } from 'antd';
 
-const TagC = ({ onClick, label, className }) => {
+const TagC = ({ onClick, label, className, color, startIcon }) => {
   return (
     <>
-      <Tag onClick={onClick} className={className}>{label}</Tag>
+      <Tag color={color} onClick={onClick} className={className}>{label} {startIcon}</Tag>
     </>
   )
 }
