@@ -1,95 +1,242 @@
-import React, { useContext, useEffect } from 'react'
-import AdminSidebar from '../../../../components/Admin/AdminSidebar'
-import Table from '../../../../components/Table'
-import { CiEdit } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
+import React, { useContext, useEffect } from 'react';
+import AdminSidebar from '../../../../components/Admin/AdminSidebar';
+import Table from '../../../../components/Table';
 import { Button } from 'antd';
 import PaginationC from '../../../../components/PaginationC';
 import { OrdersContext } from '../../../../context/OrderContext';
 import UperTitleBox from '../../../../components/Admin/UperTitleBox';
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { GrPowerReset } from "react-icons/gr";
+import { FaLocationCrosshairs } from "react-icons/fa6";
+import Form from './Form';
+import { CustomersContext } from '../../../../context/CustomerContext';
+import { ProductsContext } from '../../../../context/ProductContext';
+import { deleteOrderApi, getShippedAddressById, getOrderItemsById, orderStatusChangeApi } from '../../../../apis/order';
+import ShippedAddress from '../../../../components/Admin/Order/ShippedAddress';
+import { RiAlignItemBottomLine } from "react-icons/ri";
+import OrderItems from '../../../../components/Admin/Order/OrderItems';
+import SelectC from '../../../../components/SelectC';
+import { orderStatusOptions } from './Schema';
+import { CommonsContext } from '../../../../context/CommonContext';
 
 const Orders = () => {
-    const { orders, setOrders, getAllOrders } = useContext(OrdersContext);
+    const { getAllCustomers } = useContext(CustomersContext);
+    const { getAllProducts } = useContext(ProductsContext);
+    const { orders, setOrders, totalOrders, getAllOrders, defaultFilter, setDefaultFilter, setOrderItemsDetailOpen, setShippedAddressDetailOpen, setOrderItemDetailOpen, setShippedAddressDetails, setOrderItemsDetails } = useContext(OrdersContext);
+    const { formIsOpen, setFormIsOpen, formIsEdit, setFormIsEdit, handleDelete, setSnackbarAlertOpen, setSnackbarContent } = useContext(CommonsContext);
+
+    const handleEdit = async (id) => {
+        alert('we are working on it');
+        // let data = await getAdminById(id);
+        // if (data?.status === 200) {
+        //     setEditData(data?.data?.data);
+        // }
+        // setFormIsEdit(true);
+        // setFormIsOpen(false);
+    };
+
+    const handleDeleteAdmin = async (id) => {
+        return await deleteOrderApi(id);
+    };
+
+    const handleAddressDetails = async (id) => {
+        setShippedAddressDetails(null);
+        setShippedAddressDetailOpen(true);
+        let data = await getShippedAddressById(id);
+        if (data?.status === 200) {
+            setShippedAddressDetails(data?.data?.data);
+        }
+    };
+
+    const handleItemsDetails = async (id) => {
+        setOrderItemsDetailOpen(true);
+        let data = await getOrderItemsById(id);
+        if (data?.status === 200) {
+            setOrderItemsDetails(data?.data?.data?.rows);
+        }
+    };
 
     const columns = [
         {
-            Header: 'Id',
-            accessor: 'id',
+            Header: 'Customer',
+            access: 'user.full_name',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return row?.original?.user?.full_name ? row?.original?.user?.full_name : '-';
+            }
         },
         {
-            Header: 'User id',
-            accessor: 'user_id',
+            Header: 'Vendor',
+            access: 'partner.full_name',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return row?.original?.partner?.full_name ? row?.original?.partner?.full_name : '-';
+            }
         },
         {
-            Header: 'Orderd date',
-            accessor: 'orderd_date',
+            Header: 'Order date',
+            access: 'orderd_date',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return row?.original?.orderd_date ? row?.original?.orderd_date : '-';
+            }
         },
         {
             Header: 'Shipped date',
-            accessor: 'shipped_date',
+            access: 'shipped_date',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return row?.original?.shipped_date ? row?.original?.shipped_date : '-';
+            }
         },
         {
-            Header: 'Shipped address id',
-            accessor: 'shipped_addresses_id',
+            Header: 'Shipped address',
+            access: 'shipped_address_id',
+            isSearch: false,
+            isShort: false,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    <div className='flex justify-center items-center'>
+                        <span className='text-3xl hover:cursor-pointer text-gray-400'>
+                            <FaLocationCrosshairs onClick={() => handleAddressDetails(row?.original?.id)} />
+                        </span>
+                    </div>
+                );
+            }
         },
         {
-            Header: 'Total amoumt',
-            accessor: 'total_amoumt',
+            Header: 'Items',
+            access: 'total_items',
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    <div className='flex justify-center items-center'>
+                        <span className='text-3xl hover:cursor-pointer text-gray-400'>
+                            <RiAlignItemBottomLine onClick={() => handleItemsDetails(row?.original?.id)} />
+                        </span>
+                    </div>
+                );
+            }
+        },
+        {
+            Header: 'Total discount',
+            access: 'total_discount',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return row?.original?.total_discount ? row?.original?.total_discount : '-';
+            }
+        },
+        {
+            Header: 'Total Amount',
+            access: 'total_amoumt',
+            isSearch: true,
+            isShort: true,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return row?.original?.total_amoumt ? row?.original?.total_amoumt : '-';
+            }
         },
         {
             Header: 'Status',
-            accessor: 'status',
+            access: 'status',
+            isOrderStatus: true,
+            isShort: false,
+            isColumn: true,
+            Cell: ({ row }) => {
+                return (
+                    <div className='flex w-full justify-center items-center'>
+                        <SelectC
+                            options={orderStatusOptions}
+                            showSearch={false}
+                            className="text-xs w-24"
+                            defaultValue={orderStatusOptions[row?.original?.status]?.name}
+                            onChange={(id) => handleStatusChange({ id: row?.original?.id, status: id })}
+                        />
+                    </div>
+                );
+            }
         },
         {
             Header: 'Action',
-            accessor: 'action',
+            access: 'action',
+            isShort: false,
+            isColumn: true,
             Cell: ({ row }) => (
-                <div className='flex justify-center items-center'>
+                <div className='flex justify-evenly items-center'>
                     <FiEdit
-                        // onClick={() => handleEdit(row)}
-                        className="text-blue-600 text-xl hover:text-blue-900"
+                        onClick={() => handleEdit(row?.original?.id)}
+                        className="text-blue-600 text-xl hover:text-blue-900 hover:cursor-pointer"
                     />
                     <MdDeleteOutline
-                        // onClick={() => handleDelete(row)}
-                        className="text-red-600 text-2xl hover:text-red-900 ml-2"
+                        onClick={() => handleDelete(row?.original?.id, undefined, handleDeleteAdmin, getAllOrders, defaultFilter)}
+                        className="text-red-600 text-2xl hover:text-red-900 ml-2 hover:cursor-pointer"
                     />
                 </div>
             )
-
         },
     ];
 
-    useEffect(()=> {
+    const handleStatusChange = async (body) => {
+        await orderStatusChangeApi(body);
+        getAllOrders(defaultFilter)
+    };
+
+    const handleOpen = () => {
+        alert('we are working on it');
+        // setFormIsOpen(true);
+        // getAllCustomers();
+        // getAllProducts();
+    };
+
+    useEffect(() => {
         getAllOrders();
     }, [setOrders]);
 
     return (
         <>
             <AdminSidebar />
-              
             <div className="p-4 sm:ml-64 mb-6">
-
                 <UperTitleBox title="All Orders" />
-
-                <div className="p-4 border-2  border-gray-200  border rounded-lg mb-8">
-
-                    <div className='flex justify-end mb-2'>
-                        <Button>+ Add New</Button>
-
+                <div className="p-4 border-2 border-gray-200 border rounded-lg mb-8">
+                    <div className='flex justify-end items-center mb-2'>
+                        <div className='text-xl mx-3 hover:cursor-pointer hover:text-gray-500' title='reset filters'>
+                            <GrPowerReset onClick={() => getAllOrders(setDefaultFilter({
+                                currentPage: 1, itemsPerPage: 5, filters: [], sortBy: []
+                            }))} />
+                        </div>
+                        <Button onClick={handleOpen}>+ Add New</Button>
                     </div>
-
                     <div className='overflow-x-auto'>
-                        <Table columns={columns} data={orders} />
+                        <Table columns={columns} data={orders}
+                            fetchDataApi={getAllOrders}
+                            defaultFilter={defaultFilter}
+                            setDefaultFilter={setDefaultFilter}
+                        />
                     </div>
-
-                    <PaginationC />
-
+                    <PaginationC
+                        defaultFilter={defaultFilter}
+                        setDefaultFilter={setDefaultFilter}
+                        fetchDataApi={getAllOrders}
+                        totalItems={totalOrders} />
                 </div>
             </div>
+            <Form open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />
+            <ShippedAddress />
+            <OrderItems />
         </>
-    )
-}
+    );
+};
 
-export default Orders
+export default Orders;

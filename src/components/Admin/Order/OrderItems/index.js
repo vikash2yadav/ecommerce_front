@@ -1,72 +1,22 @@
-import { Modal } from 'antd';
-import React, { useContext, useState } from 'react';
-import ButtonC from '../../../../components/ButtonC'
-import TagC from '../../../../components/TagC'
-import { ProductVariantsContext } from "../../../../context/ProductVariantContext"
-import { FiEdit } from "react-icons/fi";
-import { MdDeleteOutline } from "react-icons/md";
-import { CommonsContext } from '../../../../context/CommonContext'
-import { AttributesContext } from '../../../../context/AttributeContext'
-import HighLightModal from '../../../../components/Admin/ProductVariant/HighLightModal'
-import SpecificationModal from '../../../../components/Admin/ProductVariant/SpecificationModal'
-import { getProductHighLightList, getProductSpecificationList, handleDeleteVariantApi, getProductVariantById } from '../../../../apis/product_variant';
-import VariantForm from './VariantForm';    
-import { SpecificationsContext } from '../../../../context/SpecificationContext';
-import UpdateForm from './UpdateForm';
+import { Modal } from 'antd'
+import React, { useContext } from 'react'
+import { OrdersContext } from '../../../../context/OrderContext';
 
-const ProductVariants = () => {
-    const [product_highlight, setProduct_highlight] = useState([]);
-    const [product_specifications, setProduct_specifications] = useState([]);
-    const { handleDelete } = useContext(CommonsContext);
-    const { getAllAttributes } = useContext(AttributesContext);
-    const { variantDetailOpen, setVariantDetailOpen, productVariants, setVariantFormIsEdit, setVariantFormIsOpen, setHighLightDetailOpen,variantFormIsEdit, setSpecificationDetailOpen, setEditData, getAllProductVariants } = useContext(ProductVariantsContext)
-    const { getAllSpecificationCategories } = useContext(SpecificationsContext);
-
-    let attribute_value = [];
-    const handleHighLightOpen = async (id) => {
-        setHighLightDetailOpen(true);
-        let data = await getProductHighLightList(id);
-        if (data?.status === 200) {
-            setProduct_highlight(data?.data?.data?.rows);
-        }
-    }
-
-    const handleSpecificationOpen = async (id) => {
-        setSpecificationDetailOpen(true);
-        let data = await getProductSpecificationList(id);
-        if (data?.status === 200) {
-            setProduct_specifications(data?.data?.data?.rows);
-        }
-    }
-
-    const handleFormOpen = (id) => {
-        setVariantFormIsOpen(true);
-        getAllAttributes();
-        getAllSpecificationCategories();
-    }
-
-    const handleEdit = async (id) => {
-        setVariantFormIsOpen(false);
-        setVariantFormIsEdit(true)
-        getAllAttributes();
-        let data = await getProductVariantById(id);
-        if(data?.status === 200){
-            setEditData(data?.data?.data);
-        }
-    }
+const OrderItems = () => {
+    const { orderItemsDetails, orderItemsDetailOpen, setOrderItemsDetailOpen } = useContext(OrdersContext)
 
     return (
-        <div>
+        <>
             <Modal
-                open={variantDetailOpen}
-                onCancel={() => setVariantDetailOpen(false)}
+                open={orderItemsDetailOpen}
+                onCancel={() => setOrderItemsDetailOpen(false)}
                 footer={null}
-                width={800}
+                width={700}
             >
-                <div className='max-h-80 min-h-36 md:max-h-80 md:min-h-28 overflow-y-auto hide-scrollbar'>
-                    <p className='mt-5 mb-3 text-xl font-semibold'>Product Variants</p>
+               <div className='max-h-80 min-h-36 md:max-h-80 md:min-h-28 overflow-y-auto hide-scrollbar'>
+                    <p className='mt-5 mb-3 text-xl font-semibold'>Order Items</p>
                     {
-                        productVariants.length > 0 ? productVariants.map((variant, index) => ((
+                        orderItemsDetails.length > 0 ? orderItemsDetails.map((item, index) => ((
                             <>
                                 <div className="flex w-full text flex-col">
 
@@ -78,33 +28,25 @@ const ProductVariants = () => {
 
                                         <div className='md:w-3/6 items-left w-full'>
                                             <div className='md:mx-8 mx-3 md:py-4'>
-
-                                                {
-                                                    variant?.product_variants?.map((Item) => {
-                                                        attribute_value.push(Item?.attribute_value);
-                                                    })
-                                                }
-                                                <p className='text-xl font-semibold mb-3'>{variant?.name} ( {(attribute_value)} )</p>
-                                                {
-                                                    variant?.product_variant_details.map((item) => (
-                                                        <>
-                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'> Sku : <span className='text-gray-400'>{variant?.sku}</span> </p>
-                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'> Strike price : <span className='text-gray-400'>{item?.strike_price}</span> </p>
-                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'>price : <span className='text-gray-400'>{item?.price}</span> </p>
-                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'>tag : <span className='text-gray-400'>{item?.tag}</span> </p>
+ 
+                                                <p className='text-xl font-semibold mb-3'>{item?.product?.name} ({item?.attribute_value}) </p>
+                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'> Sku : <span className='text-gray-400'>{item?.product?.sku}</span> </p>
+                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'>Unit Price : <span className='text-gray-400'>{item?.unit_price}</span> </p>
+                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'> Unit Discount : <span className='text-gray-400'>{item?.unit_discount}</span> </p>
+                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'>Quantity : <span className='text-gray-400'>{item?.quantity}</span> </p>
+                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'>Total Price : <span className='text-gray-400'>{item?.total_price}</span> </p>
+                                                            <p className='text-sm font-semibold md:mb-1.5 mb-1'> Total Discount : <span className='text-gray-400'>{item?.total_discount}</span> </p>
                                                             <p className='text-sm font-semibold md:mb-1.5 mb-1'>stock : <span className='text-gray-400'>{item?.stock}</span> </p>
                                                             <div className='mt-3'>
-                                                                <TagC onClick={() => handleHighLightOpen(variant?.id)} className="hover:cursor-pointer hover:bg-gray-100" label="Highlights" />
-                                                                <TagC onClick={() => handleSpecificationOpen(variant?.id)} className="hover:cursor-pointer hover:bg-gray-100" label="Specifications" />
+                                                                {/* <TagC onClick={() => handleHighLightOpen(variant?.id)} className="hover:cursor-pointer hover:bg-gray-100" label="Highlights" />
+                                                                <TagC onClick={() => handleSpecificationOpen(variant?.id)} className="hover:cursor-pointer hover:bg-gray-100" label="Specifications" /> */}
                                                             </div>
-                                                        </>
-                                                    ))
-                                                }
+                                                        
                                             </div>
 
                                         </div>
 
-                                        <div className='mt-3 mb-3 flex justify-center items-center md:w-1/6 w-full'>
+                                        {/* <div className='mt-3 mb-3 flex justify-center items-center md:w-1/6 w-full'>
                                             <FiEdit
                                                 onClick={() => handleEdit(variant?.id)}
                                                 className="text-blue-600 text-xl hover:text-blue-900 hover:cursor-pointer"
@@ -113,7 +55,7 @@ const ProductVariants = () => {
                                                 onClick={() => handleDelete(variant?.id, undefined, handleDeleteVariantApi, getAllProductVariants, variant?.parent_id)}
                                                 className="text-red-600 text-2xl hover:text-red-900 ml-2 hover:cursor-pointer"
                                             />
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                 </div>
@@ -131,19 +73,10 @@ const ProductVariants = () => {
                             </>
                         )
                     }
-                    <div className="mt-5 flex justify-center items-center">
-                        <ButtonC type="submit" className="md:w-24 w-28 sm:w-16" variant="outlined" label="Add" color="primary" onClick={handleFormOpen} />
-                    </div>
                 </div>
             </Modal>
-
-            <VariantForm />
-            <UpdateForm />
-            <HighLightModal list={product_highlight} />
-            <SpecificationModal list={product_specifications} />
-
-        </div>
-    );
+        </>
+    )
 }
 
-export default ProductVariants;
+export default OrderItems;

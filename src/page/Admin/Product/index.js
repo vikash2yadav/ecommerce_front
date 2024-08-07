@@ -7,20 +7,24 @@ import { ProductsContext } from '../../../context/ProductContext'
 import { CommonsContext } from '../../../context/CommonContext'
 import { CategoryContext } from "../../../context/CategoryContext"
 import UperTitleBox from '../../../components/Admin/UperTitleBox';
-import Form from './Form'
+import ProductVariants from './ProductVariants'
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 import { PartnersContext } from '../../../context/PartnerContext';
 import { getProductById, deleteProductApi, productStatusChangeApi } from '../../../apis/product';
+import { getProductVariantListById } from '../../../apis/product_variant';
 import ButtonC from '../../../components/ButtonC';
 import { GrPowerReset } from "react-icons/gr";
 import { TbInfoTriangleFilled } from "react-icons/tb";
+import { ProductVariantsContext } from '../../../context/ProductVariantContext';
+import FormC from './FormC';
 
 const Products = () => {
     const { getAllCategories } = useContext(CategoryContext);
     const { getAllVendors } = useContext(PartnersContext);
     const { products,totalProducts, getAllProducts, setEditData, productsDefaultFilter, setProductsDefaultFilter } = useContext(ProductsContext);
     const { formIsOpen,setFormIsEdit,formIsEdit, setFormIsOpen, handleDelete } = useContext(CommonsContext);
+    const { setVariantDetailOpen, getAllProductVariants, getParentProductData } = useContext(ProductVariantsContext);
 
     const handleEdit = async (id) => {
         let data = await getProductById(id);
@@ -40,6 +44,12 @@ const Products = () => {
     const handleStatusChange = async (body) => {
         await productStatusChangeApi(body);
         getAllProducts(productsDefaultFilter);
+    }
+
+    const handleVariantDetails = async (id) => {
+        setVariantDetailOpen(true);
+        await getAllProductVariants(id);
+        await getParentProductData(id);
     }
 
     const columns = [
@@ -68,38 +78,26 @@ const Products = () => {
             }
         },
         {
-            Header: 'Slug',
-            access: 'slug',
+            Header: 'Sku',
+            access: 'sku',
             isSearch: true,
             isShort: true,
             isColumn: true ,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.slug ? row?.original?.slug : '-'
+                    row?.original?.sku ? row?.original?.sku : '-'
                 )
             }
         },
         {
-            Header: 'Title',
-            access: 'title',
-            isSearch: true,
-            isShort: true,
-            isColumn: true ,
-            Cell: ({ row }) => {
-                return (
-                    row?.original?.title ? row?.original?.title : '-'
-                )
-            }
-        },
-        {
-            Header: 'Description',
-            access: 'description',
+            Header: 'Keywords',
+            access: 'keywords',
             isSearch: true,
             isShort: true,
             isColumn: true,
             Cell: ({ row }) => {
                 return (
-                    row?.original?.description ? row?.original?.description : '-'
+                    row?.original?.keywords ? row?.original?.keywords : '-'
                 )
             }
         },
@@ -121,7 +119,8 @@ const Products = () => {
             Cell: ({ row }) => {
                 return (
                     <div className='flex justify-center items-center'>
-                        <span className='text-3xl hover:cursor-pointer text-gray-400'><TbInfoTriangleFilled/></span>
+                        <span className='text-3xl hover:cursor-pointer text-gray-400'>
+                            <TbInfoTriangleFilled onClick={()=>handleVariantDetails(row?.original?.id)}/></span>
                     </div>
                 )
             }
@@ -221,7 +220,9 @@ const Products = () => {
                 </div>
             </div>
 
-            <Form open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />
+            <FormC open={(formIsOpen && formIsOpen) || (formIsEdit && formIsEdit)} />
+
+            <ProductVariants />
         </>
     )
 }

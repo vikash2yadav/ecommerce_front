@@ -77,9 +77,6 @@ const AdminSidebar = () => {
               <li>
                 <Link to="/admin/dashboard/orders" className="flex text-white hover:bg-gray-400 items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">All Orders</Link>
               </li>
-              <li>
-                <Link to="/admin/dashboard/order_items" className="flex text-white hover:bg-gray-400 items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Order Items</Link>
-              </li>
             </ul>
 
 
