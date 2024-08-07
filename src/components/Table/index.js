@@ -7,7 +7,7 @@ import SelectC from '../SelectC';
 const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter }) => {
 
     const handleSearchChange = async (columnId, value) => {
-        
+
         let newFilters = [...defaultFilter.filters];
         const existingFilterIndex = newFilters.findIndex(filter => filter.id === columnId);
 
@@ -26,7 +26,7 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
             filters: newFilters
         }));
 
-            await fetchDataApi({ ...defaultFilter, filters: newFilters });
+        await fetchDataApi({ ...defaultFilter, filters: newFilters });
     };
 
     const handleShort = async (columnId, direction) => {
@@ -55,6 +55,18 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
     const handleStatusChange = async (columnId, value) => {
         await handleSearchChange(columnId, value);
     }
+
+    const handleOrderStatusChange = async (columnId, value) => {
+        await handleSearchChange(columnId, value);
+    }
+
+    const orderStatusOptions = [
+        { name: "All", id: '' },
+        { name: "Pending", id: '0' },
+        { name: "Shipped", id: '1' },
+        { name: "Delivered", id: '2' },
+        { name: "Cancelled", id: '3' },
+    ]
 
     const {
         getTableProps,
@@ -118,6 +130,18 @@ const Table = ({ columns, data, fetchDataApi, defaultFilter, setDefaultFilter })
                                                         placeholder={column?.Header} />
                                                 </div>
                                             )}
+
+                                            {(column?.isOrderStatus) && (
+                                                <div className='flex w-full justify-center items-center'>
+                                                    <SelectC
+                                                        options={orderStatusOptions}
+                                                        showSearch={false}
+                                                        className="text-xs w-28"
+                                                        onChange={(id) => handleOrderStatusChange(column?.access, id)}
+                                                        placeholder={column?.Header} />
+                                                </div>
+                                            )}
+
                                         </th>
                                     )
                                 ))}

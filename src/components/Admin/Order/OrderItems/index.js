@@ -5,7 +5,6 @@ import { OrdersContext } from '../../../../context/OrderContext';
 const OrderItems = () => {
     const { orderItemsDetails, orderItemsDetailOpen, setOrderItemsDetailOpen } = useContext(OrdersContext)
 
-    console.log(orderItemsDetails)
     return (
         <>
             <Modal

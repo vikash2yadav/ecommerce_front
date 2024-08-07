@@ -27,6 +27,5 @@ export const adminProfileUpdateSchema = Yup.object().shape({
     birth_date: Yup.date().required('Required'),
     gender: Yup.string().required('Required'),
     contact_no: Yup.number().required('Required'),
-    alternative_contact_no: Yup.number().required('Required'),
 })
 

@@ -12,6 +12,10 @@ export async function deleteOrderApi (id, body) {
     return await callApi({method: "DELETE", url: `http://localhost:8000/order/delete/${id}`, body});
 }
 
+export async function orderStatusChangeApi (body) {
+    return await callApi({method: "PUT", url: `http://localhost:8000/order/status_change`, body});
+}
+
 export async function getShippedAddressById (id, body) {
     return await callApi({method: "GET", url: `http://localhost:8000/shipped_address/get/${id}`, body});
 }

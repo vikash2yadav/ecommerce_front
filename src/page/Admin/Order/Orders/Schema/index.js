@@ -19,3 +19,11 @@ export const addOrderSchema = Yup.object({
     price: Yup.number().required('Required'),
     stock: Yup.number().required('Required'),
 });
+
+
+export const orderStatusOptions = [
+    { name: "Pending", id: '0' },
+    { name: "Shipped", id: '1' },
+    { name: "Delivered", id: '2' },
+    { name: "Cancelled", id: '3' },
+]

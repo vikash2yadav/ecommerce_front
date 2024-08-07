@@ -37,7 +37,6 @@ import Admins from './page/Admin/Users/Admins'
 import VendorDashboard from './page/Vendor/VendorDashboard'
 import VendorOrders from './page/Vendor/Order/VendorOrders'
 import VendorProducts from './page/Vendor/Product/VendorProducts'
-import OrderItems from './page/Admin/Order/OrderItems'
 
 const App = () => {
   return (
@@ -65,7 +64,6 @@ const App = () => {
         <Route path="/admin/dashboard" element={<Dashboard/>} />
         <Route path="/admin/change_password" element={<AdminChangePassword/>} />
         <Route path="/admin/dashboard/orders" element={<Orders/>} />
-        <Route path="/admin/dashboard/order_items" element={<OrderItems/>} />
         <Route path="/admin/dashboard/categories" element={<Categories/>} />
         <Route path="/admin/dashboard/products" element={<Products/>} />
         <Route path="/admin/dashboard/customers" element={<Customers/>} />
